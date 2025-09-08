@@ -139,7 +139,7 @@ show_install_service_menu() {
   *Filezilla*) app_install "filezilla" ;;
   *LibreOffice*) app_install "libreoffice" ;;
   *LocalSend*) app_install "localsend" ;;
-  *OBS Studio*) app_install "obs-studio" ;;
+  *OBS*) app_install "obs-studio" ;;
   *Postman*) app_install "postman" ;;
   *Spotify*) app_install "spotify" ;;
   *Thunderbird*) app_install "thunderbird" ;;
