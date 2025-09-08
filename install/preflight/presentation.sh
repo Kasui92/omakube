@@ -11,3 +11,8 @@ if ! command -v gum &> /dev/null; then
   rm gum.deb
   cd -
 fi
+
+# Fzf is used for the Omakub commands for tailoring Omakub after the initial install
+if ! command -v fzf &> /dev/null; then
+  sudo apt install -y fzf
+fi
