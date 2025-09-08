@@ -132,21 +132,27 @@ show_install_tools_menu() {
 }
 
 show_install_service_menu() {
-  case $(menu "Install" "  Chromium\n  Firefox\n  Discord\n  LibreOffice\n  LocalSend\n  Spotify" "--width 250 --height 300") in
-  *Firefox*) app_install "firefox" ;;
+  case $(menu "Install" "  Chromium\n  Firefox\n  Discord\n  Filezilla\n  LibreOffice\n  LocalSend\n  OBS Studio\n  Postman\n  Spotify\n  Thunderbird\n  Zen Browser" "--width 250 --height 500") in
   *Chromium*) app_install "chromium" ;;
+  *Firefox*) app_install "firefox" ;;
+  *Discord*) app_install "discord" ;;
+  *Filezilla*) app_install "filezilla" ;;
   *LibreOffice*) app_install "libreoffice" ;;
   *LocalSend*) app_install "localsend" ;;
-  *Discord*) app_install "discord" ;;
+  *OBS Studio*) app_install "obs-studio" ;;
+  *Postman*) app_install "postman" ;;
   *Spotify*) app_install "spotify" ;;
+  *Thunderbird*) app_install "thunderbird" ;;
+  *Zen*) app_install "zen" ;;
   *) show_install_menu ;;
   esac
 }
 
 show_install_editor_menu() {
-  case $(menu "Install" "  NeoVim\n  Visual Studio Code" "--width 250 --height 200") in
+  case $(menu "Install" "  DBeaver\n  NeoVim\n  Visual Studio Code" "--width 250 --height 200") in
   *Visual*) app_install "visual-studio-code" ;;
   *NeoVim*) app_install "neovim" ;;
+  *DBeaver*) app_install "dbeaver" ;;
   *) show_install_menu ;;
   esac
 }
