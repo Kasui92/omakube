@@ -18,10 +18,13 @@ ln -snf ~/.config/omakub/themes/tokyo-night ~/.config/omakub/current/theme
 ln -snf $(find "$HOME/.config/omakub/current/theme/backgrounds/" -type f | head -n 1) "$HOME/.config/omakub/current/background"
 
 # Set specific app links for current theme
+[ -e ~/.config/nvim/lua/plugins/theme.lua ] && rm ~/.config/nvim/lua/plugins/theme.lua
 ln -snf ~/.config/omakub/current/theme/neovim.lua ~/.config/nvim/lua/plugins/theme.lua
 
+[ -e ~/.config/btop/themes/current.theme ] && rm ~/.config/btop/themes/current.theme
 mkdir -p ~/.config/btop/themes
 ln -snf ~/.config/omakub/current/theme/btop.theme ~/.config/btop/themes/current.theme
 
+[ -e ~/.config/zellij/themes/current.kdl ] && rm ~/.config/zellij/themes/current.kdl
 mkdir -p ~/.config/zellij/themes
 ln -snf ~/.config/omakub/current/theme/zellij.kdl ~/.config/zellij/themes/current.kdl
