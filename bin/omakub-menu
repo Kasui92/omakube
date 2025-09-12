@@ -176,12 +176,11 @@ show_install_service_menu() {
 }
 
 show_install_editor_menu() {
-  case $(menu "Install" "  NeoVim\n  VSCode\n  Cursor\n  Zed\n  RubyMine\n  Emacs" "--width 250 --height 400") in
+  case $(menu "Install" "  NeoVim\n  VSCode\n  Cursor\n  Zed\n  Emacs" "--width 250 --height 350") in
   *VSCode*) app_install "visual-studio-code" ;;
   *NeoVim*) app_install "neovim" ;;
   *Cursor*) app_install "cursor" ;;
   *Zed*) app_install "zed" ;;
-  *RubyMine*) app_install "rubymine" ;;
   *Emacs*) app_install "doom-emacs" ;;
   *) show_install_menu ;;
   esac
