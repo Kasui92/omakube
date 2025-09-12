@@ -34,6 +34,7 @@ source $OMAKUB_INSTALL/preflight/identification.sh
 show_logo
 show_subtext "Installing packages... [2/4]"
 source $OMAKUB_INSTALL/packages.sh
+source $OMAKUB_INSTALL/packaging/remove-snap.sh
 source $OMAKUB_INSTALL/packaging/fonts.sh
 source $OMAKUB_INSTALL/packaging/nvim.sh
 source $OMAKUB_INSTALL/packaging/tools.sh
