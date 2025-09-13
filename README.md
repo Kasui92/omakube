@@ -1,19 +1,19 @@
-# Omakub
+# Omakube
 
-Turn a fresh Ubuntu installation into a fully-configured, beautiful, and modern web development system by running a single command. That's the one-line pitch for Omakub. No need to write bespoke configs for every essential tool just to get started or to be up on all the latest command-line tools. Omakub is an opinionated take on what Linux can be at its best.
+Omakube is a personalized fork of [Omakub](https://omakub.org), the one-liner tool that turns a fresh Ubuntu install into a modern development environment. It builds on Omakub with targeted tweaks for a more streamlined and opinionated Linux setup. Likewise, Omakube keeps tabs on the evolving [Omarchy](https://omarchy.org) project, selectively adopting useful changes while staying grounded on a stable, proven base.
 
-Watch the introduction video and read more at [omakub.org](https://omakub.org).
+## Documentation
 
-## Contributing to the documentation
+For Omakube-specific features, consult the [Omakube manual](https://manuals.omakasui.org/omakube).
 
-Please help us improve Omakub's documentation on the [basecamp/omakub-site repository](https://github.com/basecamp/omakub-site).
+To learn about the project it comes from and the key features it has inherited, visit the [official Omakub manual](https://manuals.omamix.org/1/read).
 
 ## License
 
-Omakub is released under the [MIT License](https://opensource.org/licenses/MIT).
+Omakube is released under the [MIT License](https://opensource.org/licenses/MIT), like the original Omakub project.
 
-## Extras
+## Contributing
 
-While omakub is purposed to be an opinionated take, the open source community offers alternative customization, add-ons, extras, that you can use to adjust, replace or enrich your experience.
+As a fork of Omakub, Omakube welcomes contributions that extend existing functionality without compromising compatibility with the base project.
 
-[⇒ Browse the omakub extensions.](EXTENSIONS.md)
+If you want to contribute to Omakub core features, visit the [official repository](https://github.com/basecamp/omakub).
