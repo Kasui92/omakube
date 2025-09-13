@@ -8,14 +8,8 @@ apps=(
 	"Flameshot"
 	"LocalSend"
 	"LibreOffice"
-	"Obsidian"
 	"Pinta"
-	"Signal"
-	"Typora"
-	"VLC"
 	"Xournalpp"
-	"1password"
-	"Spotify"
 )
 
 # Install optional apps
