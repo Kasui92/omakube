@@ -37,6 +37,6 @@ fi
 for APP_NAME in "${APP_NAMES[@]}"; do
   rm -f "$DESKTOP_DIR/$APP_NAME.desktop"
   rm -f "$ICON_DIR/$APP_NAME.png"
-  rm -f "$HOME/.config/omakub/webapp/$APP_NAME"
+  omakub-app-folder-remove "$APP_NAME.desktop" "WebApps"
   echo "Removed $APP_NAME"
 done
