@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# Change gnome modes
+GNOME_THEME=~/.config/omakub/current/theme/gnome.theme
+GNOME_LIGHT_MODE=~/.config/omakub/current/theme/light.mode
+
+if [[ -f $GNOME_THEME ]]; then
+  OMAKUB_THEME_COLOR=$(<$GNOME_THEME)
+else
+  OMAKUB_THEME_COLOR="blue"
+fi
+
+if [[ -f $GNOME_LIGHT_MODE ]]; then
+  gsettings set org.gnome.desktop.interface color-scheme "prefer-light"
+  gsettings set org.gnome.desktop.interface gtk-theme "Yaru-$OMAKUB_THEME_COLOR"
+else
+  gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
+  gsettings set org.gnome.desktop.interface gtk-theme "Yaru-$OMAKUB_THEME_COLOR-dark"
+fi
+gsettings set org.gnome.desktop.interface accent-color "$OMAKUB_THEME_COLOR" 2>/dev/null || true
+
+# Change gnome cursor theme color
+GNOME_CURSOR_THEME=~/.config/omakub/current/theme/cursor.theme
+if [[ -f $GNOME_CURSOR_THEME ]]; then
+  gsettings set org.gnome.desktop.interface cursor-theme "$(<$GNOME_CURSOR_THEME)"
+else
+  gsettings set org.gnome.desktop.interface cursor-theme "Yaru"
+fi
+
+# Change gnome icon theme color
+GNOME_ICONS_THEME=~/.config/omakub/current/theme/icons.theme
+if [[ -f $GNOME_ICONS_THEME ]]; then
+  gsettings set org.gnome.desktop.interface icon-theme "$(<$GNOME_ICONS_THEME)"
+else
+  gsettings set org.gnome.desktop.interface icon-theme "Yaru-$OMAKUB_THEME_COLOR"
+fi
+
+# Change gnome extensions theme
+GNOME_TOPHAT_THEME=~/.config/omakub/current/theme/tophat.theme
+if [[ -f $GNOME_TOPHAT_THEME ]]; then
+  gsettings set org.gnome.shell.extensions.tophat meter-fg-color "$(<$GNOME_TOPHAT_THEME)"
+else
+  if [[ -f ~/.config/omakub/current/theme/light.mode ]]; then
+    gsettings set org.gnome.shell.extensions.tophat meter-fg-color "#e92020"
+  else
+    gsettings set org.gnome.shell.extensions.tophat meter-fg-color "#33ccff"
+  fi
+fi

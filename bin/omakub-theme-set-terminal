@@ -1,0 +1,5 @@
+#!/bin/bash
+
+case "$TERMINAL" in
+"alacritty") touch ~/.config/alacritty/alacritty.toml ;;
+esac

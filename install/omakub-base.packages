@@ -26,6 +26,7 @@ gnome-tweak-tool
 gpg
 imagemagick
 imv
+jq
 libffi-dev
 libgdbm-dev
 libjemalloc2

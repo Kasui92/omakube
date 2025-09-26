@@ -4,6 +4,7 @@
 # Usage: omakub-theme-install <git-repo-url>
 
 if [ -z "$1" ]; then
+  echo -e "\e[32mSee https://omakasui.org/themes\n\e[0m"
   REPO_URL=$(gum input --placeholder="Git repo URL for theme" --header="")
 else
   REPO_URL="$1"

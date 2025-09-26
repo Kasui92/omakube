@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+omakub-migrate
+omakub-update-system-pkgs
+omakub-update-restart
