@@ -1,7 +1,6 @@
 #!/bin/bash
 
 if ! command -v nvim &>/dev/null; then
-  # Install Neovim
   cd /tmp
   wget -O nvim.tar.gz "https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.tar.gz"
   tar -xf nvim.tar.gz
