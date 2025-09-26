@@ -1,6 +1,7 @@
 #!/bin/bash
 
-omakub-webapp-install "WhatsApp" https://web.whatsapp.com/ https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/whatsapp.png
-omakub-webapp-install "ChatGPT" https://chatgpt.com/ https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/chatgpt.png
-omakub-webapp-install "YouTube" https://youtube.com/ https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/youtube.png
-omakub-webapp-install "GitHub" https://github.com/ https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/github-light.png
+omakub-webapp-install "WhatsApp" https://web.whatsapp.com/ WhatsApp.png
+omakub-webapp-install "ChatGPT" https://chatgpt.com/ ChatGPT.png
+omakub-webapp-install "YouTube" https://youtube.com/ YouTube.png
+omakub-webapp-install "GitHub" https://github.com/ GitHub.png
+omakub-webapp-install "X" https://x.com/ X.png
