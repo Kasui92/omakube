@@ -16,7 +16,7 @@ sudo apt-get update >/dev/null
 sudo apt-get install -y git >/dev/null
 
 # Use custom repo if specified, otherwise use default
-OMAKUB_REPO="${OMAKUB_REPO:-basecamp/omakub}"
+OMAKUB_REPO="${OMAKUB_REPO:-Kasui92/omakube}"
 
 echo -e "\nCloning Omakub from: https://github.com/${OMAKUB_REPO}.git"
 rm -rf ~/.local/share/omakub
