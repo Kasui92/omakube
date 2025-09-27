@@ -127,7 +127,7 @@ show_setup_folders_menu() {
 }
 
 show_install_menu() {
-  case $(menu "Install" "  Web App\n  TUI\n  Tools\n  Style\n  Service\n󰵮  Development\n  Editor\n󱚤  AI\n  Gaming" "--width 250 --height 500") in
+  case $(menu "Install" "  Web App\n  TUI\n  Tools\n  Style\n  Service\n󰵮  Development\n  Editor\n  Terminal\n󱚤  AI\n  Gaming" "--width 250 --height 550") in
   *Web*) present_terminal omakub-webapp-install ;;
   *TUI*) present_terminal omakub-tui-install ;;
   *Tools*) show_install_tools_menu ;;
@@ -135,6 +135,7 @@ show_install_menu() {
   *Service*) show_install_service_menu ;;
   *Development*) show_install_development_menu ;;
   *Editor*) show_install_editor_menu ;;
+  *Terminal*) show_install_terminal_menu ;;
   *Gaming*) show_install_gaming_menu ;;
   *) show_main_menu ;;
   esac
@@ -148,6 +149,14 @@ show_install_tools_menu() {
   *Xournalpp*) app_install "xournalpp" ;;
   *Virtualbox*) app_install "virtualbox" ;;
   *Starship*) app_install "starship" ;;
+  *) show_install_menu ;;
+  esac
+}
+
+show_install_style_menu() {
+  case $(menu "Install" "󰸌  Theme\n  Background" "--width 350") in
+  *Theme*) present_terminal omakub-theme-install ;;
+  *Background*) nautilus ~/.config/omakub/current/theme/backgrounds ;;
   *) show_install_menu ;;
   esac
 }
@@ -171,24 +180,6 @@ show_install_service_menu() {
   *Typora*) app_install "typora" ;;
   *Tailscale*) app_install "tailscale" ;;
   *Zoom*) app_install "zoom" ;;
-  *) show_install_menu ;;
-  esac
-}
-
-show_install_editor_menu() {
-  case $(menu "Install" "  NeoVim\n  VSCode\n  Cursor\n  Zed\n  Emacs" "--width 250 --height 350") in
-  *VSCode*) app_install "visual-studio-code" ;;
-  *NeoVim*) app_install "neovim" ;;
-  *Cursor*) app_install "cursor" ;;
-  *Zed*) app_install "zed" ;;
-  *Emacs*) app_install "doom-emacs" ;;
-  *) show_install_menu ;;
-  esac
-}
-
-show_install_ai_menu() {
-  case $(menu "Install" "󱚤  Ollama" "--width 200 --height 200") in
-  *Ollama*) app_install "ollama" ;;
   *) show_install_menu ;;
   esac
 }
@@ -232,19 +223,37 @@ show_install_elixir_menu() {
   esac
 }
 
-show_install_gaming_menu() {
-  case $(menu "Install" "  Steam\n  RetroArch\n󰍳  Minecraft") in
-  *Steam*) app_install "steam" ;;
-  *RetroArch*) app_install "retroarch" ;;
-  *Minecraft*) app_install "minecraft" ;;
+show_install_editor_menu() {
+  case $(menu "Install" "  NeoVim\n  VSCode\n  Cursor\n  Zed\n  Emacs" "--width 250 --height 350") in
+  *VSCode*) app_install "visual-studio-code" ;;
+  *NeoVim*) app_install "neovim" ;;
+  *Cursor*) app_install "cursor" ;;
+  *Zed*) app_install "zed" ;;
+  *Emacs*) app_install "doom-emacs" ;;
   *) show_install_menu ;;
   esac
 }
 
-show_install_style_menu() {
-  case $(menu "Install" "󰸌  Theme\n  Background" "--width 350") in
-  *Theme*) present_terminal omakub-theme-install ;;
-  *Background*) nautilus ~/.config/omakub/current/theme/backgrounds ;;
+show_install_terminal_menu() {
+  case $(menu "Install" "  Alacritty\n  Kitty" "--width 200 --height 200") in
+  *Alacritty*) install_terminal "alacritty" ;;
+  *Kitty*) install_terminal "kitty" ;;
+  *) show_install_menu ;;
+  esac
+}
+
+show_install_ai_menu() {
+  case $(menu "Install" "󱚤  Ollama" "--width 200 --height 200") in
+  *Ollama*) app_install "ollama" ;;
+  *) show_install_menu ;;
+  esac
+}
+
+show_install_gaming_menu() {
+  case $(menu "Install" "  Steam\n  RetroArch\n󰍳  Minecraft" "--width 200 --height 200") in
+  *Steam*) app_install "steam" ;;
+  *RetroArch*) app_install "retroarch" ;;
+  *Minecraft*) app_install "minecraft" ;;
   *) show_install_menu ;;
   esac
 }

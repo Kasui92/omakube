@@ -1,0 +1,20 @@
+#!/bin/bash
+
+if (($# == 0)); then
+  echo "Usage: omakub-install-terminal [alacritty|kitty]"
+  exit 1
+fi
+
+package="$1"
+
+# Install package
+omakub-app-install "$package"
+
+# Set as default terminal
+echo "Setting $package as new default terminal..."
+# If TERMINAL export exists in .bashrc, replace it. Otherwise, append it.
+if ! grep -q "export TERMINAL=" ~/.bashrc; then
+  echo "export TERMINAL=$package" >> ~/.bashrc
+else
+  sed -i "/export TERMINAL=/ c\export TERMINAL=$package" ~/.bashrc
+fi
