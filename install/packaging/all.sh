@@ -1,7 +1,7 @@
 #!/bin/bash
 
 run_logged $OMAKUB_INSTALL/packaging/base.sh
-run_logged $OMAKUB_INSTALL/packaging/remove_snap.sh
+run_logged $OMAKUB_INSTALL/packaging/remove-snap.sh
 run_logged $OMAKUB_INSTALL/packaging/fonts.sh
 run_logged $OMAKUB_INSTALL/packaging/nvim.sh
 run_logged $OMAKUB_INSTALL/packaging/tools.sh
