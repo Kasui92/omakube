@@ -1,7 +1,5 @@
 #!/bin/bash
 
-pipx install gnome-extensions-cli --system-site-packages
-
 # Turn off default Ubuntu extensions
 gnome-extensions disable tiling-assistant@ubuntu.com
 gnome-extensions disable ubuntu-appindicators@ubuntu.com
