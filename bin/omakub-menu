@@ -8,7 +8,7 @@ BACK_TO_EXIT=false
 back_to() {
   local parent_menu="$1"
 
-  if [[ "$DIRECT_ACCESS" == "true" ]]; then
+  if [[ "$BACK_TO_EXIT" == "true" ]]; then
     exit 0
   elif [[ -n "$parent_menu" ]]; then
     "$parent_menu"
@@ -48,9 +48,9 @@ present_terminal() {
   omakub-launch-terminal-with-presentation "$@"
 }
 
-edit_in_nvim() {
+open_in_editor() {
   notify-send "Editing config file" "$1"
-  alacritty -e nvim "$1"
+  omakub-launch-editor "$1"
 }
 
 app_install() {
@@ -141,14 +141,13 @@ show_install_menu() {
 }
 
 show_install_tools_menu() {
-  case $(menu "Install" "  ASDControl\n  Flameshot\n  Pinta\n  Starship\n  Virtualbox\n󰕼  VLC\n  Xournalpp" "--width 250 --height 450") in
+  case $(menu "Install" "  ASDControl\n  Flameshot\n  Pinta\n  Starship\n  Virtualbox\n  Xournalpp" "--width 250 --height 450") in
   *ASDControl*) app_install "asdcontrol" ;;
   *Flameshot*) app_install "flameshot" ;;
   *Pinta*) app_install "pinta" ;;
   *Xournalpp*) app_install "xournalpp" ;;
   *Virtualbox*) app_install "virtualbox" ;;
   *Starship*) app_install "starship" ;;
-  *VLC*) app_install "vlc" ;;
   *) show_install_menu ;;
   esac
 }
@@ -261,8 +260,9 @@ show_remove_menu() {
 }
 
 show_update_menu() {
-  case $(menu "Update" "󰟢  Omakub\n󰇅  Firmware\n  Config\n󰸌  Themes" "--width 250 --height 300") in
+  case $(menu "Update" "󰟢  Omakub\n󰟢  Branch\n󰇅  Firmware\n  Config\n󰸌  Extra Themes" "--width 250 --height 300") in
   *Omakub*) present_terminal omakub-update ;;
+  *Branch*) present_terminal omakub-update-branch ;;
   *Firmware*) present_terminal omakub-update-firmware ;;
   *Config*) show_update_config_menu ;;
   *Themes*) present_terminal omakub-theme-update ;;
@@ -270,14 +270,22 @@ show_update_menu() {
   esac
 }
 
+show_update_branch_menu() {
+  case $(menu "Branch" "main\ndev" "" "$(omakub-version-branch)") in
+  *main*) present_terminal "omakub-update-branch main" ;;
+  *dev*) present_terminal "omakub-update-branch dev" ;;
+  *) show_update_menu ;;
+  esac
+}
+
 show_update_config_menu() {
-  case $(menu "Use default config" "  Starship\n  Zellij\n  Gnome\n󰍂  GDM\n󱣴  Plymouth\n󰌧  Wofi" "--width 250") in
-  *Starship*) present_terminal omakub-refresh-config starship.toml ;;
-  *Zellij*) present_terminal omakub-refresh-config zellij/config.kdl ;;
+  case $(menu "Use default config" "  Gnome\n󰍂  GDM\n󱣴  Plymouth\n󰌧  Wofi\n  Starship\n  Zellij" "--width 250") in
   *Gnome*) present_terminal omakub-refresh-gnome ;;
   *GDM*) present_terminal omakub-refresh-gdm ;;
   *Plymouth*) present_terminal omakub-refresh-plymouth ;;
   *Wofi*) present_terminal omakub-refresh-wofi ;;
+  *Starship*) present_terminal omakub-refresh-config starship.toml ;;
+  *Zellij*) present_terminal omakub-refresh-config zellij/config.kdl ;;
   *) show_update_menu ;;
   esac
 }
