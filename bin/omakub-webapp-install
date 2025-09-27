@@ -41,7 +41,7 @@ fi
 if [[ -n $CUSTOM_EXEC ]]; then
   EXEC_COMMAND="$CUSTOM_EXEC"
 else
-  EXEC_COMMAND="omakub-launch-webapp $APP_URL" "$APP_NAME"
+  EXEC_COMMAND="omakub-launch-webapp $APP_URL $APP_NAME"
 fi
 
 # Create application .desktop file
