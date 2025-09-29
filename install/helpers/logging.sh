@@ -40,22 +40,20 @@ run_logged() {
 
   export CURRENT_SCRIPT="$script"
 
-  # Simple progress indicator
-  echo "→ $script_name"
-
   echo "[$(date '+%Y-%m-%d %H:%M:%S')] Starting: $script" >>"$OMAKUB_INSTALL_LOG_FILE"
 
-  # Use bash -c to create a clean subshell
-  bash -c "source '$script'" </dev/null >>"$OMAKUB_INSTALL_LOG_FILE" 2>&1
-
-  local exit_code=$?
-
-  if [ $exit_code -eq 0 ]; then
+  # Use gum spin to show progress - output to stderr to avoid interfering with line replacement
+  if gum spin --spinner dot --title "Installing $script_name..." -- bash -c "source '$script'" </dev/null >>"$OMAKUB_INSTALL_LOG_FILE" 2>&1; then
+    # Success - replace the spinner line with completion status
+    printf "\r\033[K\033[32m✓\033[0m Completed $script_name\n"
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] Completed: $script" >>"$OMAKUB_INSTALL_LOG_FILE"
     unset CURRENT_SCRIPT
+    return 0
   else
+    # Failure - replace the spinner line with error status
+    local exit_code=$?
+    printf "\r\033[K\033[31m✗\033[0m Failed $script_name\n"
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] Failed: $script (exit code: $exit_code)" >>"$OMAKUB_INSTALL_LOG_FILE"
+    return $exit_code
   fi
-
-  return $exit_code
 }
