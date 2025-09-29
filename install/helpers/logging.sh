@@ -37,42 +37,43 @@ stop_install_log() {
 run_logged() {
   local script="$1"
   local script_name=$(basename "$script" .sh)
-
   export CURRENT_SCRIPT="$script"
 
-  echo "[$(date '+%Y-%m-%d %H:%M:%S')] Starting: $script" >>"$OMAKUB_INSTALL_LOG_FILE"
+  # ANSI escape codes
+  local ANSI_CLEAR_LINE="\033[K"        # Clear from cursor to end of line
+  local ANSI_CARRIAGE_RETURN="\r"       # Return to start of line
+  local ANSI_GREEN="\033[32m"           # Green color
+  local ANSI_RED="\033[31m"             # Red color
+  local ANSI_RESET="\033[0m"            # Reset all attributes
 
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] Starting: $script" >>"$OMAKUB_INSTALL_LOG_FILE"
   # Create a temporary file to capture the exit code
   local temp_exit_file=$(mktemp)
-
   # Execute the script in background
   (
     bash -c "source '$script'" </dev/null >>"$OMAKUB_INSTALL_LOG_FILE" 2>&1
     echo $? > "$temp_exit_file"
   ) &
   local bg_pid=$!
-
   # Show spinner while script runs
   gum spin --spinner dot --title "Installing $script_name..." -- bash -c "
     while kill -0 $bg_pid 2>/dev/null; do
       sleep 0.1
     done
   "
-
   # Wait for background process to complete and get exit code
   wait $bg_pid 2>/dev/null
   local exit_code=$(cat "$temp_exit_file")
   rm -f "$temp_exit_file"
-
   if [ $exit_code -eq 0 ]; then
     # Success - replace the spinner line with completion status
-    printf "\r\033[K\033[32m✓\033[0m Completed $script_name\n"
+    printf "${ANSI_CARRIAGE_RETURN}${ANSI_CLEAR_LINE}${PADDING_LEFT_SPACES}${ANSI_GREEN}✓${ANSI_RESET} Completed $script_name\n"
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] Completed: $script" >>"$OMAKUB_INSTALL_LOG_FILE"
     unset CURRENT_SCRIPT
     return 0
   else
     # Failure - replace the spinner line with error status
-    printf "\r\033[K\033[31m✗\033[0m Failed $script_name\n"
+    printf "${ANSI_CARRIAGE_RETURN}${ANSI_CLEAR_LINE}${PADDING_LEFT_SPACES}${ANSI_RED}✗${ANSI_RESET} Failed $script_name\n"
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] Failed: $script (exit code: $exit_code)" >>"$OMAKUB_INSTALL_LOG_FILE"
     return $exit_code
   fi
