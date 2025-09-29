@@ -16,7 +16,7 @@ WEBAPP_DATA_DIR="$OMAKUB_DATA_DIR/$(echo "$APP_NAME" | tr ' ' '-' | tr '[:upper:
 browser=$(xdg-settings get default-web-browser)
 
 case $browser in
-google-chrome* | brave-browser* | microsoft-edge* | opera* | vivaldi*) ;;
+google-chrome* | brave-browser* | microsoft-edge* | opera* | vivaldi* | helium-browser*) ;;
 *) browser="chromium.desktop" ;;
 esac
 
