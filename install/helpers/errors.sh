@@ -1,27 +1,12 @@
 # Track if we're already handling an error to prevent double-trapping
 ERROR_HANDLING=false
 
-# Cursor is usually hidden while we install
-show_cursor() {
-  printf "\033[?25h"
-}
-
-# Display truncated log lines from the install log
+# Display recent log lines from the install log
 show_log_tail() {
   if [[ -f $OMAKUB_INSTALL_LOG_FILE ]]; then
-    local log_lines=$(($TERM_HEIGHT - $LOGO_HEIGHT - 35))
-    local max_line_width=$((LOGO_WIDTH - 4))
-
-    tail -n $log_lines "$OMAKUB_INSTALL_LOG_FILE" | while IFS= read -r line; do
-      if ((${#line} > max_line_width)); then
-        local truncated_line="${line:0:$max_line_width}..."
-      else
-        local truncated_line="$line"
-      fi
-
-      gum style "$truncated_line"
+    tail -10 "$OMAKUB_INSTALL_LOG_FILE" | while IFS= read -r line; do
+      gum style "$line"
     done
-
     echo
   fi
 }
@@ -31,29 +16,13 @@ show_failed_script_or_command() {
   if [[ -n ${CURRENT_SCRIPT:-} ]]; then
     gum style "Failed script: $CURRENT_SCRIPT"
   else
-    # Truncate long command lines to fit the display
-    local cmd="$BASH_COMMAND"
-    local max_cmd_width=$((LOGO_WIDTH - 4))
-
-    if ((${#cmd} > max_cmd_width)); then
-      cmd="${cmd:0:$max_cmd_width}..."
-    fi
-
-    gum style "$cmd"
+    gum style "Failed command: $BASH_COMMAND"
   fi
 }
 
-# Save original stdout and stderr for trap to use
-save_original_outputs() {
-  exec 3>&1 4>&2
-}
-
-# Restore stdout and stderr to original (saved in FD 3 and 4)
-# This ensures output goes to screen, not log file
+# Simple output restoration
 restore_outputs() {
-  if [ -e /proc/self/fd/3 ] && [ -e /proc/self/fd/4 ]; then
-    exec 1>&3 2>&4
-  fi
+  exec 1>/dev/tty 2>/dev/tty
 }
 
 # Error handler
@@ -68,13 +37,10 @@ catch_errors() {
   # Store exit code immediately before it gets overwritten
   local exit_code=$?
 
-  stop_log_output
   restore_outputs
-
   clear_logo
-  show_cursor
 
-  gum style --foreground 1 --padding "1 0 1 $PADDING_LEFT" "Omakub installation stopped!"
+  gum style --foreground 1 "Omakub installation stopped!"
   show_log_tail
 
   gum style "This command halted with exit code $exit_code:"
@@ -89,7 +55,7 @@ catch_errors() {
     options+=("View full log")
     options+=("Exit")
 
-    choice=$(gum choose "${options[@]}" --header "What would you like to do?" --height 6 --padding "1 $PADDING_LEFT")
+    choice=$(gum choose "${options[@]}" --header "What would you like to do?" --height 6)
 
     case "$choice" in
     "Retry installation")
@@ -117,15 +83,9 @@ exit_handler() {
   # Only run if we're exiting with an error and haven't already handled it
   if [[ $exit_code -ne 0 && $ERROR_HANDLING != true ]]; then
     catch_errors
-  else
-    stop_log_output
-    show_cursor
   fi
 }
 
 # Set up traps
 trap catch_errors ERR INT TERM
 trap exit_handler EXIT
-
-# Save original outputs in case we trap
-save_original_outputs

@@ -19,16 +19,16 @@ export LOGO_WIDTH=$(awk '{ if (length > max) max = length } END { print max+0 }'
 export LOGO_HEIGHT=$(wc -l <"$LOGO_PATH" 2>/dev/null || echo 0)
 
 # Minimal padding for desktop terminal
-export PADDING_LEFT=4
+export PADDING_LEFT=2
 export PADDING_LEFT_SPACES=$(printf "%*s" $PADDING_LEFT "")
 
 # Tokyo Night theme for gum confirm
-export GUM_CONFIRM_PROMPT_FOREGROUND="6"
-export GUM_CONFIRM_SELECTED_FOREGROUND="0"
-export GUM_CONFIRM_SELECTED_BACKGROUND="2"
-export GUM_CONFIRM_UNSELECTED_FOREGROUND="7"
-export GUM_CONFIRM_UNSELECTED_BACKGROUND="0"
-export PADDING="0 0 0 $PADDING_LEFT"
+export GUM_CONFIRM_PROMPT_FOREGROUND="6"     # Cyan for prompt
+export GUM_CONFIRM_SELECTED_FOREGROUND="0"   # Black text on selected
+export GUM_CONFIRM_SELECTED_BACKGROUND="2"   # Green background for selected
+export GUM_CONFIRM_UNSELECTED_FOREGROUND="7" # White for unselected
+export GUM_CONFIRM_UNSELECTED_BACKGROUND="0" # Black background for unselected
+export PADDING="0 0 0 $PADDING_LEFT"         # Gum Style
 export GUM_CHOOSE_PADDING="$PADDING"
 export GUM_FILTER_PADDING="$PADDING"
 export GUM_INPUT_PADDING="$PADDING"
