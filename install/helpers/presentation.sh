@@ -10,13 +10,8 @@ if ! command -v gum &> /dev/null; then
   cd -
 fi
 
-# Get terminal size
-export TERM_WIDTH=${COLUMNS:-$(tput cols 2>/dev/null || echo 80)}
-export TERM_HEIGHT=${LINES:-$(tput lines 2>/dev/null || echo 24)}
 
 export LOGO_PATH="$OMAKUB_PATH/logo.txt"
-export LOGO_WIDTH=$(awk '{ if (length > max) max = length } END { print max+0 }' "$LOGO_PATH" 2>/dev/null || echo 0)
-export LOGO_HEIGHT=$(wc -l <"$LOGO_PATH" 2>/dev/null || echo 0)
 
 # Minimal padding for desktop terminal
 export PADDING_LEFT=2
