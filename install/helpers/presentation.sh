@@ -8,29 +8,17 @@ if ! command -v gum &> /dev/null; then
   cd -
 fi
 
-# Get terminal size from /dev/tty
-if [ -e /dev/tty ]; then
-  TERM_SIZE=$(stty size 2>/dev/null </dev/tty)
-
-  if [ -n "$TERM_SIZE" ]; then
-    export TERM_HEIGHT=$(echo "$TERM_SIZE" | cut -d' ' -f1)
-    export TERM_WIDTH=$(echo "$TERM_SIZE" | cut -d' ' -f2)
-  else
-    # Fallback to reasonable defaults if stty fails
-    export TERM_WIDTH=80
-    export TERM_HEIGHT=24
-  fi
-else
-  # No terminal available (e.g., non-interactive environment)
-  export TERM_WIDTH=80
-  export TERM_HEIGHT=24
-fi
+# Get terminal size (simplified for Ubuntu Desktop)
+export TERM_WIDTH=${COLUMNS:-$(tput cols 2>/dev/null || echo 80)}
+export TERM_HEIGHT=${LINES:-$(tput lines 2>/dev/null || echo 24)}
 
 export LOGO_PATH="$OMAKUB_PATH/logo.txt"
 export LOGO_WIDTH=$(awk '{ if (length > max) max = length } END { print max+0 }' "$LOGO_PATH" 2>/dev/null || echo 0)
 export LOGO_HEIGHT=$(wc -l <"$LOGO_PATH" 2>/dev/null || echo 0)
 
-export PADDING_LEFT=$((($TERM_WIDTH - $LOGO_WIDTH) / 2))
+# Calculate padding but limit it for modern terminals
+CALCULATED_PADDING=$((($TERM_WIDTH - $LOGO_WIDTH) / 2))
+export PADDING_LEFT=$((CALCULATED_PADDING > 20 ? 20 : CALCULATED_PADDING))
 export PADDING_LEFT_SPACES=$(printf "%*s" $PADDING_LEFT "")
 
 # Tokyo Night theme for gum confirm
