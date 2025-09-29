@@ -42,15 +42,27 @@ run_logged() {
 
   echo "[$(date '+%Y-%m-%d %H:%M:%S')] Starting: $script" >>"$OMAKUB_INSTALL_LOG_FILE"
 
-  # Execute the script in background and capture exit code
+  # Create a temporary file to capture the exit code
+  local temp_exit_file=$(mktemp)
+
+  # Execute the script in background
   (
     bash -c "source '$script'" </dev/null >>"$OMAKUB_INSTALL_LOG_FILE" 2>&1
+    echo $? > "$temp_exit_file"
   ) &
   local bg_pid=$!
 
   # Show spinner while script runs
-  gum spin --spinner dot --title "Installing $script_name..." -- bash -c "wait $bg_pid"
-  local exit_code=$?
+  gum spin --spinner dot --title "Installing $script_name..." -- bash -c "
+    while kill -0 $bg_pid 2>/dev/null; do
+      sleep 0.1
+    done
+  "
+
+  # Wait for background process to complete and get exit code
+  wait $bg_pid 2>/dev/null
+  local exit_code=$(cat "$temp_exit_file")
+  rm -f "$temp_exit_file"
 
   if [ $exit_code -eq 0 ]; then
     # Success - replace the spinner line with completion status

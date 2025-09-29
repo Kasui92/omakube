@@ -4,8 +4,9 @@ ERROR_HANDLING=false
 # Display recent log lines from the install log
 show_log_tail() {
   if [[ -f $OMAKUB_INSTALL_LOG_FILE ]]; then
-    tail -10 "$OMAKUB_INSTALL_LOG_FILE" | while IFS= read -r line; do
-      gum style "$line"
+    echo "Recent installation log:"
+    tail -10 "$OMAKUB_INSTALL_LOG_FILE" | sed 's/\x1b\[[0-9;]*m//g' | while IFS= read -r line; do
+      echo "  $line"
     done
     echo
   fi
