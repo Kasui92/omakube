@@ -1,5 +1,8 @@
 stop_install_log
 
+# Clean up temporary environment file
+rm -f "$HOME/.local/state/omakub/.env_update"
+
 echo_in_style() {
   echo "$1" | tte --canvas-width 0 --anchor-text c --frame-rate 640 print
 }

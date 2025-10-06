@@ -46,11 +46,18 @@ run_logged() {
   local ANSI_RED="\033[31m"             # Red color
   local ANSI_RESET="\033[0m"            # Reset all attributes
 
+  # Check if there are any PATH updates to apply
+  if [[ -f "$HOME/.local/state/omakub/.env_update" ]]; then
+    source "$HOME/.local/state/omakub/.env_update"
+  fi
+
   echo "[$(date '+%Y-%m-%d %H:%M:%S')] Starting: $script" >>"$OMAKUB_INSTALL_LOG_FILE"
   # Create a temporary file to capture the exit code
   local temp_exit_file=$(mktemp)
-  # Execute the script in background
+  # Execute the script in background with updated environment
   (
+    # Source environment updates in the subshell too
+    [[ -f "$HOME/.local/state/omakub/.env_update" ]] && source "$HOME/.local/state/omakub/.env_update"
     bash -c "source '$script'" </dev/null >>"$OMAKUB_INSTALL_LOG_FILE" 2>&1
     echo $? > "$temp_exit_file"
   ) &
