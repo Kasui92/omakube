@@ -1,7 +1,5 @@
 #!/bin/bash
 
-sudo apt install -y python3-pip pipx
-
 # Install terminaltexteffects
 pipx install terminaltexteffects
 
