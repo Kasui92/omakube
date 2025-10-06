@@ -127,12 +127,13 @@ show_setup_folders_menu() {
 }
 
 show_install_menu() {
-  case $(menu "Install" "  Web App\n  TUI\n  Tools\n  Style\n  Service\n󰵮  Development\n  Editor\n  Terminal\n󱚤  AI\n  Gaming" "--width 250 --height 550") in
+  case $(menu "Install" "  Web App\n  TUI\n  Tools\n  Style\n  Service\n  Browser\n󰵮  Development\n  Editor\n  Terminal\n󱚤  AI\n  Gaming" "--width 250 --height 450") in
   *Web*) present_terminal omakub-webapp-install ;;
   *TUI*) present_terminal omakub-tui-install ;;
   *Tools*) show_install_tools_menu ;;
   *Style*) show_install_style_menu ;;
   *Service*) show_install_service_menu ;;
+  *Browser*) show_install_browser_menu ;;
   *Development*) show_install_development_menu ;;
   *Editor*) show_install_editor_menu ;;
   *Terminal*) show_install_terminal_menu ;;
@@ -165,11 +166,8 @@ show_install_service_menu() {
   case $(menu "Install" "  1password\n  Audacity\n  Brave\n  Chromium\n  Discord\n  Dropbox\n  Firefox\n  GeekBench\n  Gimp\n  LibreOffice\n  LocalSend\n  Obsidian\n  Signal\n  Spotify\n  Typora\n  Tailscale\n  Zoom" "--width 250 --height 750") in
   *1password*) app_install "1password" ;;
   *Audacity*) app_install "audacity" ;;
-  *Chromium*) app_install "chromium" ;;
-  *Brave*) app_install "brave" ;;
   *Discord*) app_install "discord" ;;
   *Dropbox*) app_install "dropbox" ;;
-  *Firefox*) app_install "firefox" ;;
   *GeekBench*) app_install "geekbench" ;;
   *Gimp*) app_install "gimp" ;;
   *LibreOffice*) app_install "libreoffice" ;;
@@ -180,6 +178,16 @@ show_install_service_menu() {
   *Typora*) app_install "typora" ;;
   *Tailscale*) app_install "tailscale" ;;
   *Zoom*) app_install "zoom" ;;
+  *) show_install_menu ;;
+  esac
+}
+
+show_install_browser_menu() {
+  case $(menu "Install" "  Chrome\n  Firefox\n  Chromium\n  Brave\n  Vivaldi\n  Opera" "--width 250 --height 300") in
+  *Firefox*) app_install "firefox" ;;
+  *Chromium*) app_install "chromium" ;;
+  *Brave*) app_install "brave" ;;
+  *Zen*) app_install "opera" ;;
   *) show_install_menu ;;
   esac
 }
