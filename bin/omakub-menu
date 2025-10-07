@@ -321,7 +321,7 @@ go_to_menu() {
   *install*) show_install_menu ;;
   *remove*) show_remove_menu ;;
   *update*) show_update_menu ;;
-  *about*) alacritty --class Omakub -o font.size=9 -e bash -c -l 'fastfetch; read -n 1 -s' ;;
+  *about*) omakub-launch-about ;;
   esac
 }
 
