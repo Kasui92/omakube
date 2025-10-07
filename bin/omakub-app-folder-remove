@@ -3,6 +3,8 @@
 # omakub-app-folder-remove: Remove an app from a specified folder.
 # Usage: omakub-app-folder-remove <desktop_file.desktop> <folder_name>
 
+DESKTOP_DIR="$HOME/.local/share/applications"
+
 if [ "$#" -ne 2 ]; then
   echo -e "\e[32mLet's remove an app from a folder in the app grid!\n\e[0m"
   DESKTOP_FILE=$(gum input --prompt "Name> " --placeholder "A desktop file app (e.g., Spotify.desktop, no full path!)")
@@ -17,20 +19,43 @@ if [[ -z "$DESKTOP_FILE" || -z "$FOLDER_NAME" ]]; then
   exit 1
 fi
 
-if ! locate "$DESKTOP_FILE" &> /dev/null; then
+if [ ! -f "$DESKTOP_DIR/$DESKTOP_FILE" ]; then
   echo "Desktop file '$DESKTOP_FILE' not found!"
   exit 1
 fi
 
-FOLDER=$(echo "$FOLDER_NAME" | tr -d ' ' | tr '[:upper:]' '[:lower:]')
-SCHEMA="org.gnome.desktop.app-folders.folder:/org/gnome/desktop/app-folders/folders/$FOLDER/"
+# Get current folders list
+CURRENT_FOLDERS=$(gsettings get org.gnome.desktop.app-folders folder-children)
+
+# Convert to different formats for checking
+FOLDER_LOWERCASE=$(echo "$FOLDER_NAME" | tr -d ' ' | tr '[:upper:]' '[:lower:]')
+FOLDER_CAMELCASE=$(echo "$FOLDER_NAME" | tr -d ' ')
+
+# Check if folder exists (try exact name, camelcase, then lowercase)
+EXISTING_FOLDER=""
+if [[ "$CURRENT_FOLDERS" == *"'$FOLDER_NAME'"* ]]; then
+  # Exact name match - use original name for schema
+  EXISTING_FOLDER="$FOLDER_NAME"
+  FOLDER="$FOLDER_NAME"
+elif [[ "$CURRENT_FOLDERS" == *"'$FOLDER_CAMELCASE'"* ]]; then
+  # CamelCase match (like "WebApps") - use camelcase for schema
+  EXISTING_FOLDER="$FOLDER_CAMELCASE"
+  FOLDER="$FOLDER_CAMELCASE"
+elif [[ "$CURRENT_FOLDERS" == *"'$FOLDER_LOWERCASE'"* ]]; then
+  # Lowercase match - use lowercase for schema
+  EXISTING_FOLDER="$FOLDER_LOWERCASE"
+  FOLDER="$FOLDER_LOWERCASE"
+fi
 
 # Check if folder exists
-CURRENT_FOLDERS=$(gsettings get org.gnome.desktop.app-folders folder-children)
-if [[ "$CURRENT_FOLDERS" != *"'$FOLDER'"* ]]; then
+if [ -z "$EXISTING_FOLDER" ]; then
   echo "Folder '$FOLDER_NAME' does not exist!"
   return 1
 fi
+
+# Set schema and get display name
+SCHEMA="org.gnome.desktop.app-folders.folder:/org/gnome/desktop/app-folders/folders/$FOLDER/"
+FOLDER_DISPLAY_NAME=$(gsettings get "$SCHEMA" name | sed 's/^.\(.*\).$/\1/')
 
 CURRENT_APPS=$(gsettings get "$SCHEMA" apps)
 
@@ -77,15 +102,13 @@ if [[ "$CURRENT_APPS" == *"$DESKTOP_FILE"* ]]; then
       gsettings set org.gnome.desktop.app-folders folder-children "[$FOLDER_LIST]"
     fi
 
-    echo -e "Removed app '$DESKTOP_FILE' and deleted empty folder '$FOLDER_NAME'\n"
   else
     # Update apps list
     NEW_LIST=$(IFS=, ; echo "${NEW_APPS[*]}")
     gsettings set "$SCHEMA" apps "[$NEW_LIST]"
-    echo -e "Removed app '$DESKTOP_FILE' from folder '$FOLDER_NAME'\n"
   fi
 else
-  echo "App '$DESKTOP_FILE' is not in folder '$FOLDER_NAME'"
+  echo "App '$DESKTOP_FILE' is not in folder '$FOLDER_DISPLAY_NAME'"
   return 1
 fi
 
