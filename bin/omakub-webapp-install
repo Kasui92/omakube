@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# omakub-webapp-add: Create a .desktop file for a web app and add it to the "Web Apps" folder.
+# Usage: omakub-webapp-add <app_name> <app_url> <icon_url_or_path> [custom_exec] [mime_types]
+
 if [ "$#" -lt 3 ]; then
   echo -e "\e[32mLet's create a new web app you can start with the app launcher.\n\e[0m"
   APP_NAME=$(gum input --prompt "Name> " --placeholder "My favorite web app")
