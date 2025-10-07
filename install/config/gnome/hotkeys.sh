@@ -18,6 +18,12 @@ gsettings set org.gnome.desktop.wm.keybindings toggle-fullscreen "['<Shift>F11']
 # Open File Manager (Nautilus) with Super+F (for File)
 gsettings set org.gnome.settings-daemon.plugins.media-keys home "['<Super>f']"
 
+# Open Web Browser (Chromium) with Super+B (for Browser)
+gsettings set org.gnome.settings-daemon.plugins.media-keys www "['<Super>b']"
+
+# Remove terminal keybinding (usually Ctrl+Alt+T) to avoid conflicts
+gsettings set org.gnome.settings-daemon.plugins.media-keys terminal "[]"
+
 # Use alt for pinned apps
 gsettings set org.gnome.shell.keybindings switch-to-application-1 "['<Alt>1']"
 gsettings set org.gnome.shell.keybindings switch-to-application-2 "['<Alt>2']"
@@ -49,11 +55,14 @@ omakub-keybinding-add 'Apps Launcher' 'omakub-apps' '<Super>space'
 # Set flameshot (with the sh fix for starting under Wayland) on alternate print screen key
 omakub-keybinding-add 'Flameshot' 'sh -c -- "flameshot gui"' '<Control>Print'
 
-# Start a new alacritty window (rather than just switch to the already open one)
-omakub-keybinding-add 'New Terminal Window' 'omakub-launch-terminal' '<Shift><Alt>2'
+# Start a new terminal window
+omakub-keybinding-add 'New Terminal Window' 'omakub-launch-terminal' '<Primary><Alt>t'
 
-# Start a new Chromium window (rather than just switch to the already open one)
-omakub-keybinding-add 'New Browser Window' 'omakub-launch-browser --new-window' '<Shift><Alt>1'
+# Start a new gnome-terminal window
+omakub-keybinding-add 'New Gnome Terminal Window' 'gnome-terminal --window' '<Shift><Primary><Alt>t'
+
+# Start a new Browser Window (rather than just switch to the already open one)
+omakub-keybinding-add 'New Browser Window' 'omakub-launch-browser --new-window' '<Shift><Super>b'
 
 # Turn brightness down on Apple monitor (requires ASDControl installed)
 omakub-keybinding-add 'Apple Brightness Down (ASDControl)' "sh -c 'asdcontrol \$(asdcontrol --detect /dev/usb/hiddev* 2>/dev/null | grep ^/dev/usb/hiddev | cut -d: -f1) -- -5000'" '<Control>F1'
