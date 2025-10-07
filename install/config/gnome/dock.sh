@@ -3,15 +3,16 @@
 # Favorite apps for dock
 apps=(
 	"chromium.desktop"
-	"Alacritty.desktop"
-	"Neovim.desktop"
+	"alacritty.desktop"
+	"nvim.desktop"
 	"WhatsApp.desktop"
+	"spotify.desktop"
 	"Activity.desktop"
-	"Docker.desktop"
-	"Omakub.desktop"
+	"docker.desktop"
 	"org.gnome.Settings.desktop"
 	"org.gnome.Nautilus.desktop"
 	"localsend_app.desktop"
+	"omakub.desktop"
 )
 
 # Array to hold installed favorite apps
