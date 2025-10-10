@@ -6,6 +6,9 @@ pipx install terminaltexteffects
 # Install gnome-extensions-cli
 pipx install gnome-extensions-cli --system-site-packages
 
+# Install tldr
+pipx install tldr
+
 # Ensure pipx binaries are in PATH
 pipx ensurepath
 
