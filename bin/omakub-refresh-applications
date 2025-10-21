@@ -8,8 +8,6 @@ gtk-update-icon-cache ~/.local/share/icons/hicolor &>/dev/null
 # Copy .desktop declarations
 mkdir -p ~/.local/share/applications
 cp ~/.local/share/omakub/applications/desktop/*.desktop ~/.local/share/applications/
-if [ -d ~/.local/share/omakub/applications/desktop/hidden ]; then
-  cp ~/.local/share/omakub/applications/desktop/hidden/*.desktop ~/.local/share/applications/
-fi
+cp ~/.local/share/omakub/applications/desktop/hidden/*.desktop ~/.local/share/applications/
 
 update-desktop-database ~/.local/share/applications
