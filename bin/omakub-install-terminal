@@ -18,3 +18,7 @@ if ! grep -q "export TERMINAL=" ~/.bashrc; then
 else
   sed -i "/export TERMINAL=/ c\export TERMINAL=$package" ~/.bashrc
 fi
+
+# Restart is needed for new default to take effect
+echo
+gum confirm "Restart to use new terminal?" && systemctl reboot --no-wall
