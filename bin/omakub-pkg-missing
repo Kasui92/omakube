@@ -1,0 +1,9 @@
+#!/bin/bash
+
+for pkg in "$@"; do
+  if ! dpkg -l | grep -q "$pkg"; then
+    exit 0
+  fi
+done
+
+exit 1
