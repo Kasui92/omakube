@@ -138,7 +138,15 @@ source ~/.local/share/omakub/install/login/alt-bootloaders.sh
 # Migrations
 echo -e "\e[32m\nTurning off previous migrations...\e[0m"
 echo
-source ~/.local/share/omakub/install/preflight/migrations.sh
+MIGRATION_STATE_PATH=~/.local/state/omakub/migrations
+CURRENT_MIGRATION=1757320291
+
+mkdir -p $MIGRATION_STATE_PATH
+for file in ~/.local/share/omakub/migrations/*.sh; do
+  if [ "$(basename "$file" .sh)" -le "$CURRENT_MIGRATION" ]; then
+    touch "$MIGRATION_STATE_PATH/$(basename "$file")"
+  fi
+done
 
 # Warning on x11 sessions to use Wayland instead
 if [ "$XDG_SESSION_TYPE" = "x11" ]; then
