@@ -32,6 +32,10 @@ pkill -SIGUSR2 btop
 # Change gnome, browser, vscode themes
 omakub-theme-set-terminal
 omakub-theme-set-gnome
-omakub-theme-set-eza
 omakub-theme-set-browser
 omakub-theme-set-vscode
+omakub-theme-set-cursor
+omakub-theme-set-obsidian
+
+# Call hook on theme set
+omakub-hook theme-set "$THEME_NAME"

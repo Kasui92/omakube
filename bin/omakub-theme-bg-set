@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# omakub-theme-bg-set: Set GNOME background image and options
+
+BACKGROUND_LINK=$1
+ZOOM_FLAG=${2:-'zoom'}
+DEFAULT_BACKGROUND='file:///usr/share/backgrounds/warty-final-ubuntu.png'
+
+if [[ -z "$BACKGROUND_LINK" ]]; then
+  BACKGROUND_LINK="$DEFAULT_BACKGROUND"
+fi
+
+gsettings set org.gnome.desktop.background picture-uri $BACKGROUND_LINK
+gsettings set org.gnome.desktop.background picture-uri-dark $BACKGROUND_LINK
+gsettings set org.gnome.desktop.background picture-options $ZOOM_FLAG
