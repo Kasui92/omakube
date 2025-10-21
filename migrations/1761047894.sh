@@ -7,19 +7,16 @@ if [[ ! -f ~/.config/kitty/kitty.conf ]]; then
   cp -Rpf $OMAKUB_PATH/config/kitty/kitty.conf ~/.config/kitty/kitty.conf
 fi
 
-
 echo "Fix opening in nvim from files manager"
 cp -f $OMAKUB_PATH/applications/nvim.desktop ~/.local/share/applications/nvim.desktop
-
 
 echo "Install Omakub theme on Obsidian vaults"
 omakub-theme-set-obsidian
 
 echo "Copy over updated application icons"
-cp -f $OMAKUB_PATH/applications/icons/GitHub.png ~/.local/share/applications/icons/
-cp -f $OMAKUB_PATH/applications/icons/ChatGPT.png ~/.local/share/applications/icons/
-cp -f $OMAKUB_PATH/applications/icons/X.png ~/.local/share/applications/icons/
-
+cp -f $OMAKUB_PATH/applications/desktop/icons/GitHub.png ~/.local/share/applications/icons/
+cp -f $OMAKUB_PATH/applications/desktop/icons/ChatGPT.png ~/.local/share/applications/icons/
+cp -f $OMAKUB_PATH/applications/desktop/icons/X.png ~/.local/share/applications/icons/
 
 echo "Remove any active eza theme"
 rm -f ~/.config/eza/theme.yml
