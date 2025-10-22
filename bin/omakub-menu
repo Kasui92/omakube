@@ -292,7 +292,7 @@ show_remove_menu() {
 }
 
 show_update_menu() {
-  case $(menu "Update" "󰟢  Omakub\n󰟢  Branch\n  Config\n󰸌  Extra Themes\n󰇅  Hardware\n  Firmware\n  Password" "--width 250 --height 320") in
+  case $(menu "Update" "󰟢  Omakub\n󰟢  Branch\n  Config\n󰸌  Themes\n󰇅  Hardware\n  Firmware\n  Password" "--width 250 --height 320") in
   *Omakub*) present_terminal omakub-update ;;
   *Branch*) present_terminal omakub-update-branch ;;
   *Config*) show_update_config_menu ;;
