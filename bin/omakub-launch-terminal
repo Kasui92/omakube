@@ -1,0 +1,3 @@
+#!/bin/bash
+
+exec ${OMAKUB_TERMINAL:-alacritty}

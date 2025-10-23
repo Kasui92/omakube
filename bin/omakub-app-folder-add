@@ -3,6 +3,8 @@
 # omakub-app-folder-add: Move a .desktop file to a specified app folder.
 # Usage: omakub-app-folder-add <desktop_file.desktop> <folder_name>
 
+DESKTOP_DIR="$HOME/.local/share/applications"
+
 if [ "$#" -ne 2 ]; then
   echo -e "\e[32mLet's add an app to a folder in the app grid!\n\e[0m"
   DESKTOP_FILE=$(gum input --prompt "Name> " --placeholder "A desktop file app (e.g., Spotify.desktop, no full path!)")
@@ -17,18 +19,50 @@ if [[ -z "$DESKTOP_FILE" || -z "$FOLDER_NAME" ]]; then
   exit 1
 fi
 
-if ! locate "$DESKTOP_FILE" &> /dev/null; then
+if [ ! -f "$DESKTOP_DIR/$DESKTOP_FILE" ]; then
   echo "Desktop file '$DESKTOP_FILE' not found!"
   exit 1
 fi
 
-# Convert to lowercase immediately for consistency
-FOLDER=$(echo "$FOLDER_NAME" | tr -d ' ' | tr '[:upper:]' '[:lower:]')
-SCHEMA="org.gnome.desktop.app-folders.folder:/org/gnome/desktop/app-folders/folders/$FOLDER/"
+# Get current folders list
 CURRENT_FOLDERS=$(gsettings get org.gnome.desktop.app-folders folder-children)
 
-# Check if folder exists using the lowercase version
-if [[ "$CURRENT_FOLDERS" != *"'$FOLDER'"* ]]; then
+# Convert to different formats for checking
+FOLDER_LOWERCASE=$(echo "$FOLDER_NAME" | tr -d ' ' | tr '[:upper:]' '[:lower:]')
+FOLDER_CAMELCASE=$(echo "$FOLDER_NAME" | tr -d ' ')
+
+# Check if folder exists (try exact name, camelcase, then lowercase)
+EXISTING_FOLDER=""
+if [[ "$CURRENT_FOLDERS" == *"'$FOLDER_NAME'"* ]]; then
+  # Exact name match - use original name for schema
+  EXISTING_FOLDER="$FOLDER_NAME"
+  FOLDER="$FOLDER_NAME"
+elif [[ "$CURRENT_FOLDERS" == *"'$FOLDER_CAMELCASE'"* ]]; then
+  # CamelCase match (like "WebApps") - use camelcase for schema
+  EXISTING_FOLDER="$FOLDER_CAMELCASE"
+  FOLDER="$FOLDER_CAMELCASE"
+elif [[ "$CURRENT_FOLDERS" == *"'$FOLDER_LOWERCASE'"* ]]; then
+  # Lowercase match - use lowercase for schema
+  EXISTING_FOLDER="$FOLDER_LOWERCASE"
+  FOLDER="$FOLDER_LOWERCASE"
+else
+  # No existing folder - will create new one with lowercase schema
+  FOLDER="$FOLDER_LOWERCASE"
+fi
+
+# Set schema and display name based on whether folder exists
+if [ -n "$EXISTING_FOLDER" ]; then
+  # Use existing folder
+  SCHEMA="org.gnome.desktop.app-folders.folder:/org/gnome/desktop/app-folders/folders/$FOLDER/"
+  FOLDER_DISPLAY_NAME=$(gsettings get "$SCHEMA" name | sed 's/^.\(.*\).$/\1/')
+else
+  # Create new folder
+  SCHEMA="org.gnome.desktop.app-folders.folder:/org/gnome/desktop/app-folders/folders/$FOLDER/"
+  FOLDER_DISPLAY_NAME="$FOLDER_NAME"
+fi
+
+# Check if we need to create a new folder
+if [ -z "$EXISTING_FOLDER" ]; then
   # Create new folder
   TRIMMED_FOLDERS=$(echo "$CURRENT_FOLDERS" | sed "s/^\[//;s/\]$//")
 
@@ -38,10 +72,8 @@ if [[ "$CURRENT_FOLDERS" != *"'$FOLDER'"* ]]; then
     gsettings set org.gnome.desktop.app-folders folder-children "['$FOLDER']"
   fi
 
-  gsettings set "$SCHEMA" name "$FOLDER_NAME"
+  gsettings set "$SCHEMA" name "$FOLDER_DISPLAY_NAME"
   gsettings set "$SCHEMA" apps "['$DESKTOP_FILE']"
-
-  echo -e "Created folder '$FOLDER_NAME' and added app '$DESKTOP_FILE' to it\n"
 else
   # Add app to existing folder
   CURRENT_APPS=$(gsettings get "$SCHEMA" apps)
@@ -53,9 +85,5 @@ else
     else
       gsettings set "$SCHEMA" apps "['$DESKTOP_FILE']"
     fi
-
-    echo -e "App '$DESKTOP_FILE' has been added to folder '$FOLDER_NAME'\n"
-  else
-    echo -e "App '$DESKTOP_FILE' is already in folder '$FOLDER_NAME'\n"
   fi
 fi

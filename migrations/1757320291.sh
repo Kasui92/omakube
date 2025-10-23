@@ -4,11 +4,16 @@
 echo -e "\e[32m\nUpdating gum...\e[0m"
 echo
 cd /tmp
-GUM_VERSION="0.16.2" # Tested Version
+GUM_VERSION="0.17.0" # Tested Version
 wget -qO gum.deb "https://github.com/charmbracelet/gum/releases/download/v${GUM_VERSION}/gum_${GUM_VERSION}_amd64.deb"
 sudo apt-get install -y --allow-downgrades ./gum.deb
 rm gum.deb
 cd -
+
+# Install terminaltexteffects and tdlr via pipx
+echo -e "\e[32m\nInstalling terminaltexteffects and tldr via pipx...\e[0m"
+echo
+pipx install terminaltexteffects tldr
 
 # Install Wofi
 echo -e "\e[32m\nInstalling wofi...\e[0m"
@@ -54,6 +59,13 @@ if command -v ulauncher &> /dev/null; then
   rm -rf ~/.local/share/ulauncher
 fi
 
+# Remove snap packages
+if command -v snap &> /dev/null; then
+  echo -e "\e[32m\nRemoving snap packages...\e[0m"
+  echo
+  source ~/.local/share/omakub/install/packaging/remove-snap.sh
+fi
+
 # Configs
 echo -e "\e[32m\nApplying new Omakub configurations...\e[0m"
 echo
@@ -73,9 +85,9 @@ omakub-refresh-config brave-flags.conf
 omakub-refresh-config chromium-flags.conf
 omakub-refresh-config starship.toml
 
+# Wofi and Neovim configs
 mkdir -p ~/.config/wofi
 cp -R ~/.local/share/omakub/config/wofi/* ~/.config/wofi
-
 cp -R ~/.local/share/omakub/config/nvim/* ~/.config/nvim/
 
 # Applications
@@ -83,18 +95,19 @@ echo -e "\e[32m\nApplying application configurations...\e[0m"
 echo
 
 rm -rf ~/.local/share/applications/About.desktop
+rm -rf ~/.local/share/applications/Activity.desktop
 rm -rf ~/.local/share/applications/Basecamp.desktop
+rm -rf ~/.local/share/applications/Docker.desktop
 rm -rf ~/.local/share/applications/Hey.desktop
 rm -rf ~/.local/share/applications/Neovim.desktop
 rm -rf ~/.local/share/applications/Omakub.desktop
 rm -rf ~/.local/share/applications/WhatsApp.desktop
 rm -rf ~/.local/share/applications/icons
 
+source ~/.local/share/omakub/install/packaging/icons.sh
+source ~/.local/share/omakub/install/packaging/webapps.sh
+source ~/.local/share/omakub/install/packaging/tuis.sh
 source ~/.local/share/omakub/install/config/defaults.sh
-
-omakub-webapp-install "HEY" https://app.hey.com https://www.hey.com/assets/images/general/hey.png
-omakub-webapp-install "Basecamp" https://launchpad.37signals.com https://basecamp.com/assets/images/general/basecamp.png
-omakub-webapp-install "WhatsApp" https://web.whatsapp.com/ https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/whatsapp.png
 
 # Firewall
 echo -e "\e[32m\nApplying Firewall...\e[0m"
@@ -103,10 +116,11 @@ echo
 source ~/.local/share/omakub/install/config/firewall.sh
 
 # Hotkeys
-echo -e "\e[32m\nApplying Hotkey...\e[0m"
+echo -e "\e[32m\nApplying Gnome Settings...\e[0m"
 echo
-
+source ~/.local/share/omakub/install/config/gnome/extensions.sh
 source ~/.local/share/omakub/install/config/gnome/hotkeys.sh
+source ~/.local/share/omakub/install/config/gnome/settings.sh
 
 # Theme
 echo -e "\e[32m\nApplying Theme...\e[0m"
@@ -124,7 +138,15 @@ source ~/.local/share/omakub/install/login/alt-bootloaders.sh
 # Migrations
 echo -e "\e[32m\nTurning off previous migrations...\e[0m"
 echo
-source ~/.local/share/omakub/install/preflight/migrations.sh
+MIGRATION_STATE_PATH=~/.local/state/omakub/migrations
+CURRENT_MIGRATION=1757320291
+
+mkdir -p $MIGRATION_STATE_PATH
+for file in ~/.local/share/omakub/migrations/*.sh; do
+  if [ "$(basename "$file" .sh)" -le "$CURRENT_MIGRATION" ]; then
+    touch "$MIGRATION_STATE_PATH/$(basename "$file")"
+  fi
+done
 
 # Warning on x11 sessions to use Wayland instead
 if [ "$XDG_SESSION_TYPE" = "x11" ]; then

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#!/bin/bash
-
 abort() {
   echo -e "\e[31mOmakub install requires: $1\e[0m"
   echo

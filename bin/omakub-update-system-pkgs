@@ -4,7 +4,12 @@ echo -e "\e[32m\nUpdate system packages\e[0m"
 sudo apt update
 sudo apt -y upgrade
 sudo apt -y dist-upgrade
-sudo apt -y autoremove
+
+# Se ci sono pacchetti non più necessari, rimuovili
+if [[ $(sudo apt -s autoremove 2>/dev/null | grep 'The following packages will be REMOVED:' | wc -l) -gt 0 ]]; then
+  echo -e "\e[32m\nRemoving unnecessary packages\e[0m"
+  sudo apt -y autoremove
+fi
 
 # If Flatpak is installed, update Flatpak packages
 if ! command -v "flatpak --version" &> /dev/null; then

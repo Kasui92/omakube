@@ -4,4 +4,4 @@ if pgrep -x wofi > /dev/null; then
   pkill wofi
 fi
 
-exec wofi $@
+exec wofi --cache-file=/dev/null $@

@@ -1,0 +1,62 @@
+#!/bin/bash
+
+# omakub-keybinding-add: Create a custom keybinding.
+# Usage: omakub-keybinding-add <name> <command> <keybinding>
+
+if [ "$#" -lt 3 ]; then
+  echo -e "\e[32mLet's create a new custom keybinding.\n\e[0m"
+  KB_NAME=$(gum input --prompt "Name> " --placeholder "My Custom Shortcut")
+  KB_COMMAND=$(gum input --prompt "Command> " --placeholder "gnome-terminal")
+  KB_BINDING=$(gum input --prompt "Keybinding> " --placeholder "<Super>t")
+  INTERACTIVE_MODE=true
+else
+  KB_NAME="$1"
+  KB_COMMAND="$2"
+  KB_BINDING="$3"
+  INTERACTIVE_MODE=false
+fi
+
+# Ensure valid parameters
+if [[ -z "$KB_NAME" || -z "$KB_COMMAND" || -z "$KB_BINDING" ]]; then
+  echo "You must set name, command, and keybinding!"
+  exit 1
+fi
+
+# Get current custom keybindings
+CURRENT_BINDINGS=$(gsettings get org.gnome.settings-daemon.plugins.media-keys custom-keybindings)
+
+# Find next available index
+if [[ "$CURRENT_BINDINGS" == "@as []" || "$CURRENT_BINDINGS" == "[]" ]]; then
+  # No existing keybindings
+  NEXT_INDEX=0
+  NEW_BINDINGS="['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']"
+else
+  # Extract existing indices
+  INDICES=$(echo "$CURRENT_BINDINGS" | grep -oP 'custom\K[0-9]+' | sort -n)
+
+  if [[ -z "$INDICES" ]]; then
+    NEXT_INDEX=0
+  else
+    LAST_INDEX=$(echo "$INDICES" | tail -1)
+    NEXT_INDEX=$((LAST_INDEX + 1))
+  fi
+
+  # Build new bindings array by appending to existing
+  NEW_PATH="'/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom${NEXT_INDEX}/'"
+  # Remove trailing ] and add new path with ]
+  NEW_BINDINGS="${CURRENT_BINDINGS%]}, $NEW_PATH]"
+fi
+
+# Set the new custom keybindings array
+gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "$NEW_BINDINGS"
+
+# Configure the new keybinding
+BASE_PATH="org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom${NEXT_INDEX}/"
+
+gsettings set "${BASE_PATH}" name "$KB_NAME"
+gsettings set "${BASE_PATH}" command "$KB_COMMAND"
+gsettings set "${BASE_PATH}" binding "$KB_BINDING"
+
+if [[ $INTERACTIVE_MODE == true ]]; then
+  echo -e "Keybinding created successfully!\n"
+fi

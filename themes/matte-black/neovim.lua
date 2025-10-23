@@ -1,5 +1,5 @@
 return {
-  { "tahayvr/matteblack.nvim", lazy = false, priority = 1000 },
+	{ "tahayvr/matteblack.nvim", lazy = false, priority = 1000 },
   {
 		"LazyVim/LazyVim",
 		opts = {

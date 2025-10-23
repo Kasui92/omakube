@@ -23,77 +23,19 @@ fi
 # Update theme symlinks
 ln -nsf "$THEME_PATH" "$CURRENT_THEME_DIR"
 
-# Change gnome modes
-if [[ -f ~/.config/omakub/current/theme/gnome.theme ]]; then
-  OMAKUB_THEME_COLOR=$(<~/.config/omakub/current/theme/gnome.theme)
-else
-  OMAKUB_THEME_COLOR="blue"
-fi
-
-if [[ -f ~/.config/omakub/current/theme/light.mode ]]; then
-  gsettings set org.gnome.desktop.interface color-scheme "prefer-light"
-  gsettings set org.gnome.desktop.interface gtk-theme "Yaru-$OMAKUB_THEME_COLOR"
-else
-  gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
-  gsettings set org.gnome.desktop.interface gtk-theme "Yaru-$OMAKUB_THEME_COLOR-dark"
-fi
-gsettings set org.gnome.desktop.interface accent-color "$OMAKUB_THEME_COLOR" 2>/dev/null || true
-
-# Change gnome cursor theme color
-if [[ -f ~/.config/omakub/current/theme/cursor.theme ]]; then
-  gsettings set org.gnome.desktop.interface cursor-theme "$(<~/.config/omakub/current/theme/cursor.theme)"
-else
-  gsettings set org.gnome.desktop.interface cursor-theme "Yaru"
-fi
-
-# Change gnome icon theme color
-if [[ -f ~/.config/omakub/current/theme/icons.theme ]]; then
-  gsettings set org.gnome.desktop.interface icon-theme "$(<~/.config/omakub/current/theme/icons.theme)"
-else
-  gsettings set org.gnome.desktop.interface icon-theme "Yaru-$OMAKUB_THEME_COLOR"
-fi
-
-# Change gnome extensions theme
-if [[ -f ~/.config/omakub/current/theme/tophat.theme ]]; then
-  gsettings set org.gnome.shell.extensions.tophat meter-fg-color "$(<~/.config/omakub/current/theme/tophat.theme)"
-else
-  if [[ -f ~/.config/omakub/current/theme/light.mode ]]; then
-    gsettings set org.gnome.shell.extensions.tophat meter-fg-color "#e92020"
-  else
-    gsettings set org.gnome.shell.extensions.tophat meter-fg-color "#33ccff"
-  fi
-fi
-
-# Change vscode colors
-if command -v code &>/dev/null; then
-  if [[ -f ~/.config/omakub/current/theme/vscode.theme ]]; then
-    declare -A vscode
-    source ~/.config/omakub/current/theme/vscode.theme
-
-    # Install extension if specified
-    if [[ -n "${vscode[extension]}" ]]; then
-      code --install-extension "${vscode[extension]}" --force
-    fi
-
-    # Set theme if specified
-    if [[ -n "${vscode[theme]}" ]]; then
-      sed -i "s/\"workbench.colorTheme\": \".*\"/\"workbench.colorTheme\": \"${vscode[theme]}\"/g" ~/.config/Code/User/settings.json
-    fi
-  # Fallback to default themes
-  else
-    if [[ -f ~/.config/omakub/current/theme/light.mode ]]; then
-      sed -i "s/\"workbench.colorTheme\": \".*\"/\"workbench.colorTheme\": \"Default Light+\"/g" ~/.config/Code/User/settings.json
-    else
-      sed -i "s/\"workbench.colorTheme\": \".*\"/\"workbench.colorTheme\": \"Default Dark+\"/g" ~/.config/Code/User/settings.json
-    fi
-  fi
-fi
-
-# Touch alacritty config to pickup the changed theme
-touch "$HOME/.config/alacritty/alacritty.toml"
+# Change background with theme
+omakub-theme-bg-next
 
 # Restart components to apply new theme
 pkill -SIGUSR2 btop
 
-# Set new background
-omakub-theme-bg-next
+# Change gnome, browser, vscode themes
+omakub-theme-set-terminal
+omakub-theme-set-gnome
+omakub-theme-set-browser
+omakub-theme-set-vscode
+omakub-theme-set-cursor
+omakub-theme-set-obsidian
+
+# Call hook on theme set
+omakub-hook theme-set "$THEME_NAME"

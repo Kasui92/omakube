@@ -10,8 +10,7 @@ TOTAL=${#BACKGROUNDS[@]}
 
 if [[ $TOTAL -eq 0 ]]; then
   notify-send "No background was found for theme" -t 2000
-  gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/warty-final-ubuntu.png'
-  gsettings set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/warty-final-ubuntu.png'
+  omakub-theme-bg-set
 else
   # Get current background from symlink
   if [[ -L "$CURRENT_BACKGROUND_LINK" ]]; then
@@ -43,7 +42,5 @@ else
   ln -nsf "$NEW_BACKGROUND" "$CURRENT_BACKGROUND_LINK"
 
   # Update GNOME background settings
-  gsettings set org.gnome.desktop.background picture-uri $CURRENT_BACKGROUND_LINK
-  gsettings set org.gnome.desktop.background picture-uri-dark $CURRENT_BACKGROUND_LINK
-  gsettings set org.gnome.desktop.background picture-options 'zoom'
+  omakub-theme-bg-set "$CURRENT_BACKGROUND_LINK"
 fi

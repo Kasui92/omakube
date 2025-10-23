@@ -3,6 +3,4 @@
 set -e
 
 omakub-update-git
-omakub-migrate
-omakub-update-system-pkgs
-omakub-update-restart
+omakub-update-perform
