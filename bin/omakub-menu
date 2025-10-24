@@ -292,23 +292,14 @@ show_remove_menu() {
 }
 
 show_update_menu() {
-  case $(menu "Update" "󰟢  Omakub\n󰟢  Branch\n  Config\n󰸌  Themes\n󰇅  Hardware\n  Firmware\n  Password" "--width 250 --height 320") in
+  case $(menu "Update" "󰟢  Omakub\n  Config\n󰸌  Themes\n󰇅  Hardware\n  Firmware\n  Password" "--width 250 --height 280") in
   *Omakub*) present_terminal omakub-update ;;
-  *Branch*) present_terminal omakub-update-branch ;;
   *Config*) show_update_config_menu ;;
   *Themes*) present_terminal omakub-theme-update ;;
   *Hardware*) show_update_hardware_menu ;;
   *Firmware*) present_terminal omakub-update-firmware ;;
   *Password*) show_update_password_menu ;;
   *) show_main_menu ;;
-  esac
-}
-
-show_update_branch_menu() {
-  case $(menu "Branch" "main\ndev" "--width 250 --height 120" "$(omakub-version-branch)") in
-  *main*) present_terminal "omakub-update-branch main" ;;
-  *dev*) present_terminal "omakub-update-branch dev" ;;
-  *) show_update_menu ;;
   esac
 }
 
@@ -326,7 +317,7 @@ show_update_config_menu() {
 
 show_update_hardware_menu() {
   case $(menu "Restart" "  Audio" "--width 250 --height 80") in
-  *Audio*) present_terminal omarchy-restart-pipewire ;;
+  *Audio*) present_terminal omakub-restart-pipewire ;;
   *) show_update_menu ;;
   esac
 }

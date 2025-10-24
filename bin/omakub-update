@@ -2,5 +2,8 @@
 
 set -e
 
+
+trap 'echo ""; echo -e "\033[0;31mSomething went wrong during the update!\n\nPlease review the output above carefully, correct the error, and retry the update.\033[0m"' ERR
+
 omakub-update-git
 omakub-update-perform
