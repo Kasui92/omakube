@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 echo -e "\e[32mUpdate Omakub\e[0m"
 
 git -C $OMAKUB_PATH pull --autostash
