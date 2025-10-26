@@ -1,7 +1,13 @@
 #!/bin/bash
 
-THEME_NAMES=("Tokyo Night" "Catppuccin" "Nord" "Everforest" "Gruvbox" "Kanagawa" "Ristretto" "Rose Pine" "Matte Black")
-THEME=$(gum choose "${THEME_NAMES[@]}" "<< Back" --header "Choose your theme" --height 12 | tr '[:upper:]' '[:lower:]' | sed 's/ /-/g')
+THEME_DIR="$OMAKUB_PATH/themes"
+THEME_LIST=$(
+  find "$THEME_DIR/" -mindepth 1 -maxdepth 1 \( -type d -o -type l \) | sort | while read -r path; do
+    echo "$(basename "$path" | sed -E 's/(^|-)([a-z])/\1\u\2/g; s/-/ /g')"
+  done
+)
+
+THEME=$(gum choose "${THEMES_LIST[@]}" "<< Back" --header "Choose your theme" --height "$(($(echo "$THEME_LIST" | wc -l) + 2))" | tr '[:upper:]' '[:lower:]' | sed 's/ /-/g')
 
 if [ -n "$THEME" ] && [ "$THEME" != "<<-back" ]; then
   cp $OMAKUB_PATH/themes/$THEME/alacritty.toml ~/.config/alacritty/theme.toml
