@@ -1,13 +1,11 @@
 #!/bin/bash
 
-THEME_DIR="$OMAKUB_PATH/themes"
-THEME_LIST=$(
-  find "$THEME_DIR/" -mindepth 1 -maxdepth 1 \( -type d -o -type l \) | sort | while read -r path; do
-    echo "$(basename "$path" | sed -E 's/(^|-)([a-z])/\1\u\2/g; s/-/ /g')"
-  done
-)
+THEME_LIST=()
+while IFS= read -r path; do
+  THEME_LIST+=("$(basename "$path" | sed -E 's/(^|-)([a-z])/\1\u\2/g; s/-/ /g')")
+done < <(find "$OMAKUB_PATH/themes/" -mindepth 1 -maxdepth 1 \( -type d -o -type l \) | sort)
 
-THEME=$(gum choose "${THEMES_LIST[@]}" "<< Back" --header "Choose your theme" --height "$(($(echo "$THEME_LIST" | wc -l) + 2))" | tr '[:upper:]' '[:lower:]' | sed 's/ /-/g')
+THEME=$(gum choose "${THEME_LIST[@]}" "<< Back" --header "Choose your theme" --height "$((${#THEME_LIST[@]} + 2))" | tr '[:upper:]' '[:lower:]' | sed 's/ /-/g')
 
 if [ -n "$THEME" ] && [ "$THEME" != "<<-back" ]; then
   cp $OMAKUB_PATH/themes/$THEME/alacritty.toml ~/.config/alacritty/theme.toml
