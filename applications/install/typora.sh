@@ -1,7 +1,13 @@
 #!/bin/bash
 
-cd /tmp
-wget -O typora.deb "https://downloads.typora.io/linux/typora_1.10.8_amd64.deb"
-sudo apt install -y /tmp/typora.deb
-rm typora.deb
-cd -
+# Typora is a markdown editor and reader. See https://typora.io/
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://downloads.typora.io/typora.gpg | sudo tee /etc/apt/keyrings/typora.gpg > /dev/null
+echo "deb [signed-by=/etc/apt/keyrings/typora.gpg] https://downloads.typora.io/linux ./" | sudo tee /etc/apt/sources.list.d/typora.list
+sudo apt update
+sudo apt install typora -y
+
+# Add iA Typora theme
+mkdir -p ~/.config/Typora/themes
+cp ~/.local/share/omakub/configs/typora/ia_typora.css ~/.config/Typora/themes/
+cp ~/.local/share/omakub/configs/typora/ia_typora_night.css ~/.config/Typora/themes/
