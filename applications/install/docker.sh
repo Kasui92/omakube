@@ -28,7 +28,7 @@ echo -e '[Resolve]\nDNSStubListenerExtra=172.17.0.1' | sudo tee /etc/systemd/res
 sudo systemctl restart systemd-resolved
 
 # Start Docker automatically
-sudo systemctl enable docker
+sudo systemctl enable docker.socket
 
 # Give this user privileged Docker access
 sudo usermod -aG docker ${USER}
