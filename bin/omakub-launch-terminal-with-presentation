@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cmd="$*"
-xdg-terminal-exec --app-id=com.omakub.Omakub -e bash -c "omakub-show-logo; $cmd; omakub-show-done"
+xdg-terminal-exec bash -c "omakub-show-logo; $cmd; omakub-show-done"

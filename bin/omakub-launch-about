@@ -1,3 +1,3 @@
 #!/bin/bash
 
-exec xdg-terminal-exec --app-id=com.omakub.Omakub -e bash -c 'fastfetch; read -n 1 -s'
+exec xdg-terminal-exec bash -c 'fastfetch; read -n 1 -s'

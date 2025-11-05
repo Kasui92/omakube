@@ -41,7 +41,7 @@ menu() {
 }
 
 terminal() {
-  xdg-terminal-exec --app-id=com.omakub.Omakub "$@"
+  xdg-terminal-exec "$@"
 }
 
 present_terminal() {
