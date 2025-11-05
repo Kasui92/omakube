@@ -14,3 +14,6 @@ sudo apt update
 sudo apt install -y code
 
 mkdir -p ~/.config/Code/User
+
+# Apply Omakub theme to VSCode
+omakub-theme-set-vscode
