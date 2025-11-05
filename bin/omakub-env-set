@@ -19,4 +19,5 @@ else
   sed -i "/export $var_name=/ c\export $var_name=$var_value" ~/.bashrc
 fi
 
-echo -e "You can apply the change by running:\n\n  source ~/.bashrc\n"
+# Apply changes to current session
+source ~/.bashrc
