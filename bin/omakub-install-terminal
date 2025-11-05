@@ -30,12 +30,13 @@ omakub-env-set TERMINAL "$package"
 
 # Copy custom desktop entry for alacritty with X-TerminalArg* keys
 if [ "$package" = "alacritty" ]; then
-  mkdir -p ~/.local/share/applications
+  mkdir -p ~/.local/share/xdg-terminals ~/.local/share/applications
+  cp "$OMAKUB_PATH/applications/desktop/Alacritty.desktop" ~/.local/share/xdg-terminals/
   cp "$OMAKUB_PATH/applications/desktop/Alacritty.desktop" ~/.local/share/applications/
 fi
 
-# Update xdg-terminals.list to prioritize the proper terminal
-cat > ~/.config/xdg-terminals.list << EOF
+# Update ubuntu-xdg-terminals.list to prioritize the proper terminal
+cat > ~/.config/ubuntu-xdg-terminals.list << EOF
 # Terminal emulator preference order for xdg-terminal-exec
 # The first found and valid terminal will be used
 $desktop_id
