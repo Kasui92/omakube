@@ -38,9 +38,6 @@ ln -snf ~/.config/omakub/current/theme/btop.theme ~/.config/btop/themes/current.
 mkdir -p ~/.config/zellij/themes
 ln -snf ~/.config/omakub/current/theme/zellij.kdl ~/.config/zellij/themes/current.kdl
 
-mkdir -p ~/.config/eza
-ln -snf ~/.config/omakub/current/theme/eza.yml ~/.config/eza/theme.yml
-
 # Add managed policy directories for Chromium and Brave for theme changes
 sudo mkdir -p /etc/chromium/policies/managed
 sudo chmod a+rw /etc/chromium/policies/managed
