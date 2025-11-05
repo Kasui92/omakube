@@ -4,8 +4,8 @@ export SUDO_EDITOR="$EDITOR"
 export BAT_THEME=ansi
 
 # Terminal
-export TERMINAL="alacritty"
+export TERMINAL=xdg-terminal-exec
 
 # Omakub
 export OMAKUB_PATH=$HOME/.local/share/omakub
-export PATH=$OMAKUB_PATH/bin/:$PATH
+export PATH=$OMAKUB_PATH/bin:$PATH

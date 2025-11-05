@@ -41,7 +41,7 @@ menu() {
 }
 
 terminal() {
-  alacritty --class Omakub -e "$@"
+  xdg-terminal-exec --app-id=com.omakub.Omakub "$@"
 }
 
 present_terminal() {

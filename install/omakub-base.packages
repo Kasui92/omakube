@@ -57,6 +57,7 @@ sqlite3
 systemd-container
 ufw
 unzip
+xdg-terminal-exec
 wget
 wl-clipboard
 wofi

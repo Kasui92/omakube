@@ -7,17 +7,39 @@ fi
 
 package="$1"
 
+# Map package name to desktop entry ID
+case "$package" in
+  alacritty)
+    desktop_id="Alacritty.desktop"
+    ;;
+  kitty)
+    desktop_id="kitty.desktop"
+    ;;
+  *)
+    echo "Unknown terminal: $package"
+    exit 1
+    ;;
+esac
+
 # Install package
 omakub-app-install "$package"
 
 # Set as default terminal
 echo "Setting $package as new default terminal..."
-# If TERMINAL export exists in .bashrc, replace it. Otherwise, append it.
-if ! grep -q "export TERMINAL=" ~/.bashrc; then
-  echo "export TERMINAL=$package" >> ~/.bashrc
-else
-  sed -i "/export TERMINAL=/ c\export TERMINAL=$package" ~/.bashrc
+omakub-env-set TERMINAL "$package"
+
+# Copy custom desktop entry for alacritty with X-TerminalArg* keys
+if [ "$package" = "alacritty" ]; then
+  mkdir -p ~/.local/share/applications
+  cp "$OMAKUB_PATH/applications/desktop/Alacritty.desktop" ~/.local/share/applications/
 fi
+
+# Update xdg-terminals.list to prioritize the proper terminal
+cat > ~/.config/xdg-terminals.list << EOF
+# Terminal emulator preference order for xdg-terminal-exec
+# The first found and valid terminal will be used
+$desktop_id
+EOF
 
 # Restart is needed for new default to take effect
 echo
