@@ -44,6 +44,7 @@ run_logged() {
   local ANSI_CARRIAGE_RETURN="\r"       # Return to start of line
   local ANSI_GREEN="\033[32m"           # Green color
   local ANSI_RED="\033[31m"             # Red color
+  local ANSI_YELLOW="\033[33m"          # Yellow color
   local ANSI_RESET="\033[0m"            # Reset all attributes
 
   # Check if there are any PATH updates to apply
@@ -52,8 +53,9 @@ run_logged() {
   fi
 
   echo "[$(date '+%Y-%m-%d %H:%M:%S')] Starting: $script" >>"$OMAKUB_INSTALL_LOG_FILE"
-  # Create a temporary file to capture the exit code
+
   local temp_exit_file=$(mktemp)
+
   # Execute the script in background with updated environment
   (
     # Source environment updates in the subshell too
@@ -62,16 +64,41 @@ run_logged() {
     echo $? > "$temp_exit_file"
   ) &
   local bg_pid=$!
-  # Show spinner while script runs
-  gum spin --spinner dot --title "Installing $script_name..." -- bash -c "
+
+  # Get timeout from environment or use default (10 minutes)
+  # Each script can override this by exporting OMAKUB_SCRIPT_TIMEOUT before calling run_logged
+  local timeout=${OMAKUB_SCRIPT_TIMEOUT:-600}
+
+  # Show spinner with timeout
+  GUM_SPIN_SHOW_OUTPUT=0 timeout $timeout gum spin --spinner dot --title "Installing $script_name..." -- bash -c "
     while kill -0 $bg_pid 2>/dev/null; do
       sleep 0.1
     done
-  "
+  " </dev/null
+
+  local gum_exit=$?
+
+  # Check if timeout occurred
+  if [ $gum_exit -eq 124 ]; then
+    kill -TERM $bg_pid 2>/dev/null
+    sleep 2
+    kill -KILL $bg_pid 2>/dev/null
+    printf "${ANSI_CARRIAGE_RETURN}${ANSI_CLEAR_LINE}${PADDING_LEFT_SPACES}${ANSI_YELLOW}⚠${ANSI_RESET}  Timeout $script_name (exceeded ${timeout}s)\n"
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] Timeout: $script (exceeded ${timeout}s)" >>"$OMAKUB_INSTALL_LOG_FILE"
+    rm -f "$temp_exit_file"
+    unset CURRENT_SCRIPT
+    unset OMAKUB_SCRIPT_TIMEOUT
+    return 124
+  fi
+
   # Wait for background process to complete and get exit code
   wait $bg_pid 2>/dev/null
-  local exit_code=$(cat "$temp_exit_file")
+  local exit_code=$(cat "$temp_exit_file" 2>/dev/null || echo "1")
   rm -f "$temp_exit_file"
+
+  # Reset timeout for next script
+  unset OMAKUB_SCRIPT_TIMEOUT
+
   if [ $exit_code -eq 0 ]; then
     # Success - replace the spinner line with completion status
     printf "${ANSI_CARRIAGE_RETURN}${ANSI_CLEAR_LINE}${PADDING_LEFT_SPACES}${ANSI_GREEN}✓${ANSI_RESET}  Completed $script_name\n"
