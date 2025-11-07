@@ -9,3 +9,6 @@ _.path = "{{ cwd }}/bin"
 EOF
 
 mise trust ~/Work/.mise.toml
+
+# Install Node.js
+mise use -g node@latest
