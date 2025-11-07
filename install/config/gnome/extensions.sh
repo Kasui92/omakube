@@ -79,3 +79,10 @@ gsettings set org.gnome.shell.extensions.alphabetical-app-grid folder-order-posi
 
 # Configure [QSTweak] Quick Setting Tweaker
 # default settings are good!
+
+# Install Omakub Topbar extension
+git clone https://github.com/Kasui92/omakub-menu-topbar-extension.git /tmp/omakub-ext
+cd /tmp/omakub-ext
+make local
+cd -
+rm -rf /tmp/omakub-ext
