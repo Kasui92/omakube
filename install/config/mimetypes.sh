@@ -4,9 +4,6 @@
 omakub-refresh-applications
 update-desktop-database ~/.local/share/applications
 
-# Set xdg-terminal-exec as the default terminal emulator
-sudo update-alternatives --set x-terminal-emulator xdg-terminal-exec
-
 # Open PDFs with the Document Viewer
 xdg-mime default org.gnome.Evince.desktop application/pdf
 
