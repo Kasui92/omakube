@@ -14,3 +14,8 @@ gsettings set org.gnome.shell favorite-apps "$(gsettings get org.gnome.shell fav
 
 # Remove Omakub desktop from applications menu
 rm -f ~/.local/share/applications/omakub.desktop
+
+# Prompt user to log out to apply changes
+if gum confirm "Omakub Menu Topbar Extension installed! Log out now to apply changes?"; then
+    gnome-session-quit --logout --no-prompt
+fi
