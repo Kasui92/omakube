@@ -11,7 +11,6 @@ apps=(
 	"pinta_pinta.desktop"
 	"Activity.desktop"
 	"docker.desktop"
-	"omakub.desktop"
 	"org.gnome.Settings.desktop"
 	"org.gnome.Nautilus.desktop"
 	"localsend_app.desktop"
