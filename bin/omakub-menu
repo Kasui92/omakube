@@ -41,7 +41,7 @@ menu() {
 }
 
 terminal() {
-  alacritty --class Omakub -e "$@"
+  xdg-terminal-exec "$@"
 }
 
 present_terminal() {

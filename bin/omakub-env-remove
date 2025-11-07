@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# omakub-env-remove: Remove an environment variable for Omakub in bashrc.
+# Usage: omakub-env-remove <VAR_NAME>
+
+if (($# != 1)); then
+  echo "Usage: omakub-env-remove <VAR_NAME>"
+  exit 1
+fi
+
+var_name="$1"
+
+# Remove the environment variable from .bashrc
+sed -i "/export $var_name=/d" ~/.bashrc
+
+echo -e "You can apply the change by running:\n\n  source ~/.bashrc\n"

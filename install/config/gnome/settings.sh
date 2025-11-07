@@ -15,3 +15,7 @@ gsettings set org.gnome.settings-daemon.plugins.power ambient-enabled false
 # Use 6 fixed workspaces instead of dynamic mode
 gsettings set org.gnome.mutter dynamic-workspaces false
 gsettings set org.gnome.desktop.wm.preferences num-workspaces 6
+
+# Set xdg-terminal-exec as the default terminal for GNOME
+gsettings set org.gnome.desktop.default-applications.terminal exec 'xdg-terminal-exec'
+gsettings set org.gnome.desktop.default-applications.terminal exec-arg ''

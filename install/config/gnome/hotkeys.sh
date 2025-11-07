@@ -56,7 +56,7 @@ omakub-keybinding-add 'Apps Launcher' 'omakub-apps' '<Super>space'
 omakub-keybinding-add 'Flameshot' 'sh -c -- "flameshot gui"' '<Control>Print'
 
 # Start a new terminal window
-omakub-keybinding-add 'New Terminal Window' 'omakub-launch-terminal' '<Primary><Alt>t'
+omakub-keybinding-add 'New Terminal Window' 'xdg-terminal-exec' '<Primary><Alt>t'
 
 # Start a new gnome-terminal window
 omakub-keybinding-add 'New Gnome Terminal Window' 'gnome-terminal --window' '<Shift><Primary><Alt>t'

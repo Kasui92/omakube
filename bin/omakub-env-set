@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# omakub-env-set: Set an environment variable for Omakub in bashrc.
+# Usage: omakub-env-set <VAR_NAME> <VAR_VALUE>
+
+
+if (($# != 2)); then
+  echo "Usage: omakub-env-set <VAR_NAME> <VAR_VALUE>"
+  exit 1
+fi
+
+var_name="$1"
+var_value="$2"
+
+# Set the environment variable in .bashrc
+if ! grep -q "export $var_name=" ~/.bashrc; then
+  echo "export $var_name=$var_value" >> ~/.bashrc
+else
+  sed -i "/export $var_name=/ c\export $var_name=$var_value" ~/.bashrc
+fi
+
+# Apply changes to current session
+source ~/.bashrc

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Flatpak apps can be large and take a long time to download/install
+export OMAKUB_SCRIPT_TIMEOUT=1800  # 30 minutes
+
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 # Base Apps

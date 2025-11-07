@@ -63,8 +63,23 @@ if [ "$#" -eq 0 ]; then
     exit 1
   fi
 else
-  # Use provided indices
-  SELECTED_INDICES=("$@")
+  # Search for keybindings by name
+  SEARCH_NAME="$1"
+  SELECTED_INDICES=()
+
+  for index in $INDICES; do
+    BASE_PATH="org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom${index}/"
+    KB_NAME=$(gsettings get "${BASE_PATH}" name 2>/dev/null | tr -d "'")
+
+    if [[ "$KB_NAME" == "$SEARCH_NAME" ]]; then
+      SELECTED_INDICES+=("$index")
+    fi
+  done
+
+  if [[ ${#SELECTED_INDICES[@]} -eq 0 ]]; then
+    echo "No keybinding found with name: $SEARCH_NAME"
+    exit 1
+  fi
 fi
 
 if [[ ${#SELECTED_INDICES[@]} -eq 0 ]]; then
@@ -82,7 +97,7 @@ for index in "${SELECTED_INDICES[@]}"; do
   gsettings reset "${BASE_PATH}" command 2>/dev/null
   gsettings reset "${BASE_PATH}" binding 2>/dev/null
 
-  echo "✗ Removed: $KB_NAME (custom${index})"
+  echo "✗ Removed: $KB_NAME (${index})"
 done
 
 # Rebuild the custom-keybindings array without removed indices

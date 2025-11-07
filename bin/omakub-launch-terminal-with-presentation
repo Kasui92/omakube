@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cmd="$*"
-alacritty -o font.size=9 --class Omakub -e bash -c "omakub-show-logo; $cmd; omakub-show-done"
+xdg-terminal-exec bash -c "omakub-show-logo; $cmd; omakub-show-done"
