@@ -4,7 +4,7 @@ Omakube is a personalized fork of [Omakub](https://omakub.org), the one-liner to
 
 ## Documentation
 
-For Omakube-specific features, consult the [Omakube manual](https://manuals.omakasui.org/omakube).
+For Omakube-specific features, consult the [Omakube manual](https://omakasui.org/manuals/omakube).
 
 To learn about the project it comes from and the key features it has inherited, visit the [official Omakub manual](https://manuals.omamix.org/1/read).
 
