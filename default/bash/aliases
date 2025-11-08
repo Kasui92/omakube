@@ -27,7 +27,6 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 
 # Tools
-alias g='git'
 alias d='docker'
 alias r='rails'
 alias bat='batcat'
