@@ -1,3 +1,4 @@
+[general]
 import = [ "~/.config/omakub/current/theme/alacritty.toml" ]
 
 [env]
