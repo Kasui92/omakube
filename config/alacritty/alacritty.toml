@@ -1,4 +1,8 @@
+[general]
 import = [ "~/.config/omakub/current/theme/alacritty.toml" ]
+
+[terminal.shell]
+program = "zellij"
 
 [env]
 TERM = "xterm-256color"
@@ -13,6 +17,7 @@ size = 9
 padding.x = 14
 padding.y = 14
 decorations = "None"
+opacity = 0.98
 
 [keyboard]
 bindings = [

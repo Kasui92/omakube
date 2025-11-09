@@ -6,6 +6,7 @@ if command -v eza &> /dev/null; then
   alias lta='lt -a'
 fi
 
+alias fd='fdfind'
 alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
 
 if command -v zoxide &> /dev/null; then
@@ -27,7 +28,6 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 
 # Tools
-alias g='git'
 alias d='docker'
 alias r='rails'
 alias bat='batcat'

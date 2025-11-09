@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Migrate alacritty config format if needed
+alacritty migrate 2>/dev/null || true
+
 # Copy custom desktop entry for alacritty with X-TerminalArg* keys
 mkdir -p ~/.local/share/xdg-terminals
 cp "$OMAKUB_PATH/applications/desktop/Alacritty.desktop" ~/.local/share/xdg-terminals/
