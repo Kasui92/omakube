@@ -1,7 +1,7 @@
 [general]
 import = [ "~/.config/omakub/current/theme/alacritty.toml" ]
 
-[shell]
+[terminal.shell]
 program = "zellij"
 
 [env]
