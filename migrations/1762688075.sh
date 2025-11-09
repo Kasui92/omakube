@@ -1,5 +1,5 @@
 #!/bin/bash
 
-echo 'Re apply Zellij as Alacritty default shell and set opacity'
+echo 'Update Alacritty new configs'
 
 omakub-refresh-config alacritty/alacritty.toml
