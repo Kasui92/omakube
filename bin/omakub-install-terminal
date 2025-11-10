@@ -9,16 +9,12 @@ package="$1"
 
 # Map package name to desktop entry ID
 case "$package" in
-  alacritty)
-    desktop_id="Alacritty.desktop"
-    ;;
-  kitty)
-    desktop_id="kitty.desktop"
-    ;;
-  *)
-    echo "Unknown terminal: $package"
-    exit 1
-    ;;
+alacritty) desktop_id="Alacritty.desktop" ;;
+kitty) desktop_id="kitty.desktop" ;;
+*)
+  echo "Unknown terminal: $package"
+  exit 1
+  ;;
 esac
 
 # Install package
@@ -26,13 +22,6 @@ if omakub-app-install "$package"; then
   # Set as default terminal
   echo "Setting $package as new default terminal..."
   omakub-env-set TERMINAL "$package"
-
-  # Copy custom desktop entry for alacritty with X-TerminalArg* keys
-  if [ "$package" = "alacritty" ]; then
-    mkdir -p ~/.local/share/xdg-terminals ~/.local/share/applications
-    cp "$OMAKUB_PATH/applications/desktop/Alacritty.desktop" ~/.local/share/xdg-terminals/
-    cp "$OMAKUB_PATH/applications/desktop/Alacritty.desktop" ~/.local/share/applications/
-  fi
 
   # Update ubuntu-xdg-terminals.list to prioritize the proper terminal
   cat > ~/.config/ubuntu-xdg-terminals.list << EOF
