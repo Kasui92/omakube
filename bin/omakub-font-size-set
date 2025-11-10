@@ -8,7 +8,14 @@ else
 fi
 
 if [[ $FONT_SIZE =~ ^[0-9]+$ ]]; then
-  sed -i "s/^size = .*$/size = $FONT_SIZE/g" ~/.config/alacritty/alacritty.toml
+  if [[ -f ~/.config/alacritty/alacritty.toml ]]; then
+    sed -i "s/^size = .*$/size = $FONT_SIZE/g" ~/.config/alacritty/alacritty.toml
+  fi
+
+  if [[ -f ~/.config/kitty/kitty.conf ]]; then
+    sed -i "s/^font_size .*/font_size $FONT_SIZE/g" ~/.config/kitty/kitty.conf
+    pkill -USR1 kitty
+  fi
 else
   echo "Font size must be a number."
 fi
