@@ -3,7 +3,7 @@
 sudo apt install -y alacritty
 
 # Migrate alacritty config format if needed
-alacritty migrate 2
+alacritty migrate 2>/dev/null || true
 
 # Create custom desktop entry with X-TerminalArg* keys
 cat > ~/.local/share/applications/Alacritty.desktop << EOF
