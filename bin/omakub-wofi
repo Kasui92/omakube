@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Launch wofi only in a wayland session
+if [ "$XDG_SESSION_TYPE" = "x11" ]; then
+  omakub-notify -u critical "Wofi Error" "Wofi can only be launched in a Wayland session. Please switch to a Wayland session and try again."
+  exit 1
+fi
+
 if pgrep -x wofi > /dev/null; then
   pkill wofi
 fi

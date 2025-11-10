@@ -31,4 +31,4 @@ NEW_THEME=${THEMES[$NEXT_INDEX]}
 NEW_THEME_NAME=$(basename "$NEW_THEME")
 
 omakub-theme-set $NEW_THEME_NAME
-notify-send "Theme changed to $NEW_THEME_NAME" -t 2000
+omakub-notify "Theme changed to $NEW_THEME_NAME" -t 2000

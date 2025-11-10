@@ -28,9 +28,10 @@ omakub-theme-bg-next
 
 # Restart components to apply new theme
 pkill -SIGUSR2 btop
+omakub-restart-terminal
+omakub-restart-zellij
 
 # Change gnome, browser, vscode themes
-omakub-theme-set-terminal
 omakub-theme-set-gnome
 omakub-theme-set-browser
 omakub-theme-set-vscode

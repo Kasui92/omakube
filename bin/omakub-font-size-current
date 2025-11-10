@@ -10,10 +10,10 @@ fi
 
 case "${CURRENT_TERMINAL,,}" in
   alacritty)
-    grep -oP 'family\s*=\s*"\K[^"]+' ~/.config/alacritty/alacritty.toml | head -n1
+    grep -oP 'size\s*=\s*\K[0-9]+' ~/.config/alacritty/alacritty.toml | head -n1
     ;;
   kitty)
-    grep -oP '^font_family\s+\K.*' ~/.config/kitty/kitty.conf | head -n1
+    grep -oP '^font_size\s+\K.*' ~/.config/kitty/kitty.conf | head -n1
     ;;
   *)
     echo "Unsupported terminal: $CURRENT_TERMINAL"
