@@ -30,6 +30,6 @@ Name=New Terminal
 Exec=alacritty
 EOF
 
-# Add to xdg-terminals if xdg-terminal-exec is installed
+# Add to xdg-terminals if xdg-terminal-exec is installed (only for noble users)
 mkdir -p ~/.local/share/xdg-terminals
 cp ~/.local/share/applications/Alacritty.desktop ~/.local/share/xdg-terminals/
