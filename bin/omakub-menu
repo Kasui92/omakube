@@ -49,7 +49,7 @@ present_terminal() {
 }
 
 open_in_editor() {
-  notify-send "Editing config file" "$1"
+  omakub-notify "Editing config file" "$1"
   omakub-launch-editor "$1"
 }
 
