@@ -31,7 +31,5 @@ Exec=alacritty
 EOF
 
 # Add to xdg-terminals if xdg-terminal-exec is installed
-if command -v xdg-terminal-exec > /dev/null 2>&1; then
-  mkdir -p ~/.local/share/xdg-terminals
-  cp ~/.local/share/applications/Alacritty.desktop ~/.local/share/xdg-terminals/
-fi
+mkdir -p ~/.local/share/xdg-terminals
+cp ~/.local/share/applications/Alacritty.desktop ~/.local/share/xdg-terminals/
