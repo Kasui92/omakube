@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if omakub-cmd-present -v zellij >/dev/null 2>&1; then
+    touch ~/.config/zellij/config.kdl
+fi
