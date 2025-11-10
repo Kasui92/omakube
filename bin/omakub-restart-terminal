@@ -1,8 +1,8 @@
 #!/bin/bash
 
-case "$TERMINAL" in
-"alacritty") touch ~/.config/alacritty/alacritty.toml ;;
-esac
+if [[ -f ~/.config/alacritty/alacritty.toml ]]; then
+  touch ~/.config/alacritty/alacritty.toml
+fi
 
 if pgrep -x kitty; then
   killall -SIGUSR1 kitty
