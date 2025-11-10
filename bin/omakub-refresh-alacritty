@@ -1,0 +1,4 @@
+#!/bin/bash
+
+omakub-refresh-config alacritty/alacritty.toml
+alacritty migrate 2>/dev/null || true
