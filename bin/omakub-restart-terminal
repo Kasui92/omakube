@@ -4,4 +4,6 @@ case "$TERMINAL" in
 "alacritty") touch ~/.config/alacritty/alacritty.toml ;;
 esac
 
-killall -SIGUSR1 kitty
+if pgrep -x kitty; then
+  killall -SIGUSR1 kitty
+fi
