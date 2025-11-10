@@ -81,3 +81,6 @@ omakub-keybinding-add 'Omakub Themes' 'omakub-menu theme' '<Super><Shift><Contro
 
 # Set omakub next background to Super+Shift+Control
 omakub-keybinding-add 'Omakub Background Next' 'omakub-theme-bg-next' '<Super><Control>space'
+
+# Enable Compose key on Caps Lock
+gsettings set org.gnome.desktop.input-sources xkb-options "['compose:caps']"
