@@ -188,12 +188,13 @@ show_install_browser_menu() {
 }
 
 show_install_utility_menu() {
-  case $(menu "Install" "  ASDControl\n  Flameshot\n  Pinta\n  Starship\n  Xournalpp" "--width 250 --height 250") in
+  case $(menu "Install" "  ASDControl\n  Flameshot\n  Pinta\n  Starship\n  Xournalpp\n  Zellij" "--width 250 --height 280") in
   *ASDControl*) install_app "asdcontrol" ;;
   *Flameshot*) install_app "flameshot" ;;
   *Pinta*) install_app "pinta" ;;
   *Starship*) install_app "starship" ;;
   *Xournalpp*) install_app "xournalpp" ;;
+  *Zellij*) install_app "zellij" ;;
   *) show_install_menu ;;
   esac
 }
