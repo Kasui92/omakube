@@ -188,12 +188,13 @@ show_install_browser_menu() {
 }
 
 show_install_utility_menu() {
-  case $(menu "Install" "  ASDControl\n  Flameshot\n  Pinta\n  Starship\n  Xournalpp" "--width 250 --height 250") in
+  case $(menu "Install" "  ASDControl\n  Flameshot\n  Pinta\n  Starship\n  Xournalpp\n  Zellij" "--width 250 --height 280") in
   *ASDControl*) install_app "asdcontrol" ;;
   *Flameshot*) install_app "flameshot" ;;
   *Pinta*) install_app "pinta" ;;
   *Starship*) install_app "starship" ;;
   *Xournalpp*) install_app "xournalpp" ;;
+  *Zellij*) install_app "zellij" ;;
   *) show_install_menu ;;
   esac
 }
@@ -207,11 +208,10 @@ show_install_style_menu() {
 }
 
 show_install_development_menu() {
-  case $(menu "Install" "  Docker\n󱘲  Databases\n  Github\n  Gitlab\n󰫏  Ruby on Rails\n  JavaScript\n  Go\n  PHP\n  Python\n  Elixir\n  Zig\n  Rust\n  Java\n  .NET\n  OCaml\n  Clojure" "--width 250 --height 600") in
-  *Docker*) install_app "docker" ;;
+  case $(menu "Install" "  Docker\n󱘲  Databases\n󰊢  Git\n󰫏  Ruby on Rails\n  JavaScript\n  Go\n  PHP\n  Python\n  Elixir\n  Zig\n  Rust\n  Java\n  .NET\n  OCaml\n  Clojure" "--width 250 --height 600") in
+  *Docker*) show_install_docker_menu ;;
   *Databases*) present_terminal "omakub-install-docker-dbs" ;;
-  *Github*) install_app "github-cli" ;;
-  *Gitlab*) install_app "gitlab-cli" ;;
+  *Git*) show_install_git_menu ;;
   *Rails*) present_terminal "omakub-install-dev-env ruby" ;;
   *JavaScript*) show_install_javascript_menu ;;
   *Go*) present_terminal "omakub-install-dev-env go" ;;
@@ -225,6 +225,23 @@ show_install_development_menu() {
   *OCaml*) present_terminal "omakub-install-dev-env ocaml" ;;
   *Clojure*) present_terminal "omakub-install-dev-env clojure" ;;
   *) show_install_menu ;;
+  esac
+}
+
+show_install_docker_menu() {
+  case $(menu "Install Docker" "  Engine\n  LazyDocker" "--width 250 --height 130") in
+  *Engine*) install_app "docker" ;;
+  *LazyDocker*) install_app "lazydocker" ;;
+  *) show_install_development_menu ;;
+  esac
+}
+
+show_install_git_menu() {
+  case $(menu "Install Git" "  Github CLI\n  Gitlab CLI\n  Lazygit" "--width 250 --height 170") in
+  *Github*) install_app "github-cli" ;;
+  *Gitlab*) install_app "gitlab-cli" ;;
+  *Lazygit*) install_app "lazygit" ;;
+  *) show_install_development_menu ;;
   esac
 }
 
