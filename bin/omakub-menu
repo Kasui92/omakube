@@ -298,12 +298,31 @@ show_install_gaming_menu() {
 }
 
 show_remove_menu() {
-  case $(menu "Remove" "  Web App\n  TUI\n󰀻  App\n󰸌  Theme" "--width 250 --height 210") in
+  case $(menu "Remove" "  Web App\n  TUI\n󰀻  App\n󰸌  Theme\n󰵮  Development" "--width 250 --height 250") in
   *Web*) present_terminal omakub-webapp-remove ;;
   *TUI*) present_terminal omakub-tui-remove ;;
   *App*) present_terminal omakub-app-remove ;;
   *Theme*) present_terminal omakub-theme-remove ;;
+  *Development*) show_remove_development_menu ;;
   *) show_main_menu ;;
+  esac
+}
+
+show_remove_development_menu() {
+  case $(menu "Remove Development Environment" "󰫏  Ruby on Rails\n  JavaScript\n  Go\n  PHP\n  Python\n  Elixir\n  Zig\n  Rust\n  Java\n  .NET\n  OCaml\n  Clojure" "--width 250 --height 510") in
+  *Rails*) present_terminal "omakub-remove-dev-env ruby" ;;
+  *JavaScript*) show_remove_javascript_menu ;;
+  *Go*) present_terminal "omakub-remove-dev-env go" ;;
+  *PHP*) present_terminal "omakub-remove-dev-env php" ;;
+  *Python*) present_terminal "omakub-remove-dev-env python" ;;
+  *Elixir*) show_remove_elixir_menu ;;
+  *Zig*) present_terminal "omakub-remove-dev-env zig" ;;
+  *Rust*) present_terminal "omakub-remove-dev-env rust" ;;
+  *Java*) present_terminal "omakub-remove-dev-env java" ;;
+  *NET*) present_terminal "omakub-remove-dev-env dotnet" ;;
+  *OCaml*) present_terminal "omakub-remove-dev-env ocaml" ;;
+  *Clojure*) present_terminal "omakub-remove-dev-env clojure" ;;
+  *) show_remove_menu ;;
   esac
 }
 
