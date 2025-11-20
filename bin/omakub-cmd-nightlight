@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Toggle night light feature in GNOME
+current_state=$(gsettings get org.gnome.settings-daemon.plugins.color night-light-enabled)
+
+if [ "$current_state" = "true" ]; then
+  gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled false
+  sleep 0.5 # Wait for the setting to apply
+  omakub-notify "Omakub" "Night Light has been disabled."
+else
+  gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
+  sleep 0.5 # Wait for the setting to apply
+  omakub-notify "Omakub" "Night Light has been enabled."
+fi
