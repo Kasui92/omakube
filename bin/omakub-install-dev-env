@@ -42,7 +42,6 @@ go)
   mise use --global go@latest
   ;;
 php)
-  echo -e "Installing PHP...\n"
   install_php
   ;;
 python)

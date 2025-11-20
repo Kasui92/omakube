@@ -1,0 +1,90 @@
+#!/bin/bash
+
+if [[ -z "$1" ]]; then
+  echo "Usage: omakub-remove-dev-env <ruby|node|bun|go|php|python|elixir|phoenix|rust|java|ocaml|dotnet>" >&2
+  exit 1
+fi
+
+remove_php() {
+  echo -e "Removing PHP...\n"
+  sudo apt remove -y php php-* composer
+  sudo apt autoremove -y
+  sudo rm -f /usr/local/bin/composer
+}
+
+remove_node() {
+  echo -e "Removing Node.js...\n"
+  mise uninstall -g node@lts
+}
+
+case "$1" in
+ruby)
+  echo -e "Removing Ruby on Rails...\n"
+  mise uninstall -g ruby@latest
+  mise settings remove idiomatic_version_file_enable_tools ruby
+  mise x ruby -- gem uninstall rails --all --ignore-dependencies --no-document
+  ;;
+node)
+  remove_node
+  ;;
+bun)
+  echo -e "Removing Bun...\n"
+  mise uninstall -g bun@latest
+  ;;
+deno)
+  echo -e "Removing Deno...\n"
+  mise uninstall -g deno@latest
+  ;;
+go)
+  echo -e "Removing Go...\n"
+  mise uninstall -g go@latest
+  ;;
+php)
+  remove_php
+  ;;
+python)
+  echo -e "Removing Python...\n"
+  mise uninstall -g python@latest
+  ;;
+elixir)
+  echo -e "Removing Elixir...\n"
+  mise uninstall elixir@latest
+  mise uninstall erlang@latest
+  ;;
+phoenix)
+  echo -e "Removing Phoenix Framework...\n"
+  mise uninstall -g erlang@latest
+  mise uninstall -g elixir@latest
+  # Remove Hex and Phoenix
+  mise x elixir -- mix archive.uninstall phx_new --force
+  mise x elixir -- mix hex.uninstall --force
+  ;;
+rust)
+  echo -e "Removing Rust...\n"
+  rustup self uninstall -y
+  ;;
+java)
+  echo -e "Removing Java...\n"
+  mise uninstall -g java@latest
+  ;;
+zig)
+  echo -e "Removing Zig...\n"
+  mise uninstall -g zig@latest
+  ;;
+ocaml)
+  echo -e "Removing OCaml...\n"
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh)"
+  opam init --yes
+  eval "$(opam env)"
+  opam install ocaml-lsp-server odoc ocamlformat utop --yes
+  ;;
+dotnet)
+  echo -e "Removing .NET...\n"
+  mise uninstall -g dotnet@latest
+  ;;
+clojure)
+  echo -e "Removing Clojure...\n"
+  sudo apt remove -y rlwrap
+  mise uninstall -g clojure@latest
+  ;;
+esac

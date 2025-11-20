@@ -22,3 +22,6 @@ gsettings set org.gnome.shell.extensions.dash-to-dock hot-keys false
 # Set xdg-terminal-exec as the default terminal for GNOME
 gsettings set org.gnome.desktop.default-applications.terminal exec 'xdg-terminal-exec'
 gsettings set org.gnome.desktop.default-applications.terminal exec-arg ''
+
+# Disable the night light feature by default
+gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled false
