@@ -25,3 +25,8 @@ gsettings set org.gnome.desktop.default-applications.terminal exec-arg ''
 
 # Disable the night light feature by default
 gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled false
+# Set night light schedule to manual (so it doesn't turn on automatically)
+# If you want to enable night light automatically, you can set the from/to in settings
+gsettings set org.gnome.settings-daemon.plugins.color night-light-schedule-automatic false
+gsettings set org.gnome.settings-daemon.plugins.color night-light-schedule-from 0.0
+gsettings set org.gnome.settings-daemon.plugins.color night-light-schedule-to 0.0
