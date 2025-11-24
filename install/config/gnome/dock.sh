@@ -9,7 +9,6 @@ apps=(
 	"WhatsApp.desktop"
 	"spotify.desktop"
 	"pinta_pinta.desktop"
-	"Activity.desktop"
 	"docker.desktop"
 	"org.gnome.Settings.desktop"
 	"org.gnome.Nautilus.desktop"
