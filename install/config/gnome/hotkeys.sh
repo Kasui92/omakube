@@ -92,8 +92,11 @@ omakub-keybinding-add 'Omakub Background Next' 'omakub-theme-bg-next' '<Super><C
 # Set night light toggle to Super+Control+N
 omakub-keybinding-add 'Night Light Toggle' 'omakub-cmd-nightlight' '<Super><Control>n'
 
-# Set btop to Super+Shift+T
+# Set applications hotkeys
 omakub-keybinding-add 'Activity' 'omakub-launch-tui btop' '<Super><Shift>t'
+omakub-keybinding-add 'Docker' 'omakub-launch-tui lazydocker' '<Super><Shift>d'
+omakub-keybinding-add 'Spotify' 'spotify' '<Super><Shift>m'
+omakub-keybinding-add 'Neovim' 'omakub-launch-tui nvim -- %F' '<Super><Shift>n'
 
 # Enable Compose key on Caps Lock
 gsettings set org.gnome.desktop.input-sources xkb-options "['compose:caps']"
