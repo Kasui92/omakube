@@ -25,6 +25,9 @@ gsettings set org.gnome.settings-daemon.plugins.media-keys help "[]"
 # Remove default terminal hotkey (we set our own later)
 gsettings set org.gnome.settings-daemon.plugins.media-keys terminal "[]"
 
+# Open Tactile settings with Super+Control+T
+gsettings set org.gnome.shell.extensions.tactile show-settings "['<Super><Control>t']"
+
 # Use alt for pinned apps
 gsettings set org.gnome.shell.keybindings switch-to-application-1 "['<Alt>1']"
 gsettings set org.gnome.shell.keybindings switch-to-application-2 "['<Alt>2']"
