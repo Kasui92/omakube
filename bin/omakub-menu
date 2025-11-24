@@ -339,9 +339,10 @@ show_update_menu() {
 }
 
 show_update_config_menu() {
-  case $(menu "Use default config" "  Gnome\n󰍂  GDM\n󱣴  Plymouth\n󰌧  Wofi\n  Starship\n  Zellij" "--width 250 --height 280") in
+  case $(menu "Use default config" "  Gnome\n󰍂  GDM\n  Keybindings\n󱣴  Plymouth\n󰌧  Wofi\n  Starship\n  Zellij" "--width 250 --height 320") in
   *Gnome*) present_terminal omakub-refresh-gnome ;;
   *GDM*) present_terminal omakub-refresh-gdm ;;
+  *Keybindings*) present_terminal omakub-refresh-keybinding ;;
   *Plymouth*) present_terminal omakub-refresh-plymouth ;;
   *Wofi*) present_terminal omakub-refresh-wofi ;;
   *Starship*) present_terminal omakub-refresh-config starship.toml ;;
