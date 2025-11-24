@@ -92,5 +92,8 @@ omakub-keybinding-add 'Omakub Background Next' 'omakub-theme-bg-next' '<Super><C
 # Set night light toggle to Super+Control+N
 omakub-keybinding-add 'Night Light Toggle' 'omakub-cmd-nightlight' '<Super><Control>n'
 
+# Set btop to Super+Shift+T
+omakub-keybinding-add 'Activity' 'omakub-launch-tui btop' '<Super><Shift>t'
+
 # Enable Compose key on Caps Lock
 gsettings set org.gnome.desktop.input-sources xkb-options "['compose:caps']"
