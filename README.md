@@ -16,4 +16,6 @@ Omakube is released under the [MIT License](https://opensource.org/licenses/MIT)
 
 As a fork of Omakub, Omakube welcomes contributions that extend existing functionality without compromising compatibility with the base project.
 
+If you want to contribute to improving the manual, here is the [repository with the docs](https://github.com/Kasui92/omakasui.org/tree/main/docs/omakube).
+
 If you want to contribute to Omakub core features, visit the [official repository](https://github.com/basecamp/omakub).
