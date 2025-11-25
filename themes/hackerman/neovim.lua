@@ -1,6 +1,6 @@
 return {
 	 {
-    "bjarneo/aether.nvim",
+    "bjarneo/hackerman.nvim",
     name = "hackerman",
     priority = 1000,
     opts = {
