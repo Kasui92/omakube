@@ -21,6 +21,9 @@ gsettings set org.gnome.settings-daemon.plugins.media-keys home "[]"
 gsettings set org.gnome.settings-daemon.plugins.media-keys www "[]"
 gsettings set org.gnome.settings-daemon.plugins.media-keys help "[]"
 
+# Cancel input capture with Super+Shift+Escape
+gsettings set org.gnome.mutter.keybindings cancel-input-capture "['<Super><Shift>Escape']"
+
 # Open Tactile settings with Super+Control+T
 gsettings set org.gnome.shell.extensions.tactile show-settings "['<Super><Control>t']"
 
@@ -75,6 +78,9 @@ omakub-keybinding-add 'Apple Brightness Max (ASDControl)' "sh -c 'asdcontrol \$(
 
 # Set night light toggle to Super+Control+N
 omakub-keybinding-add 'Night Light Toggle' 'omakub-cmd-nightlight' '<Super><Control>n'
+
+# Set screen lock to Super+L
+omakub-keybinding-add 'Omakub System' 'omakub-menu system' '<Super>Escape'
 
 # Set applications hotkeys
 omakub-keybinding-add 'Terminal' 'xdg-terminal-exec' '<Super>Return'
