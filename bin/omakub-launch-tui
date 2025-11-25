@@ -1,0 +1,3 @@
+#!/bin/bash
+
+exec xdg-terminal-exec "$1" "${@:2}"

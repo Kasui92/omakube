@@ -32,6 +32,34 @@ transcode-video-4K() {
   ffmpeg -i $1 -c:v libx265 -preset slow -crf 24 -c:a aac -b:a 192k ${1%.*}-optimized.mp4
 }
 
+# Transcode any image to JPG image that's great for shrinking wallpapers
+img2jpg() {
+  img="$1"
+  shift
+
+  convert "$img" $@ -quality 95 -strip ${img%.*}-optimized.jpg
+}
+
+# Transcode any image to JPG image that's great for sharing online without being too big
+img2jpg-small() {
+  img="$1"
+  shift
+
+  convert "$img" $@ -resize 1080x\> -quality 95 -strip ${img%.*}-optimized.jpg
+}
+
+# Transcode any image to compressed-but-lossless PNG
+img2png() {
+  img="$1"
+  shift
+
+  convert "$img" $@ -strip -define png:compression-filter=5 \
+    -define png:compression-level=9 \
+    -define png:compression-strategy=1 \
+    -define png:exclude-chunk=all \
+    "${img%.*}-optimized.png"
+}
+
 # Ensure that external keyboards that use an fn key has the F keys as the default
 fix_fkeys() {
   echo 2 | sudo tee /sys/module/hid_apple/parameters/fnmode

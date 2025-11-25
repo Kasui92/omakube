@@ -15,14 +15,17 @@ gsettings set org.gnome.settings-daemon.plugins.media-keys next "['<Shift>AudioP
 # Full-screen with title/navigation bar
 gsettings set org.gnome.desktop.wm.keybindings toggle-fullscreen "['<Shift>F11']"
 
-# Open File Manager (Nautilus) with Super+F (for File)
-gsettings set org.gnome.settings-daemon.plugins.media-keys home "['<Super>f']"
-
-# Open Web Browser (Chromium) with Super+B (for Browser)
-gsettings set org.gnome.settings-daemon.plugins.media-keys www "['<Super>b']"
-
-# Remove terminal keybinding (usually Ctrl+Alt+T) to avoid conflicts
+# Remove default app hotkeys, we set our own later
 gsettings set org.gnome.settings-daemon.plugins.media-keys terminal "[]"
+gsettings set org.gnome.settings-daemon.plugins.media-keys home "[]"
+gsettings set org.gnome.settings-daemon.plugins.media-keys www "[]"
+gsettings set org.gnome.settings-daemon.plugins.media-keys help "[]"
+
+# Cancel input capture with Super+Shift+Escape
+gsettings set org.gnome.mutter.keybindings cancel-input-capture "['<Super><Shift>Escape']"
+
+# Open Tactile settings with Super+Control+T
+gsettings set org.gnome.shell.extensions.tactile show-settings "['<Super><Control>t']"
 
 # Use alt for pinned apps
 gsettings set org.gnome.shell.keybindings switch-to-application-1 "['<Alt>1']"
@@ -52,17 +55,17 @@ gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "[
 # Set apps launcher (wofi) to Super+Space
 omakub-keybinding-add 'Apps Launcher' 'omakub-apps' '<Super>space'
 
+# Set omakub menu to Alt+Super+Space
+omakub-keybinding-add 'Omakub Menu' 'omakub-menu' '<Alt><Super>space'
+
+# Set omakub theme switcher to Super+Shift+Control+Space
+omakub-keybinding-add 'Omakub Themes' 'omakub-menu theme' '<Super><Shift><Control>space'
+
+# Set omakub next background to Super+Shift+Control
+omakub-keybinding-add 'Omakub Background Next' 'omakub-theme-bg-next' '<Super><Control>space'
+
 # Set flameshot (with the sh fix for starting under Wayland) on alternate print screen key
 omakub-keybinding-add 'Flameshot' 'sh -c -- "flameshot gui"' '<Control>Print'
-
-# Start a new terminal window
-omakub-keybinding-add 'New Terminal Window' 'xdg-terminal-exec' '<Primary><Alt>t'
-
-# Start a new gnome-terminal window
-omakub-keybinding-add 'New Gnome Terminal Window' 'gnome-terminal --window' '<Shift><Primary><Alt>t'
-
-# Start a new Browser Window (rather than just switch to the already open one)
-omakub-keybinding-add 'New Browser Window' 'omakub-launch-browser --new-window' '<Shift><Super>b'
 
 # Turn brightness down on Apple monitor (requires ASDControl installed)
 omakub-keybinding-add 'Apple Brightness Down (ASDControl)' "sh -c 'asdcontrol \$(asdcontrol --detect /dev/usb/hiddev* 2>/dev/null | grep ^/dev/usb/hiddev | cut -d: -f1) -- -5000'" '<Control>F1'
@@ -73,17 +76,22 @@ omakub-keybinding-add 'Apple Brightness Up (ASDControl)' "sh -c 'asdcontrol \$(a
 # Turn brightness up to max on Apple monitor (requires ASDControl installed)
 omakub-keybinding-add 'Apple Brightness Max (ASDControl)' "sh -c 'asdcontrol \$(asdcontrol --detect /dev/usb/hiddev* 2>/dev/null | grep ^/dev/usb/hiddev | cut -d: -f1) -- +60000'" '<Control><Shift>F2'
 
-# Set omakub menu to Alt+Super+Space
-omakub-keybinding-add 'Omakub Menu' 'omakub-menu' '<Alt><Super>space'
-
-# Set omakub theme switcher to Super+Shift+Control+Space
-omakub-keybinding-add 'Omakub Themes' 'omakub-menu theme' '<Super><Shift><Control>space'
-
-# Set omakub next background to Super+Shift+Control
-omakub-keybinding-add 'Omakub Background Next' 'omakub-theme-bg-next' '<Super><Control>space'
-
 # Set night light toggle to Super+Control+N
 omakub-keybinding-add 'Night Light Toggle' 'omakub-cmd-nightlight' '<Super><Control>n'
+
+# Set screen lock to Super+L
+omakub-keybinding-add 'Omakub System' 'omakub-menu system' '<Super>Escape'
+
+# Set applications hotkeys
+omakub-keybinding-add 'Terminal' 'xdg-terminal-exec' '<Super>Return'
+omakub-keybinding-add 'Default Terminal' 'x-terminal-emulator' '<Control><Alt>t'
+omakub-keybinding-add 'Browser' 'omakub-launch-browser --new-window' '<Shift><Super>b'
+omakub-keybinding-add 'Incognito Browser' 'omakub-launch-browser --private' '<Shift><Alt><Super>b'
+omakub-keybinding-add 'File Manager' 'nautilus --new-window' '<Shift><Super>f'
+omakub-keybinding-add 'Activity' 'omakub-launch-tui btop' '<Super><Shift>t'
+omakub-keybinding-add 'Docker' 'omakub-launch-tui lazydocker' '<Super><Shift>d'
+omakub-keybinding-add 'Spotify' 'spotify' '<Super><Shift>m'
+omakub-keybinding-add 'Editor' 'omakub-launch-editor' '<Super><Shift>n'
 
 # Enable Compose key on Caps Lock
 gsettings set org.gnome.desktop.input-sources xkb-options "['compose:caps']"

@@ -23,11 +23,6 @@ if omakub-cmd-present chromium || omakub-cmd-present helium-browser || omakub-cm
     fi
   fi
 
-  if omakub-cmd-present helium-browser; then
-    echo "{\"BrowserThemeColor\": \"$THEME_HEX_COLOR\"}" | tee "/etc/chromium/policies/managed/color.json" >/dev/null
-    helium-browser --no-startup-window --refresh-platform-policy
-  fi
-
   if omakub-cmd-present brave; then
     echo "{\"BrowserThemeColor\": \"$THEME_HEX_COLOR\"}" | tee "/etc/brave/policies/managed/color.json" >/dev/null
     brave --refresh-platform-policy --no-startup-window
