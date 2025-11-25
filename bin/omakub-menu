@@ -125,7 +125,7 @@ show_setup_menu() {
 }
 
 show_setup_folders_menu() {
-  case $(menu "Folders" "󰮝  Add\n󰮞  Remove" "--width 250 --height 120") in
+  case $(menu "Folders" "󰮝  Add\n󰮞  Remove" "--width 250 --height 130") in
   *Add*) present_terminal omakub-app-folder-add ;;
   *Remove*) present_terminal omakub-app-folder-remove ;;
   *) show_setup_menu ;;
@@ -133,7 +133,7 @@ show_setup_folders_menu() {
 }
 
 show_setup_keybindings_menu() {
-  case $(menu "Keybindings" "   Add\n   Remove" "--width 250 --height 120") in
+  case $(menu "Keybindings" "   Add\n   Remove" "--width 250 --height 130") in
   *Add*) present_terminal omakub-keybinding-add ;;
   *Remove*) present_terminal omakub-keybinding-remove ;;
   *) show_setup_menu ;;
