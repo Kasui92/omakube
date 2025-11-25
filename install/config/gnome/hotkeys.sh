@@ -91,7 +91,7 @@ omakub-keybinding-add 'File Manager' 'nautilus --new-window' '<Shift><Super>f'
 omakub-keybinding-add 'Activity' 'omakub-launch-tui btop' '<Super><Shift>t'
 omakub-keybinding-add 'Docker' 'omakub-launch-tui lazydocker' '<Super><Shift>d'
 omakub-keybinding-add 'Spotify' 'spotify' '<Super><Shift>m'
-omakub-keybinding-add 'Neovim' 'omakub-launch-tui nvim -- %F' '<Super><Shift>n'
+omakub-keybinding-add 'Editor' 'omakub-launch-editor' '<Super><Shift>n'
 
 # Enable Compose key on Caps Lock
 gsettings set org.gnome.desktop.input-sources xkb-options "['compose:caps']"
