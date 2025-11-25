@@ -3,8 +3,11 @@
 # omakub-keybinding-remove: Remove a custom keybinding.
 # Usage: omakub-keybinding-remove <name>
 
+readonly BASE_SCHEMA="org.gnome.settings-daemon.plugins.media-keys"
+readonly CUSTOM_KB_PATH="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
+
 # Get current custom keybindings
-CURRENT_BINDINGS=$(gsettings get org.gnome.settings-daemon.plugins.media-keys custom-keybindings)
+CURRENT_BINDINGS=$(gsettings get "$BASE_SCHEMA" custom-keybindings)
 
 # Check if there are any keybindings
 if [[ "$CURRENT_BINDINGS" == "@as []" || "$CURRENT_BINDINGS" == "[]" ]]; then
@@ -14,67 +17,68 @@ fi
 
 # Extract all custom indices
 INDICES=$(echo "$CURRENT_BINDINGS" | grep -oP 'custom\K[0-9]+' | sort -n)
-
 if [[ -z "$INDICES" ]]; then
   echo "No custom keybindings found."
   exit 1
 fi
 
-if [ "$#" -eq 0 ]; then
-  # Build array of keybindings with their details
-  declare -a KB_OPTIONS
-  for index in $INDICES; do
-    BASE_PATH="org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom${index}/"
-    KB_NAME=$(gsettings get "${BASE_PATH}" name 2>/dev/null | tr -d "'")
-    KB_BINDING=$(gsettings get "${BASE_PATH}" binding 2>/dev/null | tr -d "'")
+SELECTED_INDICES=()
+
+if [[ $# -eq 0 ]]; then
+  # Interactive mode - build array of keybindings with their details
+  KB_OPTIONS=()
+
+  while IFS= read -r index; do
+    SCHEMA_PATH="${BASE_SCHEMA}.custom-keybinding:${CUSTOM_KB_PATH}/custom${index}/"
+    KB_NAME=$(gsettings get "$SCHEMA_PATH" name 2>/dev/null | tr -d "'")
+    KB_BINDING=$(gsettings get "$SCHEMA_PATH" binding 2>/dev/null | tr -d "'")
 
     if [[ -n "$KB_NAME" ]]; then
       KB_OPTIONS+=("${index}|${KB_NAME} (${KB_BINDING})")
     fi
-  done
+  done <<< "$INDICES"
 
-  if ((${#KB_OPTIONS[@]})); then
-    IFS=$'\n' SORTED_OPTIONS=($(sort -t'|' -k2 <<<"${KB_OPTIONS[*]}"))
-    unset IFS
-
-    # Format for display (remove index from display)
-    DISPLAY_OPTIONS=()
-    for option in "${SORTED_OPTIONS[@]}"; do
-      DISPLAY_OPTIONS+=("${option#*|}")
-    done
-
-    SELECTED_STRING=$(gum choose --no-limit --header "Select keybindings to remove..." --selected-prefix="✗ " "${DISPLAY_OPTIONS[@]}")
-
-    # Extract indices from selected options
-    SELECTED_INDICES=()
-    while IFS= read -r line; do
-      if [[ -n "$line" ]]; then
-        # Find the original option with index
-        for option in "${SORTED_OPTIONS[@]}"; do
-          if [[ "${option#*|}" == "$line" ]]; then
-            SELECTED_INDICES+=("${option%%|*}")
-            break
-          fi
-        done
-      fi
-    done <<< "$SELECTED_STRING"
-  else
+  if [[ ${#KB_OPTIONS[@]} -eq 0 ]]; then
     echo "No keybindings found."
     exit 1
   fi
+
+  # Sort by name
+  IFS=$'\n' SORTED_OPTIONS=($(sort -t'|' -k2 <<<"${KB_OPTIONS[*]}"))
+  unset IFS
+
+  # Format for display (remove index from display)
+  DISPLAY_OPTIONS=()
+  for option in "${SORTED_OPTIONS[@]}"; do
+    DISPLAY_OPTIONS+=("${option#*|}")
+  done
+
+  # Let user select
+  SELECTED_STRING=$(gum choose --no-limit --header "Select keybindings to remove..." --selected-prefix="✗ " "${DISPLAY_OPTIONS[@]}")
+
+  # Extract indices from selected options
+  while IFS= read -r line; do
+    if [[ -n "$line" ]]; then
+      for option in "${SORTED_OPTIONS[@]}"; do
+        if [[ "${option#*|}" == "$line" ]]; then
+          SELECTED_INDICES+=("${option%%|*}")
+          break
+        fi
+      done
+    fi
+  done <<< "$SELECTED_STRING"
 else
   # Search for keybindings by name
   SEARCH_NAME="$1"
-  SELECTED_INDICES=()
 
-  for index in $INDICES; do
-    BASE_PATH="org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom${index}/"
-    KB_NAME=$(gsettings get "${BASE_PATH}" name 2>/dev/null | tr -d "'")
+  while IFS= read -r index; do
+    SCHEMA_PATH="${BASE_SCHEMA}.custom-keybinding:${CUSTOM_KB_PATH}/custom${index}/"
+    KB_NAME=$(gsettings get "$SCHEMA_PATH" name 2>/dev/null | tr -d "'")
 
     if [[ "$KB_NAME" == "$SEARCH_NAME" ]]; then
       SELECTED_INDICES+=("$index")
     fi
-  done
+  done <<< "$INDICES"
 
   if [[ ${#SELECTED_INDICES[@]} -eq 0 ]]; then
     echo "No keybinding found with name: $SEARCH_NAME"
@@ -89,37 +93,37 @@ fi
 
 # Remove selected keybindings
 for index in "${SELECTED_INDICES[@]}"; do
-  BASE_PATH="org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom${index}/"
-  KB_NAME=$(gsettings get "${BASE_PATH}" name 2>/dev/null | tr -d "'")
+  SCHEMA_PATH="${BASE_SCHEMA}.custom-keybinding:${CUSTOM_KB_PATH}/custom${index}/"
+  KB_NAME=$(gsettings get "$SCHEMA_PATH" name 2>/dev/null | tr -d "'")
 
-  # Clear the keybinding settings
-  gsettings reset "${BASE_PATH}" name 2>/dev/null
-  gsettings reset "${BASE_PATH}" command 2>/dev/null
-  gsettings reset "${BASE_PATH}" binding 2>/dev/null
+  gsettings reset "$SCHEMA_PATH" name 2>/dev/null
+  gsettings reset "$SCHEMA_PATH" command 2>/dev/null
+  gsettings reset "$SCHEMA_PATH" binding 2>/dev/null
 
-  echo "✗ Removed: $KB_NAME (${index})"
+  echo "✗ Removed: $KB_NAME (custom${index})"
 done
 
 # Rebuild the custom-keybindings array without removed indices
 NEW_PATHS=()
-for index in $INDICES; do
-  # Check if this index was not selected for removal
-  SHOULD_KEEP=true
+
+while IFS= read -r index; do
+  should_keep=true
+
   for selected in "${SELECTED_INDICES[@]}"; do
     if [[ "$index" == "$selected" ]]; then
-      SHOULD_KEEP=false
+      should_keep=false
       break
     fi
   done
 
-  if [[ "$SHOULD_KEEP" == true ]]; then
-    NEW_PATHS+=("'/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom${index}/'")
+  if [[ "$should_keep" == true ]]; then
+    NEW_PATHS+=("'${CUSTOM_KB_PATH}/custom${index}/'")
   fi
-done
+done <<< "$INDICES"
 
 # Update the custom-keybindings array
 if [[ ${#NEW_PATHS[@]} -eq 0 ]]; then
-  gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "[]"
+  gsettings set "$BASE_SCHEMA" custom-keybindings "[]"
 else
-  gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "[$(IFS=,; echo "${NEW_PATHS[*]}")]"
+  gsettings set "$BASE_SCHEMA" custom-keybindings "[$(IFS=,; echo "${NEW_PATHS[*]}")]"
 fi
