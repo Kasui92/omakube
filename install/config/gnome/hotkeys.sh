@@ -15,15 +15,11 @@ gsettings set org.gnome.settings-daemon.plugins.media-keys next "['<Shift>AudioP
 # Full-screen with title/navigation bar
 gsettings set org.gnome.desktop.wm.keybindings toggle-fullscreen "['<Shift>F11']"
 
-# Open File Manager (Nautilus) with Super+F (for File)
-gsettings set org.gnome.settings-daemon.plugins.media-keys home "['<Shift><Super>f']"
-
-# Remove default web browser hotkey (we set our own later)
+# Remove default app hotkeys, we set our own later
+gsettings set org.gnome.settings-daemon.plugins.media-keys terminal "[]"
+gsettings set org.gnome.settings-daemon.plugins.media-keys home "[]"
 gsettings set org.gnome.settings-daemon.plugins.media-keys www "[]"
 gsettings set org.gnome.settings-daemon.plugins.media-keys help "[]"
-
-# Remove default terminal hotkey (we set our own later)
-gsettings set org.gnome.settings-daemon.plugins.media-keys terminal "[]"
 
 # Open Tactile settings with Super+Control+T
 gsettings set org.gnome.shell.extensions.tactile show-settings "['<Super><Control>t']"
@@ -83,12 +79,13 @@ omakub-keybinding-add 'Night Light Toggle' 'omakub-cmd-nightlight' '<Super><Cont
 # Set applications hotkeys
 omakub-keybinding-add 'Terminal' 'xdg-terminal-exec' '<Super>Return'
 omakub-keybinding-add 'Default Terminal' 'x-terminal-emulator' '<Control><Alt>t'
+omakub-keybinding-add 'Browser' 'omakub-launch-browser --new-window' '<Shift><Super>b'
+omakub-keybinding-add 'Incognito Browser' 'omakub-launch-browser --private' '<Shift><Alt><Super>b'
+omakub-keybinding-add 'File Manager' 'nautilus --new-window' '<Shift><Super>f'
 omakub-keybinding-add 'Activity' 'omakub-launch-tui btop' '<Super><Shift>t'
 omakub-keybinding-add 'Docker' 'omakub-launch-tui lazydocker' '<Super><Shift>d'
 omakub-keybinding-add 'Spotify' 'spotify' '<Super><Shift>m'
 omakub-keybinding-add 'Neovim' 'omakub-launch-tui nvim -- %F' '<Super><Shift>n'
-omakub-keybinding-add 'Browser' 'omakub-launch-browser --new-window' '<Shift><Super>b'
-omakub-keybinding-add 'Incognito Browser' 'omakub-launch-browser --private' '<Shift><Alt><Super>b'
 
 # Enable Compose key on Caps Lock
 gsettings set org.gnome.desktop.input-sources xkb-options "['compose:caps']"
