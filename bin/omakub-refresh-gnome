@@ -12,4 +12,6 @@ gum confirm "Do you want to refresh GNOME settings? You will lose your current s
   source ~/.local/share/omakub/install/config/gnome/settings.sh
 
   echo -e "GNOME settings refreshed successfully.\n"
+} || {
+  exit 0
 }

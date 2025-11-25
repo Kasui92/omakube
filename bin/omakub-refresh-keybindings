@@ -7,4 +7,6 @@ gum confirm "Do you want to refresh Keybindings? You will lose your current keyb
   # Execute installation GNOME Settings
   source ~/.local/share/omakub/install/config/gnome/hotkeys.sh
   echo -e "Keybindings refreshed successfully.\n"
+} || {
+  exit 0
 }
