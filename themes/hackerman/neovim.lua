@@ -2,6 +2,7 @@ return {
 	 {
     "bjarneo/hackerman.nvim",
     name = "hackerman",
+    dependencies = { "bjarneo/aether.nvim" },
     priority = 1000,
     opts = {
       disable_italics = false,
