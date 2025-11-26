@@ -367,10 +367,10 @@ show_update_password_menu() {
 
 show_system_menu() {
   case $(menu "System" "  Lock\n󰤄  Suspend\n󰜉  Restart\n󰐥  Shutdown" "--width 250 --height 210") in
-  *Lock*) loginctl lock-session ;;
+  *Lock*) omakub-cmd-lock-screen ;;
   *Suspend*) systemctl suspend ;;
-  *Restart*) omakub-state clear re*-required && systemctl reboot --no-wall ;;
-  *Shutdown*) omakub-state clear re*-required && systemctl poweroff --no-wall ;;
+  *Restart*) omakub-cmd-reboot ;;
+  *Shutdown*) omakub-cmd-shutdown ;;
   *) back_to show_main_menu ;;
   esac
 }
