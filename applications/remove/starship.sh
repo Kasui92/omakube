@@ -1,4 +1,4 @@
 #!/bin/bash
 
-sudo rm -rf /usr/local/bin/starship
-sudo rm -rf ~/.cache/starship
+rm -rf ~/.local/bin/starship
+rm -rf ~/.cache/starship
