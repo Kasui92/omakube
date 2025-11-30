@@ -68,13 +68,13 @@ omakub-keybinding-add 'Omakub Background Next' 'omakub-theme-bg-next' '<Super><C
 omakub-keybinding-add 'Flameshot' 'sh -c -- "flameshot gui"' '<Control>Print'
 
 # Turn brightness down on Apple monitor (requires ASDControl installed)
-omakub-keybinding-add 'Apple Brightness Down (ASDControl)' "sh -c 'asdcontrol \$(asdcontrol --detect /dev/usb/hiddev* 2>/dev/null | grep ^/dev/usb/hiddev | cut -d: -f1) -- -5000'" '<Control>F1'
+omakub-keybinding-add 'Apple Brightness Down (ASDControl)' "omakub-cmd-apple-display-brightness -5000" '<Control>F1'
 
 # Turn brightness up on Apple monitor (requires ASDControl installed)
-omakub-keybinding-add 'Apple Brightness Up (ASDControl)' "sh -c 'asdcontrol \$(asdcontrol --detect /dev/usb/hiddev* 2>/dev/null | grep ^/dev/usb/hiddev | cut -d: -f1) -- +5000'" '<Control>F2'
+omakub-keybinding-add 'Apple Brightness Up (ASDControl)' "omakub-cmd-apple-display-brightness +5000" '<Control>F2'
 
 # Turn brightness up to max on Apple monitor (requires ASDControl installed)
-omakub-keybinding-add 'Apple Brightness Max (ASDControl)' "sh -c 'asdcontrol \$(asdcontrol --detect /dev/usb/hiddev* 2>/dev/null | grep ^/dev/usb/hiddev | cut -d: -f1) -- +60000'" '<Control><Shift>F2'
+omakub-keybinding-add 'Apple Brightness Max (ASDControl)' "omakub-cmd-apple-display-brightness +60000" '<Control><Shift>F2'
 
 # Set night light toggle to Super+Control+N
 omakub-keybinding-add 'Night Light Toggle' 'omakub-cmd-nightlight' '<Super><Control>n'
