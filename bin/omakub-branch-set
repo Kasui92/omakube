@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if (($# == 0)); then
+  echo "Usage: omakub-branch-set [main|dev]"
+  exit 1
+else
+  branch="$1"
+fi
+
+case "$branch" in
+  "main") git -C $OMAKUB_PATH switch main ;;
+  "dev") git -C $OMAKUB_PATH switch dev ;;
+  *) echo "Unknown branch: $branch"; exit 1; ;;
+esac
