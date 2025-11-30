@@ -77,7 +77,7 @@ omakub-keybinding-add 'Apple Brightness Up (ASDControl)' "omakub-cmd-apple-displ
 omakub-keybinding-add 'Apple Brightness Max (ASDControl)' "omakub-cmd-apple-display-brightness +60000" '<Control><Shift>F2'
 
 # Set night light toggle to Super+Control+N
-omakub-keybinding-add 'Night Light Toggle' 'omakub-cmd-nightlight' '<Super><Control>n'
+omakub-keybinding-add 'Night Light Toggle' 'omakub-toggle-nightlight' '<Super><Control>n'
 
 # Set screen lock to Super+L
 omakub-keybinding-add 'Omakub System' 'omakub-menu system' '<Super>Escape'
