@@ -6,9 +6,9 @@ current_state=$(gsettings get org.gnome.settings-daemon.plugins.color night-ligh
 if [ "$current_state" = "true" ]; then
   gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled false
   sleep 0.5 # Wait for the setting to apply
-  omakub-notify "Night Light" "Night Light has been disabled."
+  omakub-notify "Night Light" "   Daylight screen temperature"
 else
   gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
   sleep 0.5 # Wait for the setting to apply
-  omakub-notify "Night Light" "Night Light has been enabled."
+  omakub-notify "Night Light" "  Nightlight screen temperature"
 fi

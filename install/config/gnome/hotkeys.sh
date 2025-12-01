@@ -68,16 +68,16 @@ omakub-keybinding-add 'Omakub Background Next' 'omakub-theme-bg-next' '<Super><C
 omakub-keybinding-add 'Flameshot' 'sh -c -- "flameshot gui"' '<Control>Print'
 
 # Turn brightness down on Apple monitor (requires ASDControl installed)
-omakub-keybinding-add 'Apple Brightness Down (ASDControl)' "sh -c 'asdcontrol \$(asdcontrol --detect /dev/usb/hiddev* 2>/dev/null | grep ^/dev/usb/hiddev | cut -d: -f1) -- -5000'" '<Control>F1'
+omakub-keybinding-add 'Apple Brightness Down (ASDControl)' "omakub-cmd-apple-display-brightness -5000" '<Control>F1'
 
 # Turn brightness up on Apple monitor (requires ASDControl installed)
-omakub-keybinding-add 'Apple Brightness Up (ASDControl)' "sh -c 'asdcontrol \$(asdcontrol --detect /dev/usb/hiddev* 2>/dev/null | grep ^/dev/usb/hiddev | cut -d: -f1) -- +5000'" '<Control>F2'
+omakub-keybinding-add 'Apple Brightness Up (ASDControl)' "omakub-cmd-apple-display-brightness +5000" '<Control>F2'
 
 # Turn brightness up to max on Apple monitor (requires ASDControl installed)
-omakub-keybinding-add 'Apple Brightness Max (ASDControl)' "sh -c 'asdcontrol \$(asdcontrol --detect /dev/usb/hiddev* 2>/dev/null | grep ^/dev/usb/hiddev | cut -d: -f1) -- +60000'" '<Control><Shift>F2'
+omakub-keybinding-add 'Apple Brightness Max (ASDControl)' "omakub-cmd-apple-display-brightness +60000" '<Control><Shift>F2'
 
 # Set night light toggle to Super+Control+N
-omakub-keybinding-add 'Night Light Toggle' 'omakub-cmd-nightlight' '<Super><Control>n'
+omakub-keybinding-add 'Night Light Toggle' 'omakub-toggle-nightlight' '<Super><Control>n'
 
 # Set screen lock to Super+L
 omakub-keybinding-add 'Omakub System' 'omakub-menu system' '<Super>Escape'
@@ -92,6 +92,13 @@ omakub-keybinding-add 'Activity' 'omakub-launch-tui btop' '<Super><Shift>t'
 omakub-keybinding-add 'Docker' 'omakub-launch-tui lazydocker' '<Super><Shift>d'
 omakub-keybinding-add 'Spotify' 'spotify' '<Super><Shift>m'
 omakub-keybinding-add 'Editor' 'omakub-launch-editor' '<Super><Shift>n'
+
+# Set webapps hotkeys
+omakub-keybinding-add 'ChatGPT' 'omakub-launch-webapp "https://chatgpt.com" "ChatGPT"' '<Super><Shift>a'
+omakub-keybinding-add 'WhatsApp' 'omakub-launch-webapp "WhatsApp" "https://web.whatsapp.com/" "WhatsApp"' '<Super><Shift><Alt>g'
+omakub-keybinding-add 'YouTube' 'omakub-launch-webapp "https://youtube.com/" "YouTube"' '<Super><Shift>y'
+omakub-keybinding-add 'GitHub' 'omakub-launch-webapp "https://github.com/" "GitHub"' '<Super><Shift>h'
+omakub-keybinding-add 'X' 'omakub-launch-webapp "https://x.com/" "X"' '<Super><Shift>x'
 
 # Enable Compose key on Caps Lock
 gsettings set org.gnome.desktop.input-sources xkb-options "['compose:caps']"
