@@ -93,5 +93,12 @@ omakub-keybinding-add 'Docker' 'omakub-launch-tui lazydocker' '<Super><Shift>d'
 omakub-keybinding-add 'Spotify' 'spotify' '<Super><Shift>m'
 omakub-keybinding-add 'Editor' 'omakub-launch-editor' '<Super><Shift>n'
 
+# Set webapps hotkeys
+omakub-keybinding-add 'ChatGPT' 'omakub-launch-webapp "https://chatgpt.com" "ChatGPT"' '<Super><Shift>a'
+omakub-keybinding-add 'WhatsApp' 'omakub-launch-webapp "WhatsApp" "https://web.whatsapp.com/" "WhatsApp"' '<Super><Shift><Alt>g'
+omakub-keybinding-add 'YouTube' 'omakub-launch-webapp "https://youtube.com/" "YouTube"' '<Super><Shift>y'
+omakub-keybinding-add 'GitHub' 'omakub-launch-webapp "https://github.com/" "GitHub"' '<Super><Shift>h'
+omakub-keybinding-add 'X' 'omakub-launch-webapp "https://x.com/" "X"' '<Super><Shift>x'
+
 # Enable Compose key on Caps Lock
 gsettings set org.gnome.desktop.input-sources xkb-options "['compose:caps']"
