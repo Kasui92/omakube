@@ -183,7 +183,7 @@ show_install_menu() {
 }
 
 show_install_service_menu() {
-  case $(menu "Install" "  1password\n  Audacity\n  Discord\n  Dropbox\n  Gimp\n  LibreOffice\n  LocalSend\n  Obsidian\n  Signal\n  Spotify\n  Typora\n  Tailscale\n  Virtualbox\n  Zoom" "--width 250 --height 600") in
+  case $(menu "Install" "  1password\n  Audacity\n  Discord\n  Dropbox\n  Gimp\n  LibreOffice\n  LocalSend\n  ObsStudio\n  Obsidian\n  Signal\n  Spotify\n  Typora\n  Tailscale\n  Virtualbox\n  Zoom" "--width 250 --height 600") in
   *1password*) install_app "1password" ;;
   *Audacity*) install_app "audacity" ;;
   *Discord*) install_app "discord" ;;
@@ -191,6 +191,7 @@ show_install_service_menu() {
   *Gimp*) install_app "gimp" ;;
   *LibreOffice*) install_app "libreoffice" ;;
   *LocalSend*) install_app "localsend" ;;
+  *ObsStudio*) install_app "obs-studio" ;;
   *Obsidian*) install_app "obsidian" ;;
   *Signal*) install_app "signal" ;;
   *Spotify*) install_app "spotify" ;;
