@@ -10,4 +10,8 @@ mkdir -p ~/.local/share/applications
 cp ~/.local/share/omakub/applications/desktop/*.desktop ~/.local/share/applications/
 cp ~/.local/share/omakub/applications/desktop/hidden/*.desktop ~/.local/share/applications/
 
+# Refresh the webapps
+bash $OMAKUB_PATH/install/packaging/icons.sh
+bash $OMAKUB_PATH/install/packaging/webapps.sh
+
 update-desktop-database ~/.local/share/applications
