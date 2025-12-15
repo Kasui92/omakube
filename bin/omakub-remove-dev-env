@@ -87,4 +87,8 @@ clojure)
   sudo apt remove -y rlwrap
   mise uninstall -g clojure@latest
   ;;
+*)
+  echo "Usage: omakub-remove-dev-env <ruby|node|bun|go|php|python|elixir|phoenix|rust|java|ocaml|dotnet>" >&2
+  exit 1
+  ;;
 esac
