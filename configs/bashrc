@@ -3,3 +3,6 @@ source ~/.local/share/omakub/defaults/bash/rc
 # Editor used by CLI
 export EDITOR="nvim"
 export SUDO_EDITOR="$EDITOR"
+
+# Fix cursor on Alacritty
+export XCURSOR_THEME=Yaru
