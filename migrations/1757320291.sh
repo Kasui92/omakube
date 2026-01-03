@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Create a variable for interactive mode
+INTERACTIVE_MODE=${INTERACTIVE_MODE:-true}
+
 # Update Gum
 echo -e "\e[32m\nUpdating gum...\e[0m"
 echo
@@ -156,6 +159,8 @@ if [ "$XDG_SESSION_TYPE" = "x11" ]; then
 fi
 
 # Finish
-echo -e "\e[32m\nMigration completed! Please restart your computer to apply all changes.\e[0m"
-echo
-gum confirm "Restart now?" && { sudo reboot now; } || { echo "Please remember to restart later."; exit 0; }
+if [ "$INTERACTIVE_MODE" = true ]; then
+  echo -e "\e[32m\nMigration completed! Please restart your computer to apply all changes.\e[0m"
+  echo
+  gum confirm "Restart now?" && { sudo reboot now; } || { echo "Please remember to restart later."; exit 0; }
+fi
