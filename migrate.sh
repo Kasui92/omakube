@@ -75,6 +75,9 @@ failed_migrations=()
 # Export INTERACTIVE_MODE before starting migrations
 export INTERACTIVE_MODE=false
 
+# Disable set -e for migrations to prevent early exit
+set +e
+
 for migration_file in "$OMAKUB_PATH/migrations"/*.sh; do
     [[ ! -f "$migration_file" ]] && continue
 
@@ -124,6 +127,9 @@ for migration_file in "$OMAKUB_PATH/migrations"/*.sh; do
         fi
     fi
 done
+
+# Re-enable set -e after migrations
+set -e
 
 # Update PATH
 if ! grep -q "/.local/share/omakub/bin" "$HOME/.bashrc" 2>/dev/null; then
