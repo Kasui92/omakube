@@ -1,12 +1,8 @@
 #!/bin/bash
 
-gum confirm "Do you want to refresh Keybindings? You will lose your current keybindings." && {
-  # Backup current dconf (with timestamp) to avoid clobbering (Ex: omakub.dconf.bak.1753817951)
-  dconf dump / > "$HOME/keybinding.dconf.bak.$(date +%s)"
+# Backup current dconf (with timestamp) to avoid clobbering (Ex: omakub.dconf.bak.1753817951)
+dconf dump / > "$HOME/keybinding.dconf.bak.$(date +%s)"
 
-  # Execute installation GNOME Settings
-  source ~/.local/share/omakub/install/config/gnome/hotkeys.sh
-  echo -e "Keybindings refreshed successfully.\n"
-} || {
-  exit 0
-}
+# Execute installation GNOME Settings
+source ~/.local/share/omakub/install/config/gnome/hotkeys.sh
+echo -e "\e[31mRefreshed keybindings from Omakub defaults. Saved backup as keybinding.dconf.bak.*\e[0m"
