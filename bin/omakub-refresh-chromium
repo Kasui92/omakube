@@ -1,0 +1,8 @@
+#!/bin/bash
+
+CONFIG_FILE="$HOME/.config/chromium-flags.conf"
+INSTALL_GOOGLE_ACCOUNTS=false
+
+# Refresh the Chromium configuration
+omakub-refresh-config chromium-flags.conf
+
