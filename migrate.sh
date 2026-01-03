@@ -72,18 +72,19 @@ mkdir -p "$MIGRATIONS_STATE_DIR" "$MIGRATIONS_STATE_DIR/skipped"
 migration_count=0
 failed_migrations=()
 
+# Export INTERACTIVE_MODE before starting migrations
+export INTERACTIVE_MODE=false
+
 for migration_file in "$OMAKUB_PATH/migrations"/*.sh; do
     [[ ! -f "$migration_file" ]] && continue
 
     migration_name=$(basename "$migration_file")
     migration_id="${migration_name%.sh}"
 
-    [[ -f "$MIGRATIONS_STATE_DIR/$migration_name" ]] || [[ -f "$MIGRATIONS_STATE_DIR/skipped/$migration_name" ]] && continue
+    ( [[ -f "$MIGRATIONS_STATE_DIR/$migration_name" ]] || [[ -f "$MIGRATIONS_STATE_DIR/skipped/$migration_name" ]] ) && continue
 
     # Capture migration output
     migration_output=$(mktemp)
-
-    export INTERACTIVE_MODE=false
 
     if gum spin --spinner dot --title "Migration $migration_id" -- \
         bash "$migration_file" >"$migration_output" 2>&1; then
@@ -92,7 +93,6 @@ for migration_file in "$OMAKUB_PATH/migrations"/*.sh; do
         rm -f "$migration_output"
     else
         exit_code=$?
-        echo ""
         gum style --foreground 196 "✗ Migration $migration_id failed (exit code: $exit_code)"
 
         # Log error details
@@ -116,7 +116,6 @@ for migration_file in "$OMAKUB_PATH/migrations"/*.sh; do
         if gum confirm "Skip and continue?"; then
             touch "$MIGRATIONS_STATE_DIR/skipped/$migration_name"
         else
-            echo ""
             gum style --foreground 196 "Migration aborted"
             gum style --foreground 240 "Backup: $BACKUP_DIR"
             gum style --foreground 240 "Error log: $LOG_FILE"
