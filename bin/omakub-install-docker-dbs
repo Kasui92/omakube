@@ -10,7 +10,7 @@ mysql)
   sudo docker run -d --restart unless-stopped -p "127.0.0.1:3306:3306" --name=mysql8 -e MYSQL_ROOT_PASSWORD= -e MYSQL_ALLOW_EMPTY_PASSWORD=true mysql:8.4
   ;;
 postgresql)
-  sudo docker run -d --restart unless-stopped -p "127.0.0.1:5432:5432" --name=postgres17 -e POSTGRES_HOST_AUTH_METHOD=trust postgres:17
+  sudo docker run -d --restart unless-stopped -p "127.0.0.1:5432:5432" --name=postgres18 -e POSTGRES_HOST_AUTH_METHOD=trust postgres:18
   ;;
 mariadb)
   sudo docker run -d --restart unless-stopped -p "127.0.0.1:3306:3306" --name=mariadb11 -e MARIADB_ROOT_PASSWORD= -e MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=true mariadb:11.8
