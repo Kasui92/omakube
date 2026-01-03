@@ -5,4 +5,4 @@ set -e
 echo -e "\e[32mUpdate Omakub\e[0m"
 
 git -C $OMAKUB_PATH pull --autostash
-git -C $OMAKUB_PATH diff --check || git -C $OMAKUB_PATH reset --merge
+git -C $OMAKUB_PATH --no-pager diff --check || git -C $OMAKUB_PATH reset --merge
