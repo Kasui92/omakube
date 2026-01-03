@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cmd="$*"
-xdg-terminal-exec bash -c "omakub-show-logo; $cmd; omakub-show-done"
+xdg-terminal-exec bash -c "omakub-show-logo; $cmd; if [ \$? -ne 130 ]; then omakub-show-done; fi"
