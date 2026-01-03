@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Create a variable for interactive mode
+INTERACTIVE_MODE=${INTERACTIVE_MODE:-true}
+
 echo "Install Omakub Menu Topbar Extension"
 
 # Install Omakub Topbar extension
@@ -15,7 +18,12 @@ gsettings set org.gnome.shell favorite-apps "$(gsettings get org.gnome.shell fav
 # Remove Omakub desktop from applications menu
 rm -f ~/.local/share/applications/omakub.desktop
 
-# Prompt user to log out to apply changes
-if gum confirm "Omakub Menu Topbar Extension installed! Log out now to apply changes?"; then
-    gnome-session-quit --logout --no-prompt
+# if interactive mode, prompt user to log out to apply changes
+if [ "$INTERACTIVE_MODE" = true ]; then
+    if gum confirm "Omakub Menu Topbar Extension installed! Log out now to apply changes?"; then
+        omakub-cmd-logout
+    fi
+else
+    echo "Omakub Menu Topbar Extension installed! Please log out and log back in to apply changes."
 fi
+
