@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # omakub-app-folder-remove: Remove a .desktop file from a specified app folder.
 # Usage: omakub-app-folder-remove <desktop_file.desktop> <folder_name>
 
