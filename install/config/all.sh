@@ -2,6 +2,7 @@
 
 run_logged $OMAKUB_INSTALL/config/config.sh
 run_logged $OMAKUB_INSTALL/config/git.sh
+run_logged $OMAKUB_INSTALL/config/branding.sh
 run_logged $OMAKUB_INSTALL/config/xcompose.sh
 run_logged $OMAKUB_INSTALL/config/mise-work.sh
 run_logged $OMAKUB_INSTALL/config/mimetypes.sh

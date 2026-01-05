@@ -1,3 +1,3 @@
 #!/bin/bash
 
-notify-send -i ~/.local/share/omakub/applications/desktop/icons/Omakub.png -a "Omakub" "$@"
+notify-send -i ~/.config/omakub/branding/notify.png -a "Omakub" "$@"
