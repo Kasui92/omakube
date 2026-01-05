@@ -82,4 +82,7 @@ gsettings set org.gnome.shell.extensions.alphabetical-app-grid folder-order-posi
 # Configure [QSTweak] Quick Setting Tweaker
 # default settings are good!
 
-# Install Omakub Topbar extension
+# Configure Icon Launcher extension
+ICON_PATH="$HOME/.config/omakub/branding/icon-launcher.png"
+gsettings set org.gnome.shell.extensions.icon-launcher custom-icon-path "$ICON_PATH"
+gsettings set org.gnome.shell.extensions.icon-launcher custom-command 'omakub-menu'
