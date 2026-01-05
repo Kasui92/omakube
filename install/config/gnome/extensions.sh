@@ -16,6 +16,7 @@ gext install tophat@fflewddur.github.io
 gext install AlphabeticalAppGrid@stuarthayhurst
 gext install gnome-ui-tune@itstime.tech
 gext install quick-settings-tweaks@qwreey
+gext install icon-launcher@omakasui.org
 
 # Compile gsettings schemas in order to be able to set them
 sudo cp ~/.local/share/gnome-shell/extensions/tactile@lundal.io/schemas/org.gnome.shell.extensions.tactile.gschema.xml /usr/share/glib-2.0/schemas/
@@ -26,6 +27,7 @@ sudo cp ~/.local/share/gnome-shell/extensions/tophat@fflewddur.github.io/schemas
 sudo cp ~/.local/share/gnome-shell/extensions/AlphabeticalAppGrid\@stuarthayhurst/schemas/org.gnome.shell.extensions.AlphabeticalAppGrid.gschema.xml /usr/share/glib-2.0/schemas/
 sudo cp ~/.local/share/gnome-shell/extensions/gnome-ui-tune\@itstime.tech/schemas/org.gnome.shell.extensions.gnome-ui-tune.gschema.xml /usr/share/glib-2.0/schemas/
 sudo cp ~/.local/share/gnome-shell/extensions/quick-settings-tweaks\@qwreey/schemas/org.gnome.shell.extensions.quick-settings-tweaks.gschema.xml /usr/share/glib-2.0/schemas/
+sudo cp ~/.local/share/gnome-shell/extensions/icon-launcher\@omakasui.org/schemas/org.gnome.shell.extensions.icon-launcher.gschema.xml /usr/share/glib-2.0/schemas/
 sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
 
 # Configure Tactile
@@ -81,8 +83,3 @@ gsettings set org.gnome.shell.extensions.alphabetical-app-grid folder-order-posi
 # default settings are good!
 
 # Install Omakub Topbar extension
-git clone https://github.com/Kasui92/omakub-menu-topbar-extension.git /tmp/omakub-ext
-cd /tmp/omakub-ext
-make local
-cd -
-rm -rf /tmp/omakub-ext
