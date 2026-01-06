@@ -89,8 +89,7 @@ for migration_file in "$OMAKUB_PATH/migrations"/*.sh; do
     # Capture migration output
     migration_output=$(mktemp)
 
-    gum style --foreground 212 "→ Migration $migration_id"
-    if bash "$migration_file" >"$migration_output" 2>&1; then
+    if gum spin --spinner dot --title "Executing migration $migration_id..." -- sh -c "bash '$migration_file' >'$migration_output' 2>&1"; then
         gum style --foreground 82 "✓ Migration $migration_id"
         touch "$MIGRATIONS_STATE_DIR/$migration_name"
         ((migration_count++))
