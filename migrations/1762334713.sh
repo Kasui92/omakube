@@ -34,11 +34,17 @@ if [ -n "$TERMINAL" ]; then
       config_file="$HOME/.config/xdg-terminals.list"
     fi
 
-    cat > "$config_file" << EOF
+    # Update all existing xdg-terminals.list files and create the current one
+    for existing_config in "$HOME/.config"/*-xdg-terminals.list "$HOME/.config/xdg-terminals.list" "$config_file"; do
+      # Skip if glob pattern didn't match any files (contains *)
+      [[ "$existing_config" == *"*"* ]] && continue
+
+      cat > "$existing_config" << EOF
 # Terminal emulator preference order for xdg-terminal-exec
 # The first found and valid terminal will be used
 $desktop_id
 EOF
+    done
   fi
 fi
 
