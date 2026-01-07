@@ -161,7 +161,7 @@ show_setup_system_menu() {
     options="$options󰒲  Enable Suspend"
   fi
 
-  case $(menu "System" "$options") in
+  case $(menu "System" "$options" "--width 250 --height 80") in
   *Suspend*) omakub-toggle-suspend ;;
   *) show_setup_menu ;;
   esac
