@@ -1,16 +1,13 @@
 #!/bin/bash
 
-# Setup theme links
+# Setup user theme folder
 if [ -d ~/.config/omakub/themes ]; then
   rm -rf ~/.config/omakub/themes
 fi
 mkdir -p ~/.config/omakub/themes
-for f in ~/.local/share/omakub/themes/*; do ln -s "$f" ~/.config/omakub/themes/; done
 
 # Set initial theme
-mkdir -p ~/.config/omakub/current
-ln -snf ~/.config/omakub/themes/tokyo-night ~/.config/omakub/current/theme
-ln -snf $(find "$HOME/.config/omakub/current/theme/backgrounds/" -type f | head -n 1) "$HOME/.config/omakub/current/background"
+omakub-theme-set "Tokyo Night"
 
 # Set gnome theme colors
 OMAKUB_THEME_COLOR=$(<~/.config/omakub/current/theme/gnome.theme)

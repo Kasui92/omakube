@@ -57,6 +57,7 @@ systemd-container
 ufw
 unzip
 xdg-terminal-exec
+yq
 wget
 wl-clipboard
 wofi
