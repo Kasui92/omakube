@@ -35,12 +35,11 @@ if omakub-app-install "$package"; then
     config_file="$HOME/.config/xdg-terminals.list"
   fi
 
-  # Update all existing xdg-terminals.list files and create the current one
-  for existing_config in "$HOME/.config"/*-xdg-terminals.list "$HOME/.config/xdg-terminals.list" "$config_file"; do
-    # Skip if glob pattern didn't match any files (contains *)
-    [[ "$existing_config" == *"*"* ]] && continue
+  # Remove all existing xdg-terminals.list files first to ensure clean state
+  rm -f "$HOME/.config"/*-xdg-terminals.list "$HOME/.config/xdg-terminals.list" 2>/dev/null
 
-    cat > "$existing_config" << EOF
+  # Create the current config file with only the selected terminal
+  cat > "$config_file" << EOF
 # Terminal emulator preference order for xdg-terminal-exec
 # The first found and valid terminal will be used
 $desktop_id
