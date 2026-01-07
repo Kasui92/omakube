@@ -1,3 +1,5 @@
 #!/bin/bash
 
+# Send a desktop notification using Omakub branding.
+
 notify-send -i ~/.config/omakub/branding/notify.png -a "Omakub" "$@"

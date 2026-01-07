@@ -1,3 +1,5 @@
 #!/bin/bash
 
+# Get the current terminal emulator in use.
+
 (grep -E '^[^#]' ~/.config/ubuntu-xdg-terminals.list 2>/dev/null || grep -E '^[^#]' ~/.config/xdg-terminals.list 2>/dev/null) | head -n 1 | sed 's/\.desktop$//'

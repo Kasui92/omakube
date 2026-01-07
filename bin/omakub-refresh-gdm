@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# This script sets the GDM background
-# If passed --theme, it will use the current theme's background
-# Otherwise, it will use the default gdm background
+# This script sets the GDM background.
+# If passed --theme, it will use the current theme's background. Otherwise, it will use the default gdm background.
 
 # Secure wrapper function for GDM background operations
 gdm_wrapper() {

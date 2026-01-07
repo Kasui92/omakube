@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Install one or more Omakub applications.
+
 APP_DIR="$HOME/.local/share/omakub/applications/install"
 
 if [ "$#" -eq 0 ]; then

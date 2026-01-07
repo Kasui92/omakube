@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Refresh the GNOME keybindings to Omakub defaults.
+
 # Backup current dconf (with timestamp) to avoid clobbering (Ex: omakub.dconf.bak.1753817951)
 dconf dump / > "$HOME/keybinding.dconf.bak.$(date +%s)"
 

@@ -1,6 +1,8 @@
 #!/bin/bash
 
-# This script deploys ~/.local/share/omakub/config/X/Y/Z -> ~/.config/X/Y/Z
+#  Copies the named config from ~/.local/share/omakub/config/X/Y/Z -> ~/.config/X/Y/Z.
+# If the config already exists, a backup of the existing will be taken as .bak.TIMESTAMP.
+
 config_file=$1
 
 if [[ -z "$config_file" ]]; then

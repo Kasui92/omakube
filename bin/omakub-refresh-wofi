@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Overwrite the user config for wofi with the Omakub default.
+
 omakub-refresh-config wofi/config
 omakub-refresh-config wofi/style.css
 omakub-refresh-config wofi/search.css

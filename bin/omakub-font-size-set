@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Set the system-wide terminal font size.
+# If no size is provided as an argument, an interactive prompt will be shown.
+
 if [ "$#" -ne 1 ]; then
   echo -e "\e[32mLet's customize your terminal font size.\n\e[0m"
   FONT_SIZE=$(gum choose {7..14} --height 10 --header "Choose your terminal font size")

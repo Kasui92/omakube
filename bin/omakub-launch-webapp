@@ -2,6 +2,7 @@
 
 # omakub-launch-webapp: Launch a web application as a standalone window.
 # Usage: omakub-launch-webapp <app-url> <app-name>
+
 if [[ -z "$1" || -z "$2" ]]; then
   echo "Usage: omakub-launch-webapp <app-url> <app-name>" >&2
   exit 1
