@@ -1,6 +1,15 @@
 #!/bin/bash
 
+# Creates a new Omakube migration named after the unix timestamp of the last commit.
+# Only intended for Omakube developers.
+
 cd ~/.local/share/omakub
 migration_file="$HOME/.local/share/omakub/migrations/$(git log -1 --format=%cd --date=unix).sh"
 touch $migration_file
-$EDITOR $migration_file
+
+if [[ "$1" != "--no-edit" ]]; then
+  $EDITOR $migration_file
+fi
+
+echo $migration_file
+
