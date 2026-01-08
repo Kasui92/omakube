@@ -1,5 +1,0 @@
-#!/bin/bash
-
-# Call the VSCode theme setter with VSCodium-specific parameters
-
-omakub-theme-set-vscode codium "$HOME/.config/VSCodium/User/settings.json" "$HOME/.local/state/omakub/toggles/skip-codium-theme-changes"

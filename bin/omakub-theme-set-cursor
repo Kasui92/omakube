@@ -1,5 +1,0 @@
-#!/bin/bash
-
-# Call the VSCode theme setter with Cursor-specific parameters
-
-omakub-theme-set-vscode cursor "$HOME/.config/Cursor/User/settings.json" "$HOME/.local/state/omakub/toggles/skip-cursor-theme-changes"

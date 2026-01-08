@@ -55,8 +55,6 @@ omakub-restart-zellij
 omakub-theme-set-gnome
 omakub-theme-set-browser
 omakub-theme-set-vscode
-omakub-theme-set-vscodium
-omakub-theme-set-cursor
 omakub-theme-set-obsidian
 
 # Call hook on theme set
