@@ -49,8 +49,8 @@ fi
 # Copy custom desktop entries with proper X-TerminalArg* keys
 if command -v alacritty > /dev/null 2>&1; then
   mkdir -p ~/.local/share/xdg-terminals ~/.local/share/applications
-  cp "$OMAKUB_PATH/applications/desktop/Alacritty.desktop" ~/.local/share/xdg-terminals/
-  cp "$OMAKUB_PATH/applications/desktop/Alacritty.desktop" ~/.local/share/applications/
+  cp /usr/share/applications/Alacritty.desktop "$HOME/.local/share/xdg-terminals/Alacritty.desktop"
+  cp /usr/share/applications/Alacritty.desktop "$HOME/.local/share/applications/Alacritty.desktop"
 fi
 
 # Update TERMINAL variable in bash environment
