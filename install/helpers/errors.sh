@@ -60,7 +60,9 @@ catch_errors() {
 
     case "$choice" in
     "Retry installation")
-      bash ~/.local/share/omakub/install.sh
+      # Reset terminal state before retrying
+      reset
+      exec bash ~/.local/share/omakub/install.sh
       break
       ;;
     "View full log")
