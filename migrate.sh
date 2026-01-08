@@ -9,7 +9,7 @@ OMAKUB_REF="${OMAKUB_REF:-main}"
 OMAKUB_PATH="$HOME/.local/share/omakub"
 BACKUP_DIR="$HOME/.local/share/omakub-backup-$(date +%Y%m%d_%H%M%S)"
 STATE_DIR="$HOME/.local/state/omakub"
-LOG_FILE="$HOME/.local/state/omakub/migration-errors-$(date +%Y%m%d_%H%M%S).log"
+LOG_FILE="$HOME/.local/state/omakub/migration-log-$(date +%Y%m%d_%H%M%S).log"
 
 # Trap for cleanup on error or interruption
 trap 'echo ""; echo "Migration interrupted. Backup available at: $BACKUP_DIR"; exit 1' INT TERM
@@ -24,8 +24,19 @@ fi
 echo "Requesting sudo access..."
 sudo -v || { echo "Sudo access required"; exit 1; }
 
-# Create log directory
+# Create log directory and initialize log file
 mkdir -p "$(dirname "$LOG_FILE")"
+
+# Initialize log file with header
+{
+    echo "====================================="
+    echo "Omakube Migration Log"
+    echo "Date: $(date '+%Y-%m-%d %H:%M:%S')"
+    echo "Repository: $OMAKUB_REPO"
+    echo "Branch: $OMAKUB_REF"
+    echo "====================================="
+    echo ""
+} > "$LOG_FILE"
 
 # Check for gum
 if ! command -v gum &>/dev/null; then
@@ -86,42 +97,85 @@ for migration_file in "$OMAKUB_PATH/migrations"/*.sh; do
 
     ( [[ -f "$MIGRATIONS_STATE_DIR/$migration_name" ]] || [[ -f "$MIGRATIONS_STATE_DIR/skipped/$migration_name" ]] ) && continue
 
+    # Log migration start
+    {
+        echo "[$(date '+%Y-%m-%d %H:%M:%S')] Starting migration: $migration_id"
+        echo "Migration file: $migration_file"
+        echo "---"
+    } >> "$LOG_FILE"
+
     # Capture migration output
     migration_output=$(mktemp)
+    migration_stderr=$(mktemp)
 
-    if gum spin --spinner dot --title "Executing migration $migration_id..." -- sh -c "bash '$migration_file' >'$migration_output' 2>&1"; then
+    # Execute migration and capture both stdout and stderr separately
+    if gum spin --spinner dot --title "Executing migration $migration_id..." -- sh -c "bash '$migration_file' >'$migration_output' 2>'$migration_stderr'"; then
+        exit_code=0
         gum style --foreground 82 "✓ Migration $migration_id"
+
+        # Log success
+        {
+            echo "Status: SUCCESS"
+            echo "Exit code: 0"
+
+            if [[ -s "$migration_output" ]]; then
+                echo "Output:"
+                cat "$migration_output"
+            fi
+
+            if [[ -s "$migration_stderr" ]]; then
+                echo "Warnings/Info:"
+                cat "$migration_stderr"
+            fi
+
+            echo ""
+        } >> "$LOG_FILE"
+
         touch "$MIGRATIONS_STATE_DIR/$migration_name"
         ((migration_count++))
-        rm -f "$migration_output"
+        rm -f "$migration_output" "$migration_stderr"
     else
         exit_code=$?
         gum style --foreground 196 "✗ Migration $migration_id failed (exit code: $exit_code)"
 
-        # Log error details
+        # Log failure with full details
         {
-            echo "=== Migration $migration_id failed at $(date) ==="
+            echo "Status: FAILED"
             echo "Exit code: $exit_code"
-            echo "Output:"
-            cat "$migration_output"
+
+            if [[ -s "$migration_output" ]]; then
+                echo "Standard Output:"
+                cat "$migration_output"
+            fi
+
+            if [[ -s "$migration_stderr" ]]; then
+                echo "Error Output:"
+                cat "$migration_stderr"
+            fi
+
             echo ""
         } >> "$LOG_FILE"
 
-        # Show last 10 lines of error output
-        if [[ -s "$migration_output" ]]; then
-            gum style --foreground 240 "Last output:"
+        # Show last 10 lines of error output to user
+        if [[ -s "$migration_stderr" ]]; then
+            gum style --foreground 240 "Error output:"
+            tail -10 "$migration_stderr" | sed 's/^/  /'
+        elif [[ -s "$migration_output" ]]; then
+            gum style --foreground 240 "Output:"
             tail -10 "$migration_output" | sed 's/^/  /'
         fi
-        rm -f "$migration_output"
 
+        rm -f "$migration_output" "$migration_stderr"
         failed_migrations+=("$migration_id")
 
         if gum confirm "Skip and continue?"; then
             touch "$MIGRATIONS_STATE_DIR/skipped/$migration_name"
+            echo "[$(date '+%Y-%m-%d %H:%M:%S')] Migration $migration_id SKIPPED by user" >> "$LOG_FILE"
+            echo "" >> "$LOG_FILE"
         else
             gum style --foreground 196 "Migration aborted"
             gum style --foreground 240 "Backup: $BACKUP_DIR"
-            gum style --foreground 240 "Error log: $LOG_FILE"
+            gum style --foreground 214 "Full log: $LOG_FILE"
             exit 1
         fi
     fi
@@ -137,14 +191,29 @@ if ! grep -q "/.local/share/omakub/bin" "$HOME/.bashrc" 2>/dev/null; then
     echo 'export PATH="$HOME/.local/share/omakub/bin:$PATH"' >> "$HOME/.bashrc"
 fi
 
+# Write migration summary to log
+{
+    echo "====================================="
+    echo "Migration Summary"
+    echo "Date: $(date '+%Y-%m-%d %H:%M:%S')"
+    echo "Successful migrations: $migration_count"
+    echo "Failed/Skipped migrations: ${#failed_migrations[@]}"
+    if [[ ${#failed_migrations[@]} -gt 0 ]]; then
+        echo "Failed/Skipped: ${failed_migrations[*]}"
+    fi
+    echo "====================================="
+} >> "$LOG_FILE"
+
 echo ""
 gum style --bold --foreground 212 "✓ Migration complete ($migration_count updates)"
 
 # Show failed migrations if any
 if [[ ${#failed_migrations[@]} -gt 0 ]]; then
     gum style --foreground 214 "⚠ Skipped migrations: ${failed_migrations[*]}"
-    gum style --foreground 240 "Error log: $LOG_FILE"
 fi
+
+# Always show log location
+gum style --foreground 240 "Full migration log: $LOG_FILE"
 
 # Warning on x11 sessions to use Wayland instead
 if [ "$XDG_SESSION_TYPE" = "x11" ]; then
