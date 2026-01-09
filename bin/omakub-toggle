@@ -1,0 +1,11 @@
+#!/bin/bash
+
+PID=$(pgrep -f "alacritty.*--class=Omakub")
+
+# If the process exists, then kill it
+if [ -n "$PID" ]; then
+    kill "$PID"
+# Otherwise, launch the application
+else
+    gtk-launch Omakub.desktop
+fi
