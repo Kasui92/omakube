@@ -20,6 +20,7 @@ gext install space-bar@luchrioh
 gext install undecorate@sun.wxg@gmail.com
 gext install tophat@fflewddur.github.io
 gext install AlphabeticalAppGrid@stuarthayhurst
+gext install icon-launcher@omakasui.org
 
 # Compile gsettings schemas in order to be able to set them
 sudo cp ~/.local/share/gnome-shell/extensions/tactile@lundal.io/schemas/org.gnome.shell.extensions.tactile.gschema.xml /usr/share/glib-2.0/schemas/
@@ -28,6 +29,7 @@ sudo cp ~/.local/share/gnome-shell/extensions/blur-my-shell\@aunetx/schemas/org.
 sudo cp ~/.local/share/gnome-shell/extensions/space-bar\@luchrioh/schemas/org.gnome.shell.extensions.space-bar.gschema.xml /usr/share/glib-2.0/schemas/
 sudo cp ~/.local/share/gnome-shell/extensions/tophat@fflewddur.github.io/schemas/org.gnome.shell.extensions.tophat.gschema.xml /usr/share/glib-2.0/schemas/
 sudo cp ~/.local/share/gnome-shell/extensions/AlphabeticalAppGrid\@stuarthayhurst/schemas/org.gnome.shell.extensions.AlphabeticalAppGrid.gschema.xml /usr/share/glib-2.0/schemas/
+sudo cp ~/.local/share/gnome-shell/extensions/icon-launcher\@omakasui.org/schemas/org.gnome.shell.extensions.icon-launcher.gschema.xml /usr/share/glib-2.0/schemas/
 sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
 
 # Configure Tactile
@@ -75,3 +77,8 @@ gsettings set org.gnome.shell.extensions.tophat network-usage-unit bits
 
 # Configure AlphabeticalAppGrid
 gsettings set org.gnome.shell.extensions.alphabetical-app-grid folder-order-position 'end'
+
+# Configure Icon Launcher extension
+ICON_PATH="$HOME/.local/share/omakub/applications/icons/Omakub.png"
+gsettings set org.gnome.shell.extensions.icon-launcher custom-icon-path "$ICON_PATH"
+gsettings set org.gnome.shell.extensions.icon-launcher custom-command "alacritty --config-file /home/$USER/.config/alacritty/pane.toml --class=Omakub --title=Omakub -e omakub"
