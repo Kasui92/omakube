@@ -85,6 +85,10 @@ failed_migrations=()
 # Export INTERACTIVE_MODE before starting migrations
 export INTERACTIVE_MODE=false
 
+# Ensure computer doesn't go to sleep or lock while installing
+gsettings set org.gnome.desktop.screensaver lock-enabled false
+gsettings set org.gnome.desktop.session idle-delay 0
+
 # Disable set -e for migrations to prevent early exit
 set +e
 
@@ -220,6 +224,10 @@ if [ "$XDG_SESSION_TYPE" = "x11" ]; then
   echo -e "\e[33mYou can select the Wayland session at the login screen by clicking on the gear icon and choosing 'Ubuntu (Wayland)'.\e[0m"
   echo
 fi
+
+# Revert to normal idle and lock settings
+gsettings set org.gnome.desktop.screensaver lock-enabled true
+gsettings set org.gnome.desktop.session idle-delay 300
 
 [[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* ]] && gum confirm "Restart now?" && sudo reboot now
 
