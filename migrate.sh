@@ -47,7 +47,6 @@ if ! command -v gum &>/dev/null; then
     cd - >/dev/null
 fi
 
-[[ -f "$OMAKUB_PATH/version" ]] && gum style --foreground 214 "Current: $(cat "$OMAKUB_PATH/version")"
 gum style --foreground 212 "Migrating to Omakube from: $OMAKUB_REPO ($OMAKUB_REF)"
 gum confirm "Continue?" || exit 0
 
