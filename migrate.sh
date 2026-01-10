@@ -109,10 +109,9 @@ for migration_file in "$OMAKUB_PATH/migrations"/*.sh; do
 
     # Capture migration output
     migration_output=$(mktemp)
-    migration_stderr=$(mktemp)
 
-    # Execute migration and capture both stdout and stderr separately
-    if gum spin --spinner dot --title "Executing migration $migration_id..." -- sh -c "bash '$migration_file' >'$migration_output' 2>'$migration_stderr'"; then
+    # Execute migration and capture both stdout and stderr together
+    if gum spin --spinner dot --title "Executing migration $migration_id..." -- sh -c "bash '$migration_file' >'$migration_output' 2>&1"; then
         exit_code=0
         gum style --foreground 82 "✓ Migration $migration_id"
 
@@ -126,17 +125,12 @@ for migration_file in "$OMAKUB_PATH/migrations"/*.sh; do
                 cat "$migration_output"
             fi
 
-            if [[ -s "$migration_stderr" ]]; then
-                echo "Warnings/Info:"
-                cat "$migration_stderr"
-            fi
-
             echo ""
         } >> "$LOG_FILE"
 
         touch "$MIGRATIONS_STATE_DIR/$migration_name"
         ((migration_count++))
-        rm -f "$migration_output" "$migration_stderr"
+        rm -f "$migration_output"
     else
         exit_code=$?
         gum style --foreground 196 "✗ Migration $migration_id failed (exit code: $exit_code)"
@@ -147,28 +141,20 @@ for migration_file in "$OMAKUB_PATH/migrations"/*.sh; do
             echo "Exit code: $exit_code"
 
             if [[ -s "$migration_output" ]]; then
-                echo "Standard Output:"
+                echo "Output:"
                 cat "$migration_output"
-            fi
-
-            if [[ -s "$migration_stderr" ]]; then
-                echo "Error Output:"
-                cat "$migration_stderr"
             fi
 
             echo ""
         } >> "$LOG_FILE"
 
-        # Show last 10 lines of error output to user
-        if [[ -s "$migration_stderr" ]]; then
-            gum style --foreground 240 "Error output:"
-            tail -10 "$migration_stderr" | sed 's/^/  /'
-        elif [[ -s "$migration_output" ]]; then
-            gum style --foreground 240 "Output:"
-            tail -10 "$migration_output" | sed 's/^/  /'
+        # Show last 15 lines of output to user
+        if [[ -s "$migration_output" ]]; then
+            gum style --foreground 240 "Output (last 15 lines):"
+            tail -15 "$migration_output" | sed 's/^/  /'
         fi
 
-        rm -f "$migration_output" "$migration_stderr"
+        rm -f "$migration_output"
         failed_migrations+=("$migration_id")
 
         if gum confirm "Skip and continue?"; then
