@@ -4,7 +4,6 @@ set -e
 
 omakub-update-system-pkgs
 omakub-update-gnome-extensions
-omakub-update-omakub-extension
 omakub-migrate
 omakub-hook post-update
 omakub-update-restart
