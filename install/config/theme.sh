@@ -35,9 +35,10 @@ ln -snf ~/.config/omakub/current/theme/btop.theme ~/.config/btop/themes/current.
 mkdir -p ~/.config/zellij/themes
 ln -snf ~/.config/omakub/current/theme/zellij.kdl ~/.config/zellij/themes/current.kdl
 
-# Add managed policy directories for Chromium and Brave for theme changes
-sudo mkdir -p /etc/chromium/policies/managed 2>/dev/null
-sudo chmod a+rw /etc/chromium/policies/managed 2>/dev/null
+# # Add managed policy directories for Chromium and Brave for theme changes
+# TODO: Re-enable when we solve "Warning: maxDynamicUniformBuffersPerPipelineLayout"
+# sudo mkdir -p /etc/chromium/policies/managed 2>/dev/null
+# sudo chmod a+rw /etc/chromium/policies/managed 2>/dev/null
 
-sudo mkdir -p /etc/brave/policies/managed 2>/dev/null
-sudo chmod a+rw /etc/brave/policies/managed 2>/dev/null
+# sudo mkdir -p /etc/brave/policies/managed 2>/dev/null
+# sudo chmod a+rw /etc/brave/policies/managed 2>/dev/null
