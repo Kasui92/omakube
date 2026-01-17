@@ -47,12 +47,12 @@ CURRENT_THEME_LINK="$HOME/.config/omakub/current/theme"
 
 # Get current theme name before removing anything
 CURRENT_THEME_NAME=""
-if [[ -L $CURRENT_THEME_LINK ]]; then
+if [[ -f "$HOME/.config/omakub/current/theme.name" ]]; then
+  CURRENT_THEME_NAME=$(cat "$HOME/.config/omakub/current/theme.name")
+elif [[ -L $CURRENT_THEME_LINK ]]; then
   CURRENT_THEME_NAME=$(basename "$(readlink "$CURRENT_THEME_LINK")")
 elif [[ -d $CURRENT_THEME_LINK ]]; then
   CURRENT_THEME_NAME=$(basename "$CURRENT_THEME_LINK")
-elif [[ -f "$HOME/.config/omakub/current/theme.name" ]]; then
-  CURRENT_THEME_NAME=$(cat "$HOME/.config/omakub/current/theme.name")
 fi
 
 # Remove all symlinks from ~/.config/omakub/themes
