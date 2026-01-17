@@ -201,12 +201,10 @@ show_install_menu() {
 }
 
 show_install_service_menu() {
-  case $(menu "Install" "  1password\n  Audacity\n  Discord\n  Dropbox\n  Gimp\n  LibreOffice\n  LocalSend\n  ObsStudio\n  Obsidian\n  Signal\n  Spotify\n  Typora\n  Tailscale\n  Virtualbox\n  Zoom" "--width 250 --height 600") in
+  case $(menu "Install" "  1password\n  Discord\n  Dropbox\n  LibreOffice\n  LocalSend\n  ObsStudio\n  Obsidian\n  Signal\n  Spotify\n  Typora\n  Tailscale\n  Zoom" "--width 250 --height 470") in
   *1password*) install_app "1password" ;;
-  *Audacity*) install_app "audacity" ;;
   *Discord*) install_app "discord" ;;
   *Dropbox*) install_app "dropbox" ;;
-  *Gimp*) install_app "gimp" ;;
   *LibreOffice*) install_app "libreoffice" ;;
   *LocalSend*) install_app "localsend" ;;
   *ObsStudio*) install_app "obs-studio" ;;
@@ -215,7 +213,6 @@ show_install_service_menu() {
   *Spotify*) install_app "spotify" ;;
   *Typora*) install_app "typora" ;;
   *Tailscale*) install_app "tailscale" ;;
-  *Virtualbox*) install_app "virtualbox" ;;
   *Zoom*) install_app "zoom" ;;
   *) show_install_menu ;;
   esac
