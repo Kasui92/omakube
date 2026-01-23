@@ -60,8 +60,14 @@ catch_errors() {
 
     case "$choice" in
     "Retry installation")
-      # Reset terminal state before retrying
-      reset
+      # Reset error handling state
+      ERROR_HANDLING=false
+
+      # Clean terminal state without generating escape sequences
+      stty sane 2>/dev/null || true
+      clear
+
+      # Re-execute installation script
       exec bash ~/.local/share/omakub/install.sh
       break
       ;;
