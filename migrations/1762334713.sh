@@ -30,10 +30,10 @@ if [ -n "$TERMINAL" ]; then
     # Delete existing config file if it exists
     rm -f ~/.config/xdg-terminals.list
     rm -f ~/.config/ubuntu-xdg-terminals.list
-    rm -f ~/.config/GNOME/xdg-terminals.list
+    rm -f ~/.config/GNOME-xdg-terminals.list
 
     # Create the current config file with only the selected terminal
-    cat > "~/.config/xdg-terminals.list" << EOF
+    cat > "~/.config/ubuntu-xdg-terminals.list" << EOF
 # Terminal emulator preference order for xdg-terminal-exec
 # The first found and valid terminal will be used
 $desktop_id
