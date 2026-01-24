@@ -35,15 +35,10 @@ ln -snf ~/.config/omakub/current/theme/btop.theme ~/.config/btop/themes/current.
 mkdir -p ~/.config/zellij/themes
 ln -snf ~/.config/omakub/current/theme/zellij.kdl ~/.config/zellij/themes/current.kdl
 
-# # Add managed policy directories for Chromium and Brave for theme changes
-if [ -f /etc/chromium/policies/managed ]; then
-  sudo rm -rf /etc/chromium/policies/managed 2>/dev/null
-fi
-sudo mkdir -p /etc/chromium/policies/managed 2>/dev/null
-sudo chmod a+rw /etc/chromium/policies/managed 2>/dev/null
-
-if [ -f /etc/brave/policies/managed ]; then
-  sudo rm -f /etc/brave/policies/managed 2>/dev/null
-fi
-sudo mkdir -p /etc/brave/policies/managed 2>/dev/null
-sudo chmod a+rw /etc/brave/policies/managed 2>/dev/null
+# Add managed policy directories for Chromium and Brave in background
+{
+  timeout 10 sudo mkdir -p /etc/chromium/policies/managed 2>/dev/null || true
+  timeout 10 sudo chmod a+rw /etc/chromium/policies/managed 2>/dev/null || true
+  timeout 10 sudo mkdir -p /etc/brave/policies/managed 2>/dev/null || true
+  timeout 10 sudo chmod a+rw /etc/brave/policies/managed 2>/dev/null || true
+} &
