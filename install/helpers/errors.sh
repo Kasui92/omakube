@@ -63,9 +63,13 @@ catch_errors() {
       # Reset error handling state
       ERROR_HANDLING=false
 
-      # Clean terminal state without generating escape sequences
+      # Disable terminal queries and clean state thoroughly
+      printf '\033]11;?\007' >/dev/null 2>&1 || true  # Clear any pending color queries
       stty sane 2>/dev/null || true
-      clear
+      reset 2>&1 | cat  # Capture escape sequences
+
+      # Clear screen properly
+      printf "\033[H\033[2J"
 
       # Re-execute installation script
       exec bash ~/.local/share/omakub/install.sh
