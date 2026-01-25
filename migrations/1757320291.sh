@@ -98,7 +98,7 @@ rm -rf ~/.local/share/applications/About.desktop
 rm -rf ~/.local/share/applications/Activity.desktop
 rm -rf ~/.local/share/applications/Basecamp.desktop
 rm -rf ~/.local/share/applications/Docker.desktop
-rm -rf ~/.local/share/applications/Hey.desktop
+rm -rf ~/.local/share/applications/HEY.desktop
 rm -rf ~/.local/share/applications/Neovim.desktop
 rm -rf ~/.local/share/applications/Omakub.desktop
 rm -rf ~/.local/share/applications/WhatsApp.desktop
@@ -135,19 +135,6 @@ source ~/.local/share/omakub/install/login/plymouth.sh
 source ~/.local/share/omakub/install/login/gdm3.sh
 source ~/.local/share/omakub/install/login/alt-bootloaders.sh
 
-# Migrations
-echo -e "\e[32m\nTurning off previous migrations...\e[0m"
-echo
-MIGRATION_STATE_PATH=~/.local/state/omakub/migrations
-CURRENT_MIGRATION=1757320291
-
-mkdir -p $MIGRATION_STATE_PATH
-for file in ~/.local/share/omakub/migrations/*.sh; do
-  if [ "$(basename "$file" .sh)" -le "$CURRENT_MIGRATION" ]; then
-    touch "$MIGRATION_STATE_PATH/$(basename "$file")"
-  fi
-done
-
 # Warning on x11 sessions to use Wayland instead
 if [ "$XDG_SESSION_TYPE" = "x11" ]; then
   echo -e "\e[33m\nWarning: You are currently using an X11 session. It is recommended to switch to a Wayland session for the best experience with Omakub.\e[0m"
@@ -155,7 +142,7 @@ if [ "$XDG_SESSION_TYPE" = "x11" ]; then
   echo
 fi
 
-# Finish
+# Request restart
 echo -e "\e[32m\nMigration completed! Please restart your computer to apply all changes.\e[0m"
 echo
 gum confirm "Restart now?" && { sudo reboot now; } || { echo "Please remember to restart later."; exit 0; }

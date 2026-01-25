@@ -9,7 +9,11 @@ fi
 
 omakub-pkg-add xdg-terminal-exec
 
-# Set up xdg-terminals.list based on current $TERMINAL
+# Update TERMINAL variable in bash environment
+omakub-env-set TERMINAL "xdg-terminal-exec"
+
+# Set up xdg-terminals.list based on current $TERMINAL (if not set, then set to alacritty later)
+TERMINAL=${TERMINAL:-alacritty}
 if [ -n "$TERMINAL" ]; then
   case "$TERMINAL" in
     alacritty)
@@ -22,7 +26,14 @@ if [ -n "$TERMINAL" ]; then
 
   if [ -n "$desktop_id" ]; then
     mkdir -p ~/.config
-    cat > ~/.config/ubuntu-xdg-terminals.list << EOF
+
+    # Delete existing config file if it exists
+    rm -f ~/.config/xdg-terminals.list
+    rm -f ~/.config/ubuntu-xdg-terminals.list
+    rm -f ~/.config/GNOME-xdg-terminals.list
+
+    # Create the current config file with only the selected terminal
+    cat > "~/.config/ubuntu-xdg-terminals.list" << EOF
 # Terminal emulator preference order for xdg-terminal-exec
 # The first found and valid terminal will be used
 $desktop_id
@@ -33,12 +44,9 @@ fi
 # Copy custom desktop entries with proper X-TerminalArg* keys
 if command -v alacritty > /dev/null 2>&1; then
   mkdir -p ~/.local/share/xdg-terminals ~/.local/share/applications
-  cp "$OMAKUB_PATH/applications/desktop/Alacritty.desktop" ~/.local/share/xdg-terminals/
-  cp "$OMAKUB_PATH/applications/desktop/Alacritty.desktop" ~/.local/share/applications/
+  cp /usr/share/applications/Alacritty.desktop "$HOME/.local/share/xdg-terminals/Alacritty.desktop"
+  cp /usr/share/applications/Alacritty.desktop "$HOME/.local/share/applications/Alacritty.desktop"
 fi
-
-# Update TERMINAL variable in bash environment
-omakub-env-set TERMINAL "xdg-terminal-exec"
 
 # Update Hotkeys to use xdg-terminal-exec
 omakub-keybinding-remove 'New Terminal Window'

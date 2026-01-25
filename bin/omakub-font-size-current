@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Returns the current font size used by the terminal by extracting it from the terminal config.
+# This can be changed using omakub-font-size-set.
 
 CURRENT_TERMINAL=$(omakub-terminal-current)
 

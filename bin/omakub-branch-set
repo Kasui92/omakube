@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Set the branch for Omakube's git repository.
+
 if (($# == 0)); then
   echo "Usage: omakub-branch-set [main|dev]"
   exit 1

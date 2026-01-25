@@ -1,3 +1,5 @@
 #!/bin/bash
 
+# Launch the TUI command passed in as an argument in the default terminal.
+
 exec xdg-terminal-exec "$1" "${@:2}"

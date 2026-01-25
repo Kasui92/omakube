@@ -3,39 +3,57 @@
 # omakub-theme-set: Set a theme, specified by its name.
 # Usage: omakub-theme-set <theme-name>
 
-if [[ -z "$1" && "$1" != "CNCLD" ]]; then
+if [[ -z $1 ]]; then
   echo "Usage: omakub-theme-set <theme-name>" >&2
   exit 1
 fi
 
-THEMES_DIR="$HOME/.config/omakub/themes/"
-CURRENT_THEME_DIR="$HOME/.config/omakub/current/theme"
+CURRENT_THEME_PATH="$HOME/.config/omakub/current/theme"
+NEXT_THEME_PATH="$HOME/.config/omakub/current/next-theme"
+USER_THEMES_PATH="$HOME/.config/omakub/themes"
+OMAKUB_THEMES_PATH="$OMAKUB_PATH/themes"
 
 THEME_NAME=$(echo "$1" | sed -E 's/<[^>]+>//g' | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
 THEME_PATH="$THEMES_DIR/$THEME_NAME"
 
 # Check if the theme entered exists
-if [[ ! -d "$THEME_PATH" ]]; then
-  echo "Theme '$THEME_NAME' does not exist in $THEMES_DIR" >&2
-  exit 2
+if [[ -d "$USER_THEMES_PATH/$THEME_NAME" ]]; then
+  THEME_PATH="$USER_THEMES_PATH/$THEME_NAME"
+elif [[ -d "$OMAKUB_THEMES_PATH/$THEME_NAME" ]]; then
+  THEME_PATH="$OMAKUB_THEMES_PATH/$THEME_NAME"
+else
+  echo "Theme '$THEME_NAME' does not exist"
+  exit 1
 fi
 
-# Update theme symlinks
-ln -nsf "$THEME_PATH" "$CURRENT_THEME_DIR"
+# Setup clean next theme directory (for atomic theme config swapping)
+rm -rf "$NEXT_THEME_PATH"
+mkdir -p "$NEXT_THEME_PATH"
+
+# Copy static configs
+cp -r "$THEME_PATH/"* "$NEXT_THEME_PATH/" 2>/dev/null
+
+# Generate dynamic configs
+omakub-theme-set-templates
+
+# Swap next theme in as current
+rm -rf "$CURRENT_THEME_PATH"
+mv "$NEXT_THEME_PATH" "$CURRENT_THEME_PATH"
+
+# Store theme name for reference
+echo "$THEME_NAME" > "$HOME/.config/omakub/current/theme.name"
 
 # Change background with theme
 omakub-theme-bg-next
 
 # Restart components to apply new theme
-pkill -SIGUSR2 btop
+omakub-restart-btop
 omakub-restart-terminal
 omakub-restart-zellij
 
-# Change gnome, browser, vscode themes
+# Change app specific themes
 omakub-theme-set-gnome
-omakub-theme-set-browser
 omakub-theme-set-vscode
-omakub-theme-set-cursor
 omakub-theme-set-obsidian
 
 # Call hook on theme set

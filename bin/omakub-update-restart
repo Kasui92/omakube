@@ -1,7 +1,8 @@
 #!/bin/bash
 
 if [ -f "$HOME/.local/state/omakub/reboot-required" ]; then
-  gum confirm "Updates require reboot. Ready?" && omakub-state clear re*-required && omakub-state clear logout-required && sudo reboot now
+  echo
+  gum confirm "Updates require reboot. Ready?" && omakub-cmd-reboot
 fi
 
 for file in "$HOME"/.local/state/omakub/restart-*-required; do

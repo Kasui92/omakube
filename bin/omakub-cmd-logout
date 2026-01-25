@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Log out the current user session after clearing the logout-required state.
+
 omakub-state clear logout-required
 sleep 1 # Allow apps like Chrome to shutdown correctly
 gnome-session-quit --logout --no-prompt

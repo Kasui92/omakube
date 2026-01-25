@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Overwrite the user config for themes with the Omakub defaults.
+
 # Add missing theme links
 for f in ~/.local/share/omakub/themes/*; do
   if [ ! -e ~/.config/omakub/themes/$(basename "$f") ]; then

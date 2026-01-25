@@ -60,7 +60,19 @@ catch_errors() {
 
     case "$choice" in
     "Retry installation")
-      bash ~/.local/share/omakub/install.sh
+      # Reset error handling state
+      ERROR_HANDLING=false
+
+      # Disable terminal queries and clean state thoroughly
+      printf '\033]11;?\007' >/dev/null 2>&1 || true  # Clear any pending color queries
+      stty sane 2>/dev/null || true
+      reset 2>&1 | cat  # Capture escape sequences
+
+      # Clear screen properly
+      printf "\033[H\033[2J"
+
+      # Re-execute installation script
+      exec bash ~/.local/share/omakub/install.sh
       break
       ;;
     "View full log")

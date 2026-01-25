@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # omakub-app-folder-remove: Remove a .desktop file from a specified app folder.
 # Usage: omakub-app-folder-remove <desktop_file.desktop> <folder_name>
 
@@ -41,5 +43,6 @@ for APP_NAME in "${APP_NAMES[@]}"; do
   omakub-app-folder-remove "$APP_NAME.desktop" "Web Apps"
   rm -f "$DESKTOP_DIR/$APP_NAME.desktop"
   rm -f "$ICON_DIR/$APP_NAME.png"
+  rm -rf "$HOME/.config/omakub/webapp/$(echo "$APP_NAME" | tr ' ' '-' | tr '[:upper:]' '[:lower:]')"
   echo "Removed $APP_NAME"
 done

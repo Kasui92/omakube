@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Install one of the supported development environments. Usually called via Install > Development > * in the Omakub Menu.
+
 if [[ -z "$1" ]]; then
   echo "Usage: omakub-install-dev-env <ruby|node|bun|go|php|python|elixir|phoenix|rust|java|ocaml|dotnet>" >&2
   exit 1
@@ -15,7 +17,7 @@ install_php() {
 
 install_node() {
   echo -e "Installing Node.js...\n"
-  mise use --global node@lts
+  mise use --global node
 }
 
 case "$1" in
@@ -96,5 +98,9 @@ clojure)
   echo -e "Installing Clojure...\n"
   sudo apt install -y rlwrap
   mise use --global clojure@latest
+  ;;
+*)
+  echo "Usage: omakub-install-dev-env <ruby|node|bun|go|php|python|elixir|phoenix|rust|java|ocaml|dotnet>" >&2
+  exit 1
   ;;
 esac

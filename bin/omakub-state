@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Manage Omakub state files in the user's local state directory.
+
 STATE_DIR="$HOME/.local/state/omakub"
 mkdir -p "$STATE_DIR"
 

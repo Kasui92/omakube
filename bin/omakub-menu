@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Launch the Omakub Menu or takes a parameter to jump straight to a submenu.
+
 export PATH="$HOME/.local/share/omakub/bin:$PATH"
 
 # Set to true when going directly to a submenu, so we can exit directly
@@ -138,7 +140,8 @@ show_font_family_menu() {
 }
 
 show_setup_menu() {
-  case $(menu "Setup" "  Folders\n  Keybindings\n  Starship\n  Zellij\n󰌧  Wofi\n󰞅  XCompose" "--width 250 --height 280") in
+  case $(menu "Setup" "  System Sleep\n  Folders\n  Keybindings\n  Starship\n  Zellij\n󰌧  Wofi\n󰞅  XCompose" "--width 250 --height 320") in
+  *System*) show_setup_system_menu ;;
   *Folders*) show_setup_folders_menu ;;
   *Keybindings*) show_setup_keybindings_menu ;;
   *Starship*) edit_in_nvim ~/.config/starship.toml ;;
@@ -146,6 +149,21 @@ show_setup_menu() {
   *Wofi*) edit_in_nvim ~/.config/wofi/config ;;
   *XCompose*) open_in_editor ~/.XCompose && omakub-restart-xcompose ;;
   *) show_main_menu ;;
+  esac
+}
+
+show_setup_system_menu() {
+  local options=""
+
+  if [ -f ~/.local/state/omakub/toggles/suspend-on ]; then
+    options="$options󰒲  Disable Suspend"
+  else
+    options="$options󰒲  Enable Suspend"
+  fi
+
+  case $(menu "System" "$options" "--width 250 --height 80") in
+  *Suspend*) omakub-toggle-suspend ;;
+  *) show_setup_menu ;;
   esac
 }
 
@@ -183,20 +201,18 @@ show_install_menu() {
 }
 
 show_install_service_menu() {
-  case $(menu "Install" "  1password\n  Audacity\n  Discord\n  Dropbox\n  Gimp\n  LibreOffice\n  LocalSend\n  Obsidian\n  Signal\n  Spotify\n  Typora\n  Tailscale\n  Virtualbox\n  Zoom" "--width 250 --height 600") in
+  case $(menu "Install" "  1password\n  Discord\n  Dropbox\n  LibreOffice\n  LocalSend\n  ObsStudio\n  Obsidian\n  Signal\n  Spotify\n  Typora\n  Tailscale\n  Zoom" "--width 250 --height 470") in
   *1password*) install_app "1password" ;;
-  *Audacity*) install_app "audacity" ;;
   *Discord*) install_app "discord" ;;
   *Dropbox*) install_app "dropbox" ;;
-  *Gimp*) install_app "gimp" ;;
   *LibreOffice*) install_app "libreoffice" ;;
   *LocalSend*) install_app "localsend" ;;
+  *ObsStudio*) install_app "obs-studio" ;;
   *Obsidian*) install_app "obsidian" ;;
   *Signal*) install_app "signal" ;;
   *Spotify*) install_app "spotify" ;;
   *Typora*) install_app "typora" ;;
   *Tailscale*) install_app "tailscale" ;;
-  *Virtualbox*) install_app "virtualbox" ;;
   *Zoom*) install_app "zoom" ;;
   *) show_install_menu ;;
   esac
@@ -227,7 +243,7 @@ show_install_utility_menu() {
 show_install_style_menu() {
   case $(menu "Install" "󰸌  Theme\n  Background" "--width 250 --height 130") in
   *Theme*) present_terminal omakub-theme-install ;;
-  *Background*) nautilus ~/.config/omakub/current/theme/backgrounds ;;
+  *Background*) omakub-theme-bg-install ;;
   *) show_install_menu ;;
   esac
 }
@@ -235,7 +251,7 @@ show_install_style_menu() {
 show_install_development_menu() {
   case $(menu "Install" "  Docker\n󱘲  Databases\n󰊢  Git\n󰫏  Ruby on Rails\n  JavaScript\n  Go\n  PHP\n  Python\n  Elixir\n  Zig\n  Rust\n  Java\n  .NET\n  OCaml\n  Clojure" "--width 250 --height 600") in
   *Docker*) show_install_docker_menu ;;
-  *Databases*) present_terminal "omakub-install-docker-dbs" ;;
+  *Databases*) show_install_databases_menu ;;
   *Git*) show_install_git_menu ;;
   *Rails*) present_terminal "omakub-install-dev-env ruby" ;;
   *JavaScript*) show_install_javascript_menu ;;
@@ -257,6 +273,18 @@ show_install_docker_menu() {
   case $(menu "Install Docker" "  Engine\n  LazyDocker" "--width 250 --height 130") in
   *Engine*) install_app "docker" ;;
   *LazyDocker*) install_app "lazydocker" ;;
+  *) show_install_development_menu ;;
+  esac
+}
+
+show_install_databases_menu() {
+  case $(menu "Install Databases" "  MySQL\n  PostgreSQL\n  MariaDB\n  Redis\n  MongoDB\n󱘲  MSSQL" "--width 250 --height 280") in
+  *MySQL*) present_terminal "omakub-install-docker-dbs mysql" ;;
+  *PostgreSQL*) present_terminal "omakub-install-docker-dbs postgresql" ;;
+  *MariaDB*) present_terminal "omakub-install-docker-dbs mariadb" ;;
+  *Redis*) present_terminal "omakub-install-docker-dbs redis" ;;
+  *MongoDB*) present_terminal "omakub-install-docker-dbs mongodb" ;;
+  *MSSQL*) present_terminal "omakub-install-docker-dbs mssql" ;;
   *) show_install_development_menu ;;
   esac
 }
@@ -391,7 +419,16 @@ show_update_password_menu() {
 }
 
 show_system_menu() {
-  case $(menu "System" "  Lock\n󰗼  Logout\n󰤄  Suspend\n󰜉  Restart\n󰐥  Shutdown" "--width 250 --height 250") in
+  local options="  Lock\n  Logout"
+  [ -f ~/.local/state/omakub/toggles/suspend-on ] && options="$options\n󰒲  Suspend"
+  options="$options\n󰜉  Restart\n󰐥  Shutdown"
+
+  local height=210
+  if [ -f ~/.local/state/omakub/toggles/suspend-on ]; then
+    height=250
+  fi
+
+  case $(menu "System" "$options" "--width 250 --height $height") in
   *Lock*) omakub-cmd-lock-screen ;;
   *Logout*) omakub-cmd-logout ;;
   *Suspend*) systemctl suspend ;;
@@ -420,6 +457,10 @@ go_to_menu() {
   *system*) show_system_menu ;;
   esac
 }
+
+# Allow user extensions and overrides
+USER_EXTENSIONS="$HOME/.config/omakub/extensions/menu.sh"
+[[ -f $USER_EXTENSIONS ]] && source "$USER_EXTENSIONS"
 
 if [[ -n "$1" ]]; then
   BACK_TO_EXIT=true

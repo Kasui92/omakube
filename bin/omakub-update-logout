@@ -1,5 +1,6 @@
 #!/bin/bash
 
 if [ -f "$HOME/.local/state/omakub/logout-required" ]; then
-  gum confirm "Updates require logout. Ready?" && omakub-state clear logout-required && gnome-session-quit --logout --no-prompt
+  echo
+  gum confirm "Updates require logout. Ready?" && omakub-cmd-logout
 fi

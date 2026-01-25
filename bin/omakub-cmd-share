@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Share clipboard, file, or folder using LocalSend.
+
 if (($# == 0)); then
   echo "Usage: omakub-cmd-share [clipboard|file|folder]"
   exit 1

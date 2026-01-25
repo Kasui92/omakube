@@ -1,3 +1,5 @@
 #!/bin/bash
 
+# Launch the fastfetch TUI that gives information about the current system.
+
 omakub-launch-tui bash -c 'fastfetch; read -n 1 -s'
