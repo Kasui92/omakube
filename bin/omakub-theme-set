@@ -53,7 +53,6 @@ omakub-restart-zellij
 
 # Change app specific themes
 omakub-theme-set-gnome
-omakub-theme-set-browser
 omakub-theme-set-vscode
 omakub-theme-set-obsidian
 
