@@ -1,7 +1,4 @@
 #!/bin/bash
 
-cd /tmp
-wget https://cdn.akamai.steamstatic.com/client/installer/steam.deb
-sudo apt install -y ./steam.deb
-rm steam.deb
-cd -
+# Install Steam via Flatpak
+flatpak install -y flathub com.valvesoftware.Steam
