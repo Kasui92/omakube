@@ -4,7 +4,7 @@ Omakube is a personalized fork of [Omakub](https://omakub.org), the one-liner to
 
 ## Documentation
 
-For Omakube-specific features, consult the [Omakube manual](https://omakasui.org/manuals/omakube).
+For Omakube-specific features, consult the [Omakube manual](https://omakube.omakasui.org/manual).
 
 To learn about the project it comes from and the key features it has inherited, visit the [official Omakub manual](https://manuals.omamix.org/1/read).
 
@@ -16,6 +16,6 @@ Omakube is released under the [MIT License](https://opensource.org/licenses/MIT)
 
 As a fork of Omakub, Omakube welcomes contributions that extend existing functionality without compromising compatibility with the base project.
 
-If you want to contribute to improving the manual, here is the [repository with the docs](https://github.com/Kasui92/omakasui.org/tree/main/docs/omakube).
+If you want to contribute to improving the manual, here is the [repository with the docs](https://github.com/Kasui92/omakube.omakasui.org).
 
 If you want to contribute to Omakub core features, visit the [official repository](https://github.com/basecamp/omakub).
