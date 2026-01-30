@@ -18,7 +18,7 @@ sudo apt-get install -y git >/dev/null
 # Use custom repo if specified, otherwise use default
 OMAKUB_REPO="${OMAKUB_REPO:-Kasui92/omakube}"
 
-echo -e "\nCloning Omakub from: https://github.com/${OMAKUB_REPO}.git"
+echo -e "\nCloning Omakube from: https://github.com/${OMAKUB_REPO}.git"
 rm -rf ~/.local/share/omakub
 git clone https://github.com/$OMAKUB_REPO.git ~/.local/share/omakub >/dev/null
 
