@@ -3,4 +3,4 @@
 # Show a done spinner to indicate completion of Omakub operations.
 
 echo
-gum spin --spinner "globe" --title "Done! Press any key to close..." -- bash -c 'read -n 1 -s'
+gum spin --spinner "globe" --title "Done! Press any key to close..." -- bash -c 'read -t 7 -n 1 -s'
