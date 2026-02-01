@@ -41,7 +41,7 @@ catch_errors() {
   restore_outputs
   clear_logo
 
-  gum style --foreground 1 "Omakub installation stopped!"
+  gum style --foreground 1 "$OMAKUB_BRAND installation stopped!"
   show_log_tail
 
   gum style "This command halted with exit code $exit_code:"

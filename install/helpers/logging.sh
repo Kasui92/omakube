@@ -3,13 +3,13 @@ start_install_log() {
   sudo chmod 666 "$OMAKUB_INSTALL_LOG_FILE"
 
   export OMAKUB_START_TIME=$(date '+%Y-%m-%d %H:%M:%S')
-  echo "=== Omakub Installation Started: $OMAKUB_START_TIME ===" >>"$OMAKUB_INSTALL_LOG_FILE"
+  echo "=== $OMAKUB_BRAND Installation Started: $OMAKUB_START_TIME ===" >>"$OMAKUB_INSTALL_LOG_FILE"
 }
 
 stop_install_log() {
   if [[ -n ${OMAKUB_INSTALL_LOG_FILE:-} ]]; then
     OMAKUB_END_TIME=$(date '+%Y-%m-%d %H:%M:%S')
-    echo "=== Omakub Installation Completed: $OMAKUB_END_TIME ===" >>"$OMAKUB_INSTALL_LOG_FILE"
+    echo "=== $OMAKUB_BRAND Installation Completed: $OMAKUB_END_TIME ===" >>"$OMAKUB_INSTALL_LOG_FILE"
     echo "" >>"$OMAKUB_INSTALL_LOG_FILE"
     echo "=== Installation Time Summary ===" >>"$OMAKUB_INSTALL_LOG_FILE"
 
@@ -21,7 +21,7 @@ stop_install_log() {
       OMAKUB_MINS=$((OMAKUB_DURATION / 60))
       OMAKUB_SECS=$((OMAKUB_DURATION % 60))
 
-      echo "Omakub:     ${OMAKUB_MINS}m ${OMAKUB_SECS}s" >>"$OMAKUB_INSTALL_LOG_FILE"
+      echo "$OMAKUB_BRAND:     ${OMAKUB_MINS}m ${OMAKUB_SECS}s" >>"$OMAKUB_INSTALL_LOG_FILE"
 
       if [ -n "$ARCH_DURATION" ]; then
         TOTAL_DURATION=$((ARCH_DURATION + OMAKUB_DURATION))

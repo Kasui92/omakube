@@ -36,9 +36,9 @@ alias lzd='lazydocker'
 n() { if [ "$#" -eq 0 ]; then nvim .; else nvim "$@"; fi; }
 
 # Browser
-open() {
+open() (
   xdg-open "$@" >/dev/null 2>&1
-}
+)
 
 # Git
 alias g='git'
