@@ -1,6 +1,6 @@
 # Omakube
 
-Omakube is a personalized fork of [Omakub](https://omakub.org), the one-liner tool that turns a fresh Ubuntu install into a modern development environment. It builds on Omakub with targeted tweaks for a more streamlined and opinionated Linux setup. Likewise, Omakube keeps tabs on the evolving [Omarchy](https://omarchy.org) project, selectively adopting useful changes while staying grounded on a stable, proven base.
+Omakube is a fork of [Omakub](https://omakub.org), the one-liner tool that turns a fresh Ubuntu install into a modern development environment. It builds on Omakub with targeted tweaks for a more streamlined and opinionated Linux setup. Likewise, Omakube keeps tabs on the evolving [Omarchy](https://omarchy.org) project, selectively adopting useful changes while staying grounded on a stable, proven base.
 
 ## Documentation
 
@@ -16,6 +16,6 @@ Omakube is released under the [MIT License](https://opensource.org/licenses/MIT)
 
 As a fork of Omakub, Omakube welcomes contributions that extend existing functionality without compromising compatibility with the base project.
 
-If you want to contribute to improving the manual, here is the [repository with the docs](https://github.com/Kasui92/omakube.omakasui.org).
+If you want to contribute to improving the manual, here is the [repository with the docs](https://github.com/omakasui/omakube.omakasui.org).
 
 If you want to contribute to Omakub core features, visit the [official repository](https://github.com/basecamp/omakub).
