@@ -380,8 +380,10 @@ show_remove_development_menu() {
 }
 
 show_update_menu() {
-  case $(menu "Update" "󰟢  Omakub\n  Config\n󰸌  Themes\n󰇅  Hardware\n  Firmware\n  Password" "--width 250 --height 280") in
-  *Omakub*) present_terminal omakub-update ;;
+  local brand_name=$(omakub-brand)
+
+  case $(menu "Update" "󰟢  $brand_name\n  Config\n󰸌  Themes\n󰇅  Hardware\n  Firmware\n  Password" "--width 250 --height 280") in
+  *$brand_name*) present_terminal omakub-update ;;
   *Config*) show_update_config_menu ;;
   *Themes*) present_terminal omakub-theme-update ;;
   *Hardware*) show_update_hardware_menu ;;
